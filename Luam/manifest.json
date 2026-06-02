@@ -1,0 +1,23 @@
+{
+  "short_name": "Symmetry",
+  "name": "Symmetry Wellness Platform",
+  "icons": [
+    {
+      "src": "images/symmetrysvg.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/symmetrysvg.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/dashboard.html",
+  "background_color": "#1a1a1a",
+  "theme_color": "#2B2D2F",
+  "display": "standalone",
+  "orientation": "portrait"
+}
+

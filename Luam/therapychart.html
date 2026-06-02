@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)http://127.0.0.1:3000/luampt.html#start -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" src="./therapychart_files/___vscode_livepreview_injected_script"></script>
+     <link rel="icon" type="image/x-icon" href="./therapychart_files/icon.png">
+     <link href="./therapychart_files/css2" rel="stylesheet">
+     <link href="./therapychart_files/css2(1)" rel="stylesheet">
+    <link href="./therapychart_files/css2(2)" rel="stylesheet">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luam Avelis Noos</title>
+  <style>
+       .brand-text {
+    position: fixed;
+    top: 500px;
+    left: 30px;
+    font-weight: 500;
+    font-size: 1.1rem; /* smaller */
+    letter-spacing: 0.15em;
+    color:  rgba(117, 183, 249, 0.45);
+    user-select: none;
+    z-index: 1000;
+    text-transform: uppercase;
+    line-height: 1.3;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Hero Base */
+#fractal-bg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+}
+.hero {
+  position: relative;
+  width: 100vw;
+  height: 100vh; 
+  min-height: 100vh;
+  background-image: url('sunrise.jpg'); /* <-- your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  border-radius: 12px;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 0;
+}
+
+.hero-overlay {
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.4); /* keeps the content readable */
+  padding: 3rem;
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  text-align: center;
+  max-width: 720px;
+}
+
+.hero-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.2));
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 1.4rem;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  border-radius: 16px;
+  animation: fadeInUp 1.2s ease-out;
+}
+
+/* CTA Button */
+.cta-button {
+  background: transparent;
+  border: 1px solid currentColor;
+  color: inherit; /* keeps current text color */
+  padding: 0.5em 1em;
+  font: inherit; /* inherit font styles from parent */
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  backdrop-filter: blur(6px);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.cta-button:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 12px rgba(200, 180, 255, 0.2);
+}
+.cta-spotlight {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+
+.cta-spotlight::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 460px;
+  height: 460px;
+  background: radial-gradient(circle, rgba(200, 170, 255, 0.22) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(70px);
+  animation: glowPulse 8s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 0.85;
+  }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    canvas#fractal-bg { position: fixed; top: 0; left: 0; z-index: -1; }
+    
+/* --- NAV SHRINK EFFECT --- */
+.nav-bar {
+  max-height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.5s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+}
+
+.nav-bar.shrunk {
+  padding: 0.4rem 0.8rem;
+  background: rgba(0,0,0,0.85);
+}
+
+.nav-bar.shrunk .nav-item:not(:first-child) {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-bar .nav-item {
+  flex: 1 1 auto;
+  min-width: clamp(80px, 12vw, 140px);  /* scales with screen size */
+  padding: clamp(0.4rem, 1.5vw, 0.75rem) clamp(0.8rem, 2vw, 1.5rem);
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  text-align: center;
+  border-right: 1px solid rgba(7,138,138,0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-bar .nav-item:last-child {
+  border-right: none;
+}
+
+.nav-bar .nav-item:hover {
+  transform: scale(1.05);
+   background-color: rgba(82, 105, 113, 0.8);
+}
+
+    .nav-item { flex: 1; display: flex; align-items: center; justify-content: center;
+      height: 100%; border-right: 1px solid rgba(7, 138, 138, 0.1);
+      transition: background-color 2s ease; cursor: pointer;
+    }
+    .nav-item:last-child { border-right: none; }
+    .nav-item img { height: 30px; }
+    .nav-button { background: none; border: none; font-size: 16px; font-weight:600;
+      color: #003366; width: 100%; height: 100%; cursor: pointer;
+    }
+    .nav-item:hover .nav-button { color: white; }
+  .gradient-button {
+  /* Basic button styling */
+    padding: 15px 30px;
+    border: none;
+    border-radius: 0px;
+    color: white; /* Text color */
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-image 2s ease; /* Optional: for hover effects */
+
+  /* Gradient background */
+    background-image: linear-gradient(to right, #000000, #710202); /* Example linear gradient */
+  /* Or for a radial gradient: */
+  /* background-image: radial-gradient(circle, #ff7e5f, #feb47b); */
+}
+
+/* Optional: Hover effect to change gradient direction or colors */
+.gradient-button:hover {
+  background-image: linear-gradient(to left, #000000, #710202);
+}
+  .relaxing-paragraph {
+  background: linear-gradient(135deg, #d8c6e5, #cbbcd3, #b9a6c9);
+  color: #4e3f54;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  border-radius: 3px;
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  box-shadow: 0 8px 20px rgba(80, 60, 90, 0.15);
+  border: 1px solid rgba(130, 110, 145, 0.2);
+  transition: background 4s ease;
+}
+
+.relaxing-paragraph:hover {
+  background: linear-gradient(135deg, #cbbcd3, #b9a6c9, #a794b6);
+}
+.earth-section {
+  position: relative;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(18, 18, 18, 0.9);
+  color: #f0f0f0;
+}
+
+.earth-collage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 12px;
+  max-width: 1000px;
+  margin: 0 auto 2rem auto;
+}
+
+.earth-collage img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.earth-collage img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
+}
+
+.earth-caption {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #aaa;
+  max-width: 600px;
+  margin: auto;
+}
+
+  .as-above-section {
+  position: relative;
+  height: 100vh;
+  background: url('sunset2.svg') center center / cover no-repeat fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-behavior: smooth;
+  z-index: 0;
+}
+
+.as-above-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 20, 30, 0.4); /* Fades over the image */
+  z-index: 1;
+}
+
+.as-above-section .overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.as-above-section h1 {
+  font-size: 4rem;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  font-family: 'Georgia', serif;
+  letter-spacing: 2px;
+  animation: fadeInUp 2s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+ body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin-top: 40px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.4em;
+      color: #ff6b6b;
+    }
+
+    p {
+      max-width: 800px;
+      font-size: 1.2em;
+      margin-bottom: 40px;
+      color: #cccccc;
+    }
+
+    .highlight {
+      color: #ffd700;
+      font-weight: bold;
+    }
+    @media (max-width: 768px) {
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .cta-button {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+.barriers-section {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 2rem;
+  color: #f3f3f3;
+  background: linear-gradient(160deg, #0e0e0e, #1e1b2e);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 1.6s ease-out;
+}
+
+.stars-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('starfield.jpg'); /* Public domain starfield */
+  opacity: 0.30;
+  z-index: 0;
+  animation: panStars 60s linear infinite;
+}
+
+@keyframes panStars {
+  0% { background-position: 0 0; }
+  100% { background-position: -1000px 1000px; }
+}
+
+.barriers-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 95vw;
+  margin: auto;
+  padding: 0 1rem;
+}
+
+.barriers-content h1 {
+  font-size: 2.8rem;
+  color: #ffd6a5;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.barriers-content p {
+  font-size: 1.25rem;
+  max-width: 750px;
+  margin: 0 auto 2.5rem auto;
+  line-height: 1.8;
+  color: #ddd;
+}
+
+.barriers-content .highlight {
+  color: #ffe766;
+  font-weight: 600;
+}
+
+#therapyChart {
+  background: radial-gradient(circle at top left, #22203a, #1e1b2e);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 1.4s ease, transform 1.4s ease;
+}
+
+.barriers-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#therapyChart.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+.section-logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 3;
+  opacity: 0.18;
+}
+
+.section-logo img {
+  height: 48px;
+  width: auto;
+  max-width: 10vw;
+  filter: grayscale(100%) brightness(160%);
+  pointer-events: none;
+  user-select: none;
+}
+.section-logo:hover {
+  opacity: 0.25;
+  transition: opacity 0.3s ease;
+}
+.site-footer {
+  background-color: #1e1b2e;
+  padding: 1rem 2rem;
+  border-top: 2px solid #ffd6a5;
+  text-align: center;
+  color: #ccc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  height: 30px;
+  width: auto;
+  filter: brightness(0.8);
+  user-select: none;
+  display: block;
+}
+
+.site-footer p {
+  margin: 0;
+  line-height: 1;
+}
+.damascus-section {
+  position: relative;
+  padding: 6rem 2rem;
+  text-align: center;
+  background: 
+    linear-gradient(135deg, rgba(18, 18, 18, 0.88), rgba(30, 27, 46, 0.95)),
+    url('#'); /* Use your own seamless damask pattern */
+  background-size: 300px 300px;
+  background-repeat: repeat;
+  background-blend-mode: overlay;
+  color: #f0f0f0;
+  font-family: 'EB Garamond', serif;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.damascus-content {
+  max-width: 800px;
+  margin: auto;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.damascus-section h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #ffe6b3;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.damascus-section p {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #dddddd;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.scroll-wrapper {
+  position: relative;
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+}
+.scroll-container {
+  width: 95vw;
+  height: 90vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  scrollbar-width: none;
+}
+.scroll-container::-webkit-scrollbar { display: none; }
+.scroll-container > .card {
+  flex: 0 0 auto;
+  width: 340px;
+  max-width: 90vw;
+  min-height: 420px;
+  padding: 1.5rem;
+  margin: 0 1rem;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.scroll-container > .card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.5);
+}
+
+/* === SCROLL BUTTONS === */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20,20,30,0.6);
+  border: none;
+  padding: 0.6rem;
+  border-radius: 10px;
+  z-index: 10;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.3s ease;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+}
+.scroll-wrapper:hover .scroll-btn { opacity: 1; }
+.scroll-btn.left { left: 1rem; }
+.scroll-btn.right { right: 1rem; }
+.scroll-btn:hover { background: rgba(35,35,50,0.85); transform: translateY(-50%) scale(1.08); }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .nav-bar { flex-direction: column; }
+  .hero h1 { font-size: 1.8rem; }
+  .cta-button { width: 100%; font-size: 1rem; }
+  .scroll-btn { display: none; }
+}
+.scroll-btn:hover {
+  background: rgba(35, 35, 50, 0.85);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.scroll-btn svg {
+  transition: stroke 0.3s ease;
+}
+
+.scroll-btn:hover svg {
+  stroke: #ffd6a5;
+}
+
+.scroll-btn.left {
+  left: 1rem;
+}
+
+.scroll-btn.right {
+  right: 1rem;
+}
+@media (max-width: 768px) {
+  .scroll-btn {
+    display: none;
+  }
+}
+@keyframes fadeInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.card {
+  flex: 0 0 90vw; /* Take up 90% of the viewport width */
+  height: 80vh;   /* Take up 85% of viewport height */
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  padding: 2rem;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.card.fade-left {
+  animation: fadeInFromLeft 0.8s ease forwards;
+}
+
+.card.fade-right {
+  animation: fadeInFromRight 0.8s ease forwards;
+}
+
+
+  </style>
+  <script src="./therapychart_files/plotly-latest.min.js.download"></script><style id="plotly.js-style-global"></style>
+<style id="plotly.js-style-modebar-6266f2"></style></head>
+<body>
+  <canvas id="fractal-bg" width="1280" height="598"></canvas>
+  <nav class="nav-bar">
+    <div id="storyBtn" class="nav-button"><img src="./therapychart_files/lmcutout.PNG" alt="Logo" style="width: 100px; height: 180;"></div>
+    <div class="nav-item"><button class="nav-button" id="bookNowBtn">Book now</button></div>
+    <div class="nav-item"><button class="nav-button">resources</button></div>
+    <div class="nav-item"><button class="nav-button">company</button></div>
+    <div class="nav-item"><button class="nav-button">Donate</button></div>
+    <div id="loginBtn" class="nav-item"><button class="nav-button">profile</button></div>
+    <div class="nav-item"><button class="nav-button">room</button></div>
+  </nav>
+    
+  <div class="brand-text">
+    <span>luam</span>
+    <span>avelis</span>
+    <span>noos</span>
+  </div>
+
+  <section class="hero">
+ 
+      <h1>EMBRACE<br>your<br>BALANCE</h1>
+      <p>Therapy isn't about fixing you. It's about helping you come home to yourself—gently, at your own pace. You’ve carried the weight long enough.</p>
+      <div class="cta-spotlight">
+          <a href="http://127.0.0.1:3000/luampt.html#start" class="cta-button">Start Here</a>
+      </div>
+</section>
+
+  <div class="scroll-wrapper">
+    <button class="scroll-btn left" aria-label="Scroll left">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="15 18 9 12 15 6"></polyline>
+  </svg>
+</button>
+  <div class="scroll-container" id="myScrollSection">
+  
+  <div class="card fade-right">
+    <h2 style="color: red;">Diamonds in the rough</h2>
+    <p style="color: #1E1B2E;">Discover insights tailored to how your mind works — not how the world wants you to be.</p>
+  </div>
+
+  <div class="card fade-right" style="background-color: #F2E9DC;">
+    <h2 style="color: #1E2D3D;">KAIZEN</h2>
+    <p>Break less, build</p>
+  </div>
+
+  <div class="card fade-right" style="background-image: url(&#39;sunrisegrass.jpg;&#39;) ">keep it moving</div>
+    <!-- and so on -->
+  
+  </div>
+  <button class="scroll-btn right" aria-label="Scroll right">
+  <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="9 18 15 12 9 6"></polyline>
+  </svg>
+</button>
+</div>
+  <section class="earth-section">
+  <div class="section-logo">
+  <img src="./therapychart_files/lmlogo.png" alt="Luam Avelis Noos logo watermark">
+</div>
+<section class="damascus-section">
+  <div class="damascus-content">
+    <h1>Elegance in Silence</h1>
+    <p>Inspired by ancient pattern and timeless calm. This space is a sanctuary for your mind.</p>
+    <a href="http://127.0.0.1:3000/luampt.html#start" class="cta-button">Begin leveling up</a>
+  </div>
+</section>
+  <div class="earth-collage">
+    <img src="./therapychart_files/sunset-plane.jpg" alt="Earth from space">
+    <img src="./therapychart_files/sunset-atm.jpg" alt="Ocean view">
+    <img src="./therapychart_files/sunrise.jpg" alt="City lights on Earth">
+    <img src="./therapychart_files/at-night.jpg" alt="Desert terrain">
+    <img src="./therapychart_files/earth-sky.jpg" alt="Clouds from above">
+    <img src="./therapychart_files/9c356069-4103-4290-a117-c79059d5aaf5.jpg" alt="Clouds from above">
+  </div>
+  <p class="earth-caption">
+    Our world turns quietly, carrying every thought, fear, and dream beneath the stars.
+  </p>
+</section>
+<section class="as-above-section">
+<div class="section-logo">
+  <img src="./therapychart_files/icon.png" alt="Luam Avelis Noos logo watermark">
+</div>
+
+  <div class="overlay">
+    <h1>As Above, So below.</h1>
+  </div>
+</section>
+<section class="barriers-section visible">
+  <div class="section-logo">
+  <img src="./therapychart_files/icon.png" alt="Luam Avelis Noos logo watermark">
+</div>
+  <div class="stars-bg"></div>
+  <div class="barriers-content">
+  <h1>Why So Many Avoid Therapy — Even When They Need It</h1>
+  <p>
+    You’re not alone. Despite rising awareness around mental health, millions still avoid therapy. 
+    The reasons? A powerful mix of self-reliance, stigma, cost, and fear. But here’s the catch: 
+    <span class="highlight">most people who delay therapy report regret</span> for not starting sooner.
+    Understanding these barriers can help break the cycle — for yourself or someone you care about.
+  </p>
+  <div id="therapyChart" class="js-plotly-plot visible"><div class="plot-container plotly"><div class="user-select-none svg-container" style="position: relative; width: 100%; height: 450px;"><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="450" style="background: rgb(30, 27, 46);"><defs id="defs-6266f2"><g class="clips"><clippath id="clip6266f2xyplot" class="plotclip"><rect width="440" height="270"></rect></clippath><clippath class="axesclip" id="clip6266f2x"><rect x="80" y="0" width="440" height="450"></rect></clippath><clippath class="axesclip" id="clip6266f2y"><rect x="0" y="60" width="600" height="270"></rect></clippath><clippath class="axesclip" id="clip6266f2xy"><rect x="80" y="60" width="440" height="270"></rect></clippath></g><g class="gradients"></g></defs><g class="bglayer"></g><g class="draglayer cursor-crosshair"><g class="xy"><rect class="nsewdrag drag" data-subplot="xy" x="80" y="60" width="440" height="270" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="nwdrag drag cursor-nw-resize" data-subplot="xy" x="60" y="40" width="20" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="nedrag drag cursor-ne-resize" data-subplot="xy" x="520" y="40" width="20" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="swdrag drag cursor-sw-resize" data-subplot="xy" x="60" y="330" width="20" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="sedrag drag cursor-se-resize" data-subplot="xy" x="520" y="330" width="20" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="ewdrag drag cursor-ew-resize" data-subplot="xy" x="124" y="330.5" width="352" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="wdrag drag cursor-w-resize" data-subplot="xy" x="80" y="330.5" width="44" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="edrag drag cursor-e-resize" data-subplot="xy" x="476" y="330.5" width="44" height="20" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="nsdrag drag cursor-ns-resize" data-subplot="xy" x="59.5" y="87" width="20" height="216" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="sdrag drag cursor-s-resize" data-subplot="xy" x="59.5" y="303" width="20" height="27" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect><rect class="ndrag drag cursor-n-resize" data-subplot="xy" x="59.5" y="60" width="20" height="27" style="fill: transparent; stroke-width: 0; pointer-events: all;"></rect></g></g><g class="layer-below"><g class="imagelayer"></g><g class="shapelayer"></g></g><g class="cartesianlayer"><g class="subplot xy"><g class="layer-subplot"><g class="shapelayer"></g><g class="imagelayer"></g></g><g class="gridlayer"><g class="x"></g><g class="y"><path class="ygrid crisp" transform="translate(0,281.6)" d="M80,0h440" style="stroke: rgb(51, 51, 51); stroke-opacity: 1; stroke-width: 1px;"></path><path class="ygrid crisp" transform="translate(0,233.21)" d="M80,0h440" style="stroke: rgb(51, 51, 51); stroke-opacity: 1; stroke-width: 1px;"></path><path class="ygrid crisp" transform="translate(0,184.81)" d="M80,0h440" style="stroke: rgb(51, 51, 51); stroke-opacity: 1; stroke-width: 1px;"></path><path class="ygrid crisp" transform="translate(0,136.42000000000002)" d="M80,0h440" style="stroke: rgb(51, 51, 51); stroke-opacity: 1; stroke-width: 1px;"></path><path class="ygrid crisp" transform="translate(0,88.02)" d="M80,0h440" style="stroke: rgb(51, 51, 51); stroke-opacity: 1; stroke-width: 1px;"></path></g></g><g class="zerolinelayer"><path class="yzl zl crisp" transform="translate(0,330)" d="M80,0h440" style="stroke: rgb(85, 85, 85); stroke-opacity: 1; stroke-width: 1px;"></path></g><path class="xlines-below"></path><path class="ylines-below"></path><g class="overlines-below"></g><g class="xaxislayer-below"></g><g class="yaxislayer-below"></g><g class="overaxes-below"></g><g class="plot" transform="translate(80,60)" clip-path="url(&#39;#clip6266f2xyplot&#39;)"><g class="barlayer mlayer"><g class="trace bars" style="opacity: 1;"><g class="points"><g class="point"><path d="M6.29,270V27.05H56.57V270Z" style="vector-effect: non-scaling-stroke; opacity: 1; stroke-width: 1.5px; fill: rgb(255, 107, 107); fill-opacity: 1; stroke: rgb(34, 34, 34); stroke-opacity: 1;"></path></g><g class="point"><path d="M69.14,270V79.8H119.43V270Z" style="vector-effect: non-scaling-stroke; opacity: 1; stroke-width: 1.5px; fill: rgb(254, 202, 87); fill-opacity: 1; stroke: rgb(34, 34, 34); stroke-opacity: 1;"></path></g><g class="point"><path d="M132,270V158.2H182.29V270Z" style="vector-effect: non-scaling-stroke; opacity: 1; stroke-width: 1.5px; fill: rgb(84, 160, 255); fill-opacity: 1; stroke: rgb(34, 34, 34); stroke-opacity: 1;"></path></g><g class="point"><path d="M194.86,270V147.07H245.14V270Z" style="vector-effect: non-scaling-stroke; opacity: 1; stroke-width: 1.5px; fill: rgb(72, 219, 251); fill-opacity: 1; stroke: rgb(34, 34, 34); stroke-opacity: 1;"></path></g><g class="point"><path d="M257.71,270V13.5H308V270Z" style="vector-effect: non-scaling-stroke; opacity: 1; stroke-width: 1.5px; fill: rgb(29, 209, 161); fill-opacity: 1; stroke: rgb(34, 34, 34); stroke-opacity: 1;"></path></g><g class="point"><path d="M320.57,270V58.02H370.86V270Z" style="vector-effect: non-scaling-stroke; opacity: 1; stroke-width: 1.5px; fill: rgb(243, 104, 224); fill-opacity: 1; stroke: rgb(34, 34, 34); stroke-opacity: 1;"></path></g><g class="point"><path d="M383.43,270V53.18H433.71V270Z" style="vector-effect: non-scaling-stroke; opacity: 1; stroke-width: 1.5px; fill: rgb(95, 39, 205); fill-opacity: 1; stroke: rgb(34, 34, 34); stroke-opacity: 1;"></path></g></g></g></g></g><g class="overplot"></g><path class="xlines-above crisp" d="M0,0" style="fill: none;"></path><path class="ylines-above crisp" d="M0,0" style="fill: none;"></path><g class="overlines-above"></g><g class="xaxislayer-above"><g class="xtick"><text text-anchor="end" x="0" y="345" data-unformatted="Want to handle alone" data-math="N" transform="translate(111.43,0) rotate(-35,0,338)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">Want to handle alone</text></g><g class="xtick"><text text-anchor="end" x="0" y="345" data-unformatted="Perceived ineffectiveness" data-math="N" transform="translate(174.29000000000002,0) rotate(-35,0,338)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">Perceived ineffectiveness</text></g><g class="xtick"><text text-anchor="end" x="0" y="345" data-unformatted="Stigma / Judgment" data-math="N" transform="translate(237.14,0) rotate(-35,0,338)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">Stigma / Judgment</text></g><g class="xtick"><text text-anchor="end" x="0" y="345" data-unformatted="Cost / Insurance" data-math="N" transform="translate(300,0) rotate(-35,0,338)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">Cost / Insurance</text></g><g class="xtick"><text text-anchor="end" x="0" y="345" data-unformatted="Don&#39;t know where to go" data-math="N" transform="translate(362.86,0) rotate(-35,0,338)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">Don't know where to go</text></g><g class="xtick"><text text-anchor="end" x="0" y="345" data-unformatted="Too busy / No time" data-math="N" transform="translate(425.71,0) rotate(-35,0,338)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">Too busy / No time</text></g><g class="xtick"><text text-anchor="end" x="0" y="345" data-unformatted="Low perceived need" data-math="N" transform="translate(488.57,0) rotate(-35,0,338)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">Low perceived need</text></g></g><g class="yaxislayer-above"><g class="ytick"><text text-anchor="end" x="79" y="4.8999999999999995" data-unformatted="0" data-math="N" transform="translate(0,330)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">0</text></g><g class="ytick"><text text-anchor="end" x="79" y="4.8999999999999995" data-unformatted="10" data-math="N" transform="translate(0,281.6)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">10</text></g><g class="ytick"><text text-anchor="end" x="79" y="4.8999999999999995" data-unformatted="20" data-math="N" transform="translate(0,233.21)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">20</text></g><g class="ytick"><text text-anchor="end" x="79" y="4.8999999999999995" data-unformatted="30" data-math="N" transform="translate(0,184.81)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">30</text></g><g class="ytick"><text text-anchor="end" x="79" y="4.8999999999999995" data-unformatted="40" data-math="N" transform="translate(0,136.42000000000002)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">40</text></g><g class="ytick"><text text-anchor="end" x="79" y="4.8999999999999995" data-unformatted="50" data-math="N" transform="translate(0,88.02)" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 14px; fill: rgb(240, 240, 240); fill-opacity: 1; white-space: pre;">50</text></g></g><g class="overaxes-above"></g></g></g><g class="polarlayer"></g><g class="ternarylayer"></g><g class="geolayer"></g><g class="funnelarealayer"></g><g class="pielayer"></g><g class="treemaplayer"></g><g class="sunburstlayer"></g><g class="glimages"></g></svg><div class="gl-container"></div><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="450"><defs id="topdefs-6266f2"><g class="clips"></g></defs><g class="indicatorlayer"></g><g class="layer-above"><g class="imagelayer"></g><g class="shapelayer"></g></g><g class="infolayer"><g class="g-gtitle"><text class="gtitle" x="300" y="30" text-anchor="middle" dy="0em" data-unformatted="Barriers to Seeking Therapy" data-math="N" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 24px; fill: rgb(255, 214, 165); opacity: 1; font-weight: normal; white-space: pre;">Barriers to Seeking Therapy</text></g><g class="g-xtitle"></g><g class="g-ytitle"><text class="ytitle" transform="rotate(-90,36,195)" x="36" y="195" text-anchor="middle" data-unformatted="Percentage (%)" data-math="N" style="font-family: &quot;Segoe UI&quot;, sans-serif; font-size: 17px; fill: rgb(240, 240, 240); opacity: 1; font-weight: normal; white-space: pre;">Percentage (%)</text></g></g><g class="menulayer"></g><g class="zoomlayer"></g></svg><div class="modebar-container" style="position: absolute; top: 0px; right: 0px; width: 100%;"><div id="modebar-6266f2" class="modebar modebar--hover ease-bg"><div class="modebar-group"><a rel="tooltip" class="modebar-btn" data-title="Download plot as a png" data-toggle="false" data-gravity="n"><svg viewBox="0 0 1000 1000" class="icon" height="1em" width="1em"><path d="m500 450c-83 0-150-67-150-150 0-83 67-150 150-150 83 0 150 67 150 150 0 83-67 150-150 150z m400 150h-120c-16 0-34 13-39 29l-31 93c-6 15-23 28-40 28h-340c-16 0-34-13-39-28l-31-94c-6-15-23-28-40-28h-120c-55 0-100-45-100-100v-450c0-55 45-100 100-100h800c55 0 100 45 100 100v450c0 55-45 100-100 100z m-400-550c-138 0-250 112-250 250 0 138 112 250 250 250 138 0 250-112 250-250 0-138-112-250-250-250z m365 380c-19 0-35 16-35 35 0 19 16 35 35 35 19 0 35-16 35-35 0-19-16-35-35-35z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a></div><div class="modebar-group"><a rel="tooltip" class="modebar-btn active" data-title="Zoom" data-attr="dragmode" data-val="zoom" data-toggle="false" data-gravity="n"><svg viewBox="0 0 1000 1000" class="icon" height="1em" width="1em"><path d="m1000-25l-250 251c40 63 63 138 63 218 0 224-182 406-407 406-224 0-406-182-406-406s183-406 407-406c80 0 155 22 218 62l250-250 125 125z m-812 250l0 438 437 0 0-438-437 0z m62 375l313 0 0-312-313 0 0 312z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a><a rel="tooltip" class="modebar-btn" data-title="Pan" data-attr="dragmode" data-val="pan" data-toggle="false" data-gravity="n"><svg viewBox="0 0 1000 1000" class="icon" height="1em" width="1em"><path d="m1000 350l-187 188 0-125-250 0 0 250 125 0-188 187-187-187 125 0 0-250-250 0 0 125-188-188 186-187 0 125 252 0 0-250-125 0 187-188 188 188-125 0 0 250 250 0 0-126 187 188z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a><a rel="tooltip" class="modebar-btn" data-title="Box Select" data-attr="dragmode" data-val="select" data-toggle="false" data-gravity="n"><svg viewBox="0 0 1000 1000" class="icon" height="1em" width="1em"><path d="m0 850l0-143 143 0 0 143-143 0z m286 0l0-143 143 0 0 143-143 0z m285 0l0-143 143 0 0 143-143 0z m286 0l0-143 143 0 0 143-143 0z m-857-286l0-143 143 0 0 143-143 0z m857 0l0-143 143 0 0 143-143 0z m-857-285l0-143 143 0 0 143-143 0z m857 0l0-143 143 0 0 143-143 0z m-857-286l0-143 143 0 0 143-143 0z m286 0l0-143 143 0 0 143-143 0z m285 0l0-143 143 0 0 143-143 0z m286 0l0-143 143 0 0 143-143 0z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a><a rel="tooltip" class="modebar-btn" data-title="Lasso Select" data-attr="dragmode" data-val="lasso" data-toggle="false" data-gravity="n"><svg viewBox="0 0 1031 1000" class="icon" height="1em" width="1em"><path d="m1018 538c-36 207-290 336-568 286-277-48-473-256-436-463 10-57 36-108 76-151-13-66 11-137 68-183 34-28 75-41 114-42l-55-70 0 0c-2-1-3-2-4-3-10-14-8-34 5-45 14-11 34-8 45 4 1 1 2 3 2 5l0 0 113 140c16 11 31 24 45 40 4 3 6 7 8 11 48-3 100 0 151 9 278 48 473 255 436 462z m-624-379c-80 14-149 48-197 96 42 42 109 47 156 9 33-26 47-66 41-105z m-187-74c-19 16-33 37-39 60 50-32 109-55 174-68-42-25-95-24-135 8z m360 75c-34-7-69-9-102-8 8 62-16 128-68 170-73 59-175 54-244-5-9 20-16 40-20 61-28 159 121 317 333 354s407-60 434-217c28-159-121-318-333-355z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a></div><div class="modebar-group"><a rel="tooltip" class="modebar-btn" data-title="Zoom in" data-attr="zoom" data-val="in" data-toggle="false" data-gravity="n"><svg viewBox="0 0 875 1000" class="icon" height="1em" width="1em"><path d="m1 787l0-875 875 0 0 875-875 0z m687-500l-187 0 0-187-125 0 0 187-188 0 0 125 188 0 0 187 125 0 0-187 187 0 0-125z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a><a rel="tooltip" class="modebar-btn" data-title="Zoom out" data-attr="zoom" data-val="out" data-toggle="false" data-gravity="n"><svg viewBox="0 0 875 1000" class="icon" height="1em" width="1em"><path d="m0 788l0-876 875 0 0 876-875 0z m688-500l-500 0 0 125 500 0 0-125z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a><a rel="tooltip" class="modebar-btn" data-title="Autoscale" data-attr="zoom" data-val="auto" data-toggle="false" data-gravity="n"><svg viewBox="0 0 1000 1000" class="icon" height="1em" width="1em"><path d="m250 850l-187 0-63 0 0-62 0-188 63 0 0 188 187 0 0 62z m688 0l-188 0 0-62 188 0 0-188 62 0 0 188 0 62-62 0z m-875-938l0 188-63 0 0-188 0-62 63 0 187 0 0 62-187 0z m875 188l0-188-188 0 0-62 188 0 62 0 0 62 0 188-62 0z m-125 188l-1 0-93-94-156 156 156 156 92-93 2 0 0 250-250 0 0-2 93-92-156-156-156 156 94 92 0 2-250 0 0-250 0 0 93 93 157-156-157-156-93 94 0 0 0-250 250 0 0 0-94 93 156 157 156-157-93-93 0 0 250 0 0 250z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a><a rel="tooltip" class="modebar-btn" data-title="Reset axes" data-attr="zoom" data-val="reset" data-toggle="false" data-gravity="n"><svg viewBox="0 0 928.6 1000" class="icon" height="1em" width="1em"><path d="m786 296v-267q0-15-11-26t-25-10h-214v214h-143v-214h-214q-15 0-25 10t-11 26v267q0 1 0 2t0 2l321 264 321-264q1-1 1-4z m124 39l-34-41q-5-5-12-6h-2q-7 0-12 3l-386 322-386-322q-7-4-13-4-7 2-12 7l-35 41q-4 5-3 13t6 12l401 334q18 15 42 15t43-15l136-114v109q0 8 5 13t13 5h107q8 0 13-5t5-13v-227l122-102q5-5 6-12t-4-13z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a></div><div class="modebar-group"><a rel="tooltip" class="modebar-btn" data-title="Toggle Spike Lines" data-attr="_cartesianSpikesEnabled" data-val="on" data-toggle="false" data-gravity="n"><svg viewBox="0 0 1000 1000" class="icon" height="1em" width="1em"><path d="M512 409c0-57-46-104-103-104-57 0-104 47-104 104 0 57 47 103 104 103 57 0 103-46 103-103z m-327-39l92 0 0 92-92 0z m-185 0l92 0 0 92-92 0z m370-186l92 0 0 93-92 0z m0-184l92 0 0 92-92 0z" transform="matrix(1.5 0 0 -1.5 0 850)"></path></svg></a><a rel="tooltip" class="modebar-btn" data-title="Show closest data on hover" data-attr="hovermode" data-val="closest" data-toggle="false" data-gravity="ne"><svg viewBox="0 0 1500 1000" class="icon" height="1em" width="1em"><path d="m375 725l0 0-375-375 375-374 0-1 1125 0 0 750-1125 0z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a><a rel="tooltip" class="modebar-btn active" data-title="Compare data on hover" data-attr="hovermode" data-val="x" data-toggle="false" data-gravity="ne"><svg viewBox="0 0 1125 1000" class="icon" height="1em" width="1em"><path d="m187 786l0 2-187-188 188-187 0 0 937 0 0 373-938 0z m0-499l0 1-187-188 188-188 0 0 937 0 0 376-938-1z" transform="matrix(1 0 0 -1 0 850)"></path></svg></a></div><div class="modebar-group"><a href="https://plotly.com/" target="_blank" data-title="Produced with Plotly" class="modebar-btn plotlyjsicon modebar-btn--logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 132" height="1em" width="1em"><defs><style>.cls-1 {fill: #3f4f75;} .cls-2 {fill: #80cfbe;} .cls-3 {fill: #fff;}</style></defs><title>plotly-logomark</title><g id="symbol"><rect class="cls-1" width="132" height="132" rx="6" ry="6"></rect><circle class="cls-2" cx="78" cy="54" r="6"></circle><circle class="cls-2" cx="102" cy="30" r="6"></circle><circle class="cls-2" cx="78" cy="30" r="6"></circle><circle class="cls-2" cx="54" cy="30" r="6"></circle><circle class="cls-2" cx="30" cy="30" r="6"></circle><circle class="cls-2" cx="30" cy="54" r="6"></circle><path class="cls-3" d="M30,72a6,6,0,0,0-6,6v24a6,6,0,0,0,12,0V78A6,6,0,0,0,30,72Z"></path><path class="cls-3" d="M78,72a6,6,0,0,0-6,6v24a6,6,0,0,0,12,0V78A6,6,0,0,0,78,72Z"></path><path class="cls-3" d="M54,48a6,6,0,0,0-6,6v48a6,6,0,0,0,12,0V54A6,6,0,0,0,54,48Z"></path><path class="cls-3" d="M102,48a6,6,0,0,0-6,6v48a6,6,0,0,0,12,0V54A6,6,0,0,0,102,48Z"></path></g></svg></a></div></div></div><svg class="main-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="450"><g class="hoverlayer"></g></svg></div></div></div>
+  </div>
+</section>
+  <script>
+    const data = [{
+      x: [
+        "Want to handle alone",
+        "Perceived ineffectiveness",
+        "Stigma / Judgment",
+        "Cost / Insurance",
+        "Don't know where to go",
+        "Too busy / No time",
+        "Low perceived need"
+      ],
+      y: [50.2, 39.3, 23.1, 25.4, 53.0, 43.8, 44.8],
+      type: 'bar',
+      marker: {
+        color: [
+          '#ff6b6b', '#feca57', '#54a0ff',
+          '#48dbfb', '#1dd1a1', '#f368e0', '#5f27cd'
+        ],
+        line: {
+          width: 1.5,
+          color: '#222'
+        }
+      },
+      hoverinfo: 'x+y',
+    }];
+
+    const layout = {
+  paper_bgcolor: '#1e1b2e',
+  plot_bgcolor: '#1e1b2e',
+  font: {
+    color: '#f0f0f0',
+    size: 14,
+    family: 'Segoe UI, sans-serif'
+  },
+  title: {
+    text: 'Barriers to Seeking Therapy',
+    font: {
+      size: 24,
+      color: '#ffd6a5'
+    }
+  },
+  yaxis: {
+    title: 'Percentage (%)',
+    gridcolor: '#333',
+    zerolinecolor: '#555'
+  },
+  xaxis: {
+    tickangle: -35
+  },
+  margin: {
+    t: 60,
+    b: 120
+  },
+  height:450
+};
+
+
+    Plotly.newPlot('therapyChart', data, layout, {responsive: true});
+    window.addEventListener('resize', () => {
+  Plotly.Plots.resize('therapyChart');
+});
+  </script><svg id="js-plotly-tester" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position: absolute; left: -10000px; top: -10000px; width: 9000px; height: 9000px; z-index: 1;"><path class="js-reference-point" d="M0,0H1V1H0Z" style="stroke-width: 0; fill: black;"></path></svg>
+
+
+<footer class="site-footer">
+  <div class="footer-content">
+    <img src="./therapychart_files/lmlogo.png" alt="Luam Logo" class="footer-logo">
+    <p>© 2025 Luam Avelis Noos. All rights reserved.</p>
+  </div>
+</footer>
+
+
+
+<script>
+const canvas = document.getElementById('fractal-bg');
+const ctx = canvas.getContext('2d');
+let w, h;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+let mouse = { x: -9999, y: -9999 };
+let cursor = { x: 0, y: 0 };
+
+window.addEventListener('mousemove', (e) => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+// Function to draw a golden spiral using Fermat's formula
+function drawSpiral(cx, cy, time, scale = 6) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate((time * 0.00005) % (2 * Math.PI));
+
+  const total = 800;
+  const c = scale;
+
+  for (let i = 0; i < total; i++) {
+    const angle = i * 137.5 * (Math.PI / 180); // golden angle
+    const radius = c * Math.sqrt(i);
+    const x = radius * Math.cos(angle);
+    const y = radius * Math.sin(angle);
+
+    ctx.fillStyle = `rgba(173, 216, 230, 0.15)`; // light blue
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function drawSpiralGrid(time) {
+  const spacing = 300; // distance between spirals
+  for (let y = -spacing; y < h + spacing; y += spacing) {
+    for (let x = -spacing; x < w + spacing; x += spacing) {
+      drawSpiral(x, y, time);
+    }
+  }
+}
+
+function drawBackground() {
+  const img = ctx.createImageData(w, h);
+  const data = img.data;
+  for (let i = 0; i < w * h; i++) {
+    const base = i * 4;
+    const nx = (i % w) / w;
+    const ny = Math.floor(i / w) / h;
+    const shade = 200 + 30 * Math.sin(nx * 10 + ny * 10);
+    data[base] = shade;
+    data[base + 1] = shade + 10;
+    data[base + 2] = shade + 30;
+    data[base + 3] = 15;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+function draw(time = 0) {
+  ctx.clearRect(0, 0, w, h);
+  drawBackground();
+  drawSpiralGrid(time);
+
+  // Smooth cursor trail
+  cursor.x = lerp(cursor.x, mouse.x, 0.08);
+  cursor.y = lerp(cursor.y, mouse.y, 0.08);
+
+  // Cursor spotlight: dark blue center to light blue edge
+  const grad = ctx.createRadialGradient(cursor.x, cursor.y, 0, cursor.x, cursor.y, 200);
+  grad.addColorStop(0, 'rgba(0, 0, 80, 0.4)');
+  grad.addColorStop(1, 'rgba(173, 216, 230, 0)'); // fade to light blue
+
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  requestAnimationFrame(draw);
+}
+draw();
+ document.getElementById("storyBtn").onclick = function () {
+    window.location.href = "quiet-ones.html";
+  };
+  document.getElementById("loginBtn").onclick = function () {
+    window.location.href = "login.html";
+  };
+  document.getElementById('bookNowBtn').addEventListener('click', () => {
+    window.location.href = 'booking.html';  
+  });
+
+   const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  });
+
+  observer.observe(document.querySelector('.barriers-section'));
+  observer.observe(document.getElementById('therapyChart'));
+const scrollContainer = document.querySelector('.scroll-container'); // your horizontal scroll container
+document.querySelector('.scroll-btn.left').addEventListener('click', () => {
+  scrollContainer.scrollBy({ left: -window.innerWidth * 0.8, behavior: 'smooth' });
+});
+
+document.querySelector('.scroll-btn.right').addEventListener('click', () => {
+  scrollContainer.scrollBy({ left: window.innerWidth * 0.8, behavior: 'smooth' });
+});
+let lastScrollLeft = 0;
+
+const cardObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+
+        const currentScrollLeft = scrollContainer.scrollLeft;
+        const scrollDirection = currentScrollLeft > lastScrollLeft ? 'right' : 'left';
+        lastScrollLeft = currentScrollLeft;
+
+        // Apply the correct animation class based on direction
+        if (scrollDirection === 'right') {
+          card.classList.add('fade-left');
+        } else {
+          card.classList.add('fade-right');
+        }
+
+        // Stop observing once animated
+        cardObserver.unobserve(card);
+      }
+    });
+  },
+  {
+    root: scrollContainer,
+    threshold: 0.5 // You can tweak this
+  }
+);
+
+// Observe each card
+document.querySelectorAll('.card').forEach(card => cardObserver.observe(card));
+
+  
+</script>
+
+</body></html>

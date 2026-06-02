@@ -1,0 +1,142 @@
+/**
+ * Luam Wellness - Unified Design System
+ * Shared design tokens for consistent theming across all pages
+ */
+
+:root {
+  /* Color Palette - Dark Mode (Default) */
+  --bg: #091f2d;
+  --surface: #132f3f;
+  --surface-2: #1f556c;
+  --text: #e8f3f7;
+  --text-secondary: #dde9eb;
+  --muted: #a2bac6;
+  --primary: #78b1c3;
+  --primary-soft: rgba(120, 177, 197, 0.18);
+  --primary-light: #8bbac2;
+  --primary-medium: #6ea6b5;
+  --danger: #c86d75;
+  --ok: #7fb1a6;
+  
+  /* Color Accents */
+  --accent-blue: rgba(96, 143, 175, 0.08);
+  --accent-green: rgba(115, 168, 144, 0.08);
+  --accent-purple: rgba(103, 128, 167, 0.08);
+  
+  /* Border & Overlay */
+  --border-subtle: rgba(130, 164, 176, 0.12);
+  --border-light: rgba(130, 164, 176, 0.14);
+  --border-medium: rgba(130, 164, 176, 0.16);
+  --border-hover: rgba(130, 164, 176, 0.24);
+  --overlay-light: rgba(130, 164, 176, 0.08);
+  --overlay-medium: rgba(130, 164, 176, 0.18);
+  
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 28px;
+  --spacing-xxl: 42px;
+  
+  /* Typography */
+  --font-family: "Outfit", sans-serif;
+  --font-size-xs: 0.78rem;
+  --font-size-sm: 0.82rem;
+  --font-size-base: 0.92rem;
+  --font-size-md: 0.94rem;
+  --font-size-lg: 0.98rem;
+  --font-size-xl: 1.1rem;
+  --font-size-2xl: 1.4rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Border Radius */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-xl: 18px;
+  --radius-full: 999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 18px 42px rgba(0, 0, 0, 0.32);
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.2s ease;
+  --transition-slow: 0.25s ease;
+  
+  /* Layout */
+  --max-width: 1180px;
+}
+  /* Serene theme accents (used for overview cards) */
+  --serene-bg: #f6fbfa; /* very pale aqua */
+  --serene-surface: rgba(245, 253, 252, 0.9); /* soft glassy surface */
+  --serene-accent: #87bfb3; /* muted seafoam green */
+  --serene-accent-2: #6ea6b5; /* cool teal */
+  --serene-text: #274044; /* deep soft teal for headings */
+  --serene-muted: #6b8b86; /* muted secondary text */
+  --serene-foreground: #153231; /* primary readable foreground for overview */
+  --serene-foreground-muted: #546e6d; /* muted foreground */
+  --serene-shadow: 0 20px 48px rgba(58, 83, 80, 0.08);
+
+/* Light Mode Override */
+body.light-mode {
+  /* Light Mode Colors */
+  --bg: #e8e3dc;
+  --bg-gradient: linear-gradient(180deg, #e8e3dc 0%, #d3c9bd 46%, #b3a394 100%);
+  --surface: #f8f2ea;
+  --surface-2: #e7d8c8;
+  --text: #332b24;
+  --text-secondary: #3d3027;
+  --muted: #635046;
+  --primary: #78b1c3;
+  --primary-soft: rgba(130, 102, 79, 0.16);
+  --primary-light: #8bbac2;
+  --primary-medium: #6ea6b5;
+  --danger: #c86d75;
+  --ok: #7fb1a6;
+  
+  /* Light Mode Accents */
+  --accent-blue: rgba(149, 125, 108, 0.12);
+  --accent-green: rgba(136, 118, 103, 0.12);
+  --accent-purple: rgba(123, 106, 91, 0.12);
+  
+  /* Light Mode Borders */
+  --border-subtle: rgba(155, 129, 107, 0.16);
+  --border-light: rgba(130, 104, 81, 0.14);
+  --border-medium: rgba(130, 102, 79, 0.26);
+  --border-hover: rgba(116, 94, 74, 0.22);
+  --overlay-light: rgba(116, 94, 74, 0.12);
+  --overlay-medium: rgba(130, 102, 79, 0.18);
+}
+
+/* Dark Mode Background Gradient */
+body {
+  background: radial-gradient(circle at top, #0a3248 0%, #071c27 32%, #041117 100%);
+}
+
+body.light-mode {
+  background: var(--bg-gradient);
+}
+
+/* Serene tone variants */
+.serene-cool {
+  --serene-accent: #5c9498; /* cooler teal (darker for contrast) */
+  --serene-accent-2: #2b6f74; /* stronger teal for KPI values */
+  --serene-text: #0f2b2d; /* deeper text for headings */
+  --serene-muted: #4b6b6b; /* slightly darker muted text */
+  --serene-surface: rgba(238, 251, 250, 0.96);
+}
+
+.serene-warm {
+  --serene-accent: #88b79f; /* warmer seafoam (richer) */
+  --serene-accent-2: #3d7f6e; /* stronger warm accent for KPI values */
+  --serene-text: #132b23; /* deeper warm heading color */
+  --serene-muted: #5f7069;
+  --serene-surface: rgba(253, 250, 244, 0.97);
+}

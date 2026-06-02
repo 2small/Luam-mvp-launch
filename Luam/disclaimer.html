@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Disclaimers // Symmetry</title>
+  <link rel="stylesheet" href="index.css">
+  
+  <!-- PWA Registration Link -->
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Symmetry PWA Registered Safely.', reg))
+          .catch(err => console.log('Registration Error:', err));
+      });
+    }
+  </script>
+
+  <style>
+    /* Localized structural layout parameters to prevent cognitive load */
+    .disclaimer-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background-color: #2B2D2F; /* Deep anchor canvas background */
+      padding: 40px 20px;
+    }
+
+    .disclaimer-card {
+      background-color: #8EC1EE; /* Your Slate Sky Blue DMN background */
+      color: #2B2D2F;            /* High contrast Off-Black text */
+      max-width: 800px;
+      width: 100%;
+      margin: 40px auto;
+      padding: 48px;
+      border-radius: 24px;       /* Safe organic rounded corners */
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .disclaimer-header {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .disclaimer-meta {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+      margin-bottom: 40px;
+      display: block;
+    }
+
+    .disclaimer-clause {
+      margin-bottom: 32px;
+    }
+
+    .disclaimer-clause:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .clause-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: block;
+      letter-spacing: 0.5px;
+    }
+
+    .clause-body {
+      font-size: 14px; /* Controlled size for easy tracking */
+      line-height: 1.6;
+      opacity: 0.9;
+      text-align: left;
+    }
+
+    .disclaimer-footer {
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    .footer-stamp {
+      color: #E8EFE9; /* Morning Mist Sage green color anchor */
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .disclaimer-card {
+        padding: 32px 24px;
+        margin: 20px auto;
+      }
+      .disclaimer-header {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="disclaimer-wrapper">
+    
+    <main class="disclaimer-card">
+      <h1 class="disclaimer-header">Public Disclaimers</h1>
+      <span class="disclaimer-meta">Last Updated: June 2026</span>
+
+      <!-- 01 // Imagery -->
+      <div class="disclaimer-clause">
+        <span class="clause-title">01 // Aesthetic and Illustrative Imagery</span>
+        <p class="clause-body">
+          The visual assets across this platform—including the sunset silhouettes, nature depictions, and representations of calm individuals—are strictly artistic, decorative, and symbolic illustrations. They do not portray active patients, clients, or live case studies of Luam™ or the Symmetry software. This imagery is utilized purely to communicate the conceptual essence of digital calm and does not constitute a literal representation of clinical outcomes, nor is it intended as false or misleading advertising.
+        </p>
+      </div>
+
+      <!-- 02 // Nature -->
+      <div class="disclaimer-clause">
+        <span class="clause-title">02 // Informational and Educational Nature</span>
+        <p class="clause-body">
+          The public marketing copy, conceptual frameworks (such as Brain Gardening and Niksen), and public blog essays found on this website are compiled for informational and educational purposes only. This content should not be used as a substitute for professional medical, psychiatric, or psychological diagnosis, advice, or treatment.
+        </p>
+      </div>
+
+      <!-- 03 // Limits -->
+      <div class="disclaimer-clause">
+        <span class="clause-title">03 // Scheduled Care Limitation</span>
+        <p class="clause-body">
+          While Luam™ retains a staff of licensed psychologists and psychiatrists, our online interfaces, websites, and apps are built exclusively for scheduled mental wellness maintenance and long-term psychological flexibility. Symmetry does not provide real-time, on-demand psychological intervention, immediate psychiatric restraint, or crisis dispatch services.
+        </p>
+      </div>
+
+      <!-- 04 // Directory -->
+      <div class="disclaimer-clause">
+        <span class="clause-title">04 // Third-Party Directory Content</span>
+        <p class="clause-body">
+          The references, contact numbers, and physical operational hours listed within our emergency mental health directory are aggregated from publicly available data for user convenience. Luam™ makes every effort to keep this directory updated, but we do not guarantee the real-time operational status, staffing levels, or admission capacities of these independent external institutions.
+        </p>
+      </div>
+
+      <!-- 05 // Variance -->
+      <div class="disclaimer-clause">
+        <span class="clause-title">05 // Individual Variances in Outcomes</span>
+        <p class="clause-body">
+          Every individual’s cognitive architecture and psychological resilience path is unique. While our software tools and methodologies are grounded in established behavioral science, user outcomes will vary based on individual commitment, personal environment, and clinical history. Historical metrics or research references do not guarantee identical future results.
+        </p>
+      </div>
+
+    </main>
+
+    
+    <footer class="disclaimer-footer">
+      <p class="footer-stamp">©2026 Luam™ Logic For Agency ✦</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
+
