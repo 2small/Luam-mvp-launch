@@ -20,15 +20,7 @@
   <link rel="manifest" href="manifest.json">
 
 <!-- Register your background service worker script -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('Symmetry PWA Registered Safely.', reg))
-          .catch(err => console.log('Registration Error:', err));
-      });
-    }
-</script>
+  
 
   <style>
     html {
