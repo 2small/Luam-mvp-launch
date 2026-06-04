@@ -268,6 +268,8 @@
     .sage-nav-link.active {
       color: #87a96b;
       transform: translateY(-1px);
+      background: transparent !important; /* Forcefully blocks any global background inheritance */
+      background-color: transparent !important;
     }
     
 
@@ -1925,8 +1927,8 @@
     <div class="flex justify-between items-center">
       <a href="dashboard.html" class="sage-nav-brand" style="display: flex; align-items: center; height: 100%; margin-right: 32px;"><img src="images/symmetrysvg.png" alt="symetry logo " style="width: 30px; vertical-align: middle;"></a>
       <button id="mobileNavToggle" class="mobile-nav-toggle" aria-expanded="false" aria-label="Open menu" style="background: transparent; border: none; cursor: pointer; padding: 10px; margin-right: 12px;">
-        <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; margin-bottom: 5px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
-        <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; margin-bottom: 5px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
+        <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
+        <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
         <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
       </button>
       <ul class="sage-nav-links">
