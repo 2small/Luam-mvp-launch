@@ -2180,3 +2180,12 @@
 .smoove {
 corner-rounding:30px;
 }
+/* Force the mobile navigation layout rule locally over the master rules */
+@media (max-width: 10000px) {
+    [data-responsive-from] .u-nav-container {
+        display: none !important;
+    }
+    [data-responsive-from] .menu-collapse {
+        display: block !important;
+    }
+}
