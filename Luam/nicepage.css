@@ -53,7 +53,7 @@
 .drawer-nav {
   position: fixed;
   top: 0;
-  right: -100%; /* Hidden off-screen by default */
+  right: 0%; /* Hidden off-screen by default */
   width: 100%;
   max-width: 400px; /* Drawer slide-out on desktop, full on mobile */
   height: 100vh;
