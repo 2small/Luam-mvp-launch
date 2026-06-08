@@ -1,8 +1,99 @@
-/*begin-commonstyles library*//*!
- * froala_editor v4.0.6 (https://www.froala.com/wysiwyg-editor)
- * License https://froala.com/wysiwyg-editor/terms/
- * Copyright 2014-2021 Froala Labs
- */
+
+.clinical-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  z-index: 1000;
+  padding: 15px 0;
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Static CTA Button out in the open */
+.cta-static-btn {
+  background-color: #007bff; /* Replace with your primary brand color */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Hamburger Icon Styling */
+.hamburger-trigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.hamburger-bar {
+  width: 25px;
+  height: 3px;
+  background-color: #1a1a1a;
+  transition: 0.3s;
+}
+
+/* Fullscreen/Drawer Navigation Menu Overlay */
+.drawer-nav {
+  position: fixed;
+  top: 0;
+  right: -100%; /* Hidden off-screen by default */
+  width: 100%;
+  max-width: 400px; /* Drawer slide-out on desktop, full on mobile */
+  height: 100vh;
+  background-color: #1b1b1b;
+  z-index: 2000;
+  transition: right 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.drawer-nav.is-open {
+  right: 0; /* Slides into view */
+}
+.nav-links-list {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+.nav-links-list a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 24px;
+  display: block;
+  padding: 15px 0;
+  transition: color 0.2s;
+}
+.nav-links-list a:hover {
+  color: #007bff;
+}
+.menu-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 35px;
+  cursor: pointer;
+}
 
 .fr-clearfix::after {
   clear: both;
