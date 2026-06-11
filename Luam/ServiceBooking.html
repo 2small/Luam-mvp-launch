@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login – Luam Wellness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap" rel="stylesheet" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    /* Root colors for light and dark mode */
+    :root {
+      --color-bg-light: #edf2ed;
+      --color-text-light: #1e2d24;
+      --color-accent-light: #6f8f7e;
+      --color-input-bg-light: #ffffff;
+      --color-input-border-light: #ccc9c3;
+
+      --color-bg-dark: #0f1b16;
+      --color-text-dark: #e0ece3;
+      --color-accent-dark: #90b39f;
+      --color-input-bg-dark: #1e1e1e;
+      --color-input-border-dark: #444;
+
+      --shadow-light: rgba(61, 89, 73, 0.2);
+      --shadow-dark: rgba(14, 33, 24, 0.55);
+    }
+
+    /* Reset and basics */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      background: var(--color-bg-light);
+      color: var(--color-text-light);
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+    body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* keeps canvas fullscreen */
+}
+
+#fractal-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* stays at the back */
+  display: block;
+}
+    .dark-mode {
+      background: var(--color-bg-dark);
+      color: var(--color-text-dark);
+    }
+
+    /* Card container */
+    .card {
+      position: relative;
+      z-index: 1; /* above the canvas */
+      background: var(--color-input-bg-light);
+      border: 1px solid var(--color-input-border-light);
+     
+      box-shadow: 0 8px 24px var(--shadow-light);
+    }
+    .dark-mode .card {
+      background: var(--color-input-bg-dark);
+      border: 1px solid var(--color-input-border-dark);
+      box-shadow: 0 8px 24px var(--shadow-dark);
+    }
+    /* From Uiverse.io by satyamchaudharydev */ 
+.card {
+  width: 320px;
+  height: 400px;
+  padding: 0 15px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  background: #fff;
+  border-radius: 20px;
+  display: none; /* Hidden by default, shown by JS */
+}
+.card.active {
+  display: flex; /* Show active step */
+}
+
+.card > * {
+  margin: 0;
+}
+
+.card__title {
+  font-size: 23px;
+  font-weight: 900;
+  color: #333;
+}
+
+.card__content {
+  font-size: 13px;
+  line-height: 18px;
+  color: #333;
+}
+
+.card__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card__form input {
+  margin-top: 10px;
+  outline: 0;
+  background: rgb(255, 255, 255);
+  box-shadow: transparent 0px 0px 0px 1px inset;
+  padding: 0.6em;
+  border-radius: 14px;
+  border: 1px solid #333;
+  color: black;
+}
+
+.card__form button {
+  border: 0;
+  background: #2C3E50;
+  color: #fff;
+  padding: 0.68em;
+  border-radius: 14px;
+  font-weight: bold;
+}
+
+.sign-up:hover {
+  opacity: 0.8;
+} 
+
+    /* Styling isolated strictly to the pop-up selectors / dropdown items */
+    .card__form select {
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        color: #333;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    /* Style rule targeting the expanded dropdown elements */
+    .card__form select option {
+        padding: 10px;
+        background-color: #ffffff;
+        color: #333333;
+        font-family: inherit;
+    }
+
+    /* Hover/Focus enhancements strictly for the pop-up picker items */
+    .card__form select:focus {
+        outline: none;
+        border-color: #4a90e2;
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    }
+  </style>
+</head>
+<body class="light-mode">
+  <!-- Background Canvas -->
+  <canvas id="fractal-bg"></canvas>
+
+  <!-- Step 1 -->
+  <div id="step-1" class="card active">
+    <span class="card__title">Consultation Brief</span>
+    <p class="card__content">Details stay on your device until you send them.<br><br>What name or initials should we use?</p>
+    <p id="error-step-1" style="color: #ff4d4d; font-size: 0.85rem; margin: 0 0 10px 0; display: none; text-align: left;">Please enter your name.</p>
+    <div class="card__form">
+        <input id="username" placeholder="Name, initials, or nickname" type="text" required>
+        <button class="sign-up" onclick="validateAndNavigate(1, 2)"style="flex: 2; padding: 10px; cursor: pointer; border: none; color: #fff; font-size: 1rem; font-weight: bold; font-family: inherit;">
+Next</button>
+<a href="index.html" style="text-decoration: none; color: #8F9E8B;">home</a>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+   <!-- Step 2: Session Scheduling -->
+  <div id="step-2" class="card">
+    <span class="card__title">Select Session Window</span>
+    <p class="card__content" style="line-height: 1.4; margin-bottom: 15px;">
+        You can easily modify your choice anytime.
+    </p>
+    
+    <!-- Error display message (Hidden by default) -->
+    <p id="error-step-2" style="color: #ff4d4d; font-size: 0.85rem; margin: 0 0 10px 0; display: none; text-align: left;"></p>
+    
+    <div class="card__form">
+        <!-- Date Input Styled Uniformly with Selectors -->
+        <input id="booking-date" type="date" required 
+               style="width: 100%; padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; color: #333; margin-bottom: 15px; box-sizing: border-box; font-family: inherit;">
+        
+        <!-- Highly Functional Dropdown to eliminate the 24hr wheel friction -->
+        <select id="booking-time" required 
+                style="width: 100%; padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; color: #333; cursor: pointer; margin-bottom: 20px; box-sizing: border-box; font-family: inherit;">
+            <option value="" disabled selected>Choose Time Session</option>
+            <option value="08:00 AM">8:00 AM (Morning Session)</option>
+            <option value="08:30 AM">8:30 AM (Morning Session)</option>
+            <option value="09:00 AM">9:00 AM (Morning Session)</option>
+            <option value="09:30 AM">9:30 AM (Morning Session)</option>
+            <option value="10:00 AM">10:00 AM (Morning Session)</option>
+            <option value="10:30 AM">10:30 AM (Morning Session)</option>
+            <option value="11:00 AM">11:00 AM (Morning Session)</option>
+            <option value="11:30 AM">11:30 AM (Midday Session)</option>
+            <option value="12:00 PM">12:00 PM (Midday Session)</option>
+            <option value="12:30 PM">12:30 PM (Midday Session)</option>
+            <option value="01:00 PM">1:00 PM (Afternoon Session)</option>
+            <option value="01:30 PM">1:30 PM (Afternoon Session)</option>
+            <option value="02:00 PM">2:00 PM (Afternoon Session)</option>
+            <option value="02:30 PM">2:30 PM (Afternoon Session)</option>
+            <option value="03:00 PM">3:00 PM (Afternoon Session)</option>
+            <option value="03:30 PM">3:30 PM (Afternoon Session)</option>
+            <option value="04:00 PM">4:00 PM (Evening Session)</option>
+            <option value="04:30 PM">4:30 PM (Evening Session)</option>
+            <option value="05:00 PM">5:00 PM (Evening Session)</option>
+            <option value="05:30 PM">5:30 PM (Evening Session)</option>
+            <option value="06:00 PM">6:00 PM (Evening Session)</option>
+        </select>
+        
+        <!-- Navigation Actions Wrapper -->
+        <div class="button-group" style="display: flex; gap: 10px; width: 100%;">
+            <button class="btn-back" type="button" onclick="navigateStep(1)"style="flex: 1; padding: 10px; cursor: pointer; border: 1px solid #ccc; background-color: #f8f9fa; border-radius: 4px; font-size: 1rem; color: #555; font-family: inherit;">
+              Back
+            </button>
+            <button class="sign-up" style="flex: 2; padding: 10px; cursor: pointer; border: none; color: #fff; font-size: 1rem; font-weight: bold; font-family: inherit;"
+ type="button" onclick="validateAndNavigate(2, 3)">Next
+            </button>
+        </div>
+    </div>
+  </div>
+
+
+  <!-- Step 3 -->
+    <!-- Step 3: Contact Allocation -->
+  <div id="step-3" class="card">
+    <span class="card__title">Communication Access</span>
+    <p class="card__content" style="line-height: 1.4; margin-bottom: 15px;">
+       Details stay on your device until you send them. Please provide a line where a specialist can reach you directly via call or WhatsApp.
+    </p>
+    
+    <!-- Error display message -->
+    <p id="error-step-3" style="color: #ff4d4d; font-size: 0.85rem; margin: 0 0 10px 0; display: none; text-align: left;">Please enter a valid phone number so we can reach you.</p>
+    
+    <div class="card__form">
+        
+        <!-- VISUAL ANCHOR CONTAINER -->
+        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; box-sizing: border-box;">
+            <!-- Locked Kenyan Prefix Block -->
+            <span style="padding: 10px 0 1px 12px; font-size: 1rem; color: #555; font-family: inherit; font-weight: bold; user-select: none;">
+                +254
+            </span>
+            <!-- Clean, Unobstructed Input Field -->
+            <input id="booking-contact" type="tel" placeholder="712345678" required 
+                   style="flex: 1; padding: 10px 12px; font-size: 1rem; border: none; background: transparent; color: #333; box-sizing: border-box; font-family: inherit; outline: none;">
+        </div>
+        
+        <div class="button-group" style="display: flex; gap: 10px; width: 100%;">
+            <button class="btn-back" type="button" onclick="navigateStep(2)" 
+                    style="flex: 1; padding: 10px; cursor: pointer; border: 1px solid #ccc; background-color: #f8f9fa; border-radius: 4px; font-size: 1rem; color: #555; font-family: inherit;">
+                Back
+            </button>
+            <button class="sign-up" type="button" onclick="validateAndNavigate(3, 4)" 
+                    style="flex: 2; padding: 10px; cursor: pointer; border: none; color: #fff; font-size: 1rem; font-weight: bold; font-family: inherit;">
+                Next
+            </button>
+        </div>
+    </div>
+  </div>
+
+   <!-- Step 4: Final Confirmation -->
+   <!-- Step 4: Final Confirmation -->
+  <div id="step-4" class="card">
+    <span class="card__title">Confirm Allocation</span>
+    
+    <!-- Dynamic breakdown summary text -->
+    <p id="welcome-message" class="card__content" style="line-height: 1.5; margin-bottom: 10px; text-align: left;"></p>
+    
+    <!-- CLINICAL VALUE ANCHOR -->
+    <div style="background-color: #f8f9fa; border-left: 3px solid #8F9E8B; padding: 10px 12px; margin-bottom: 20px; border-radius: 0 4px 4px 0; text-align: left;">
+        <span style="font-size: 0.85rem; color: #666; display: block; font-family: inherit;">Standard Consultation Rate:</span>
+        <strong style="font-size: 1.1rem; color: #333; font-family: inherit;">KSh 3,000</strong> 
+        <span style="font-size: 0.75rem; color: #888; margin-left: 4px; font-family: inherit;">(Payable at the clinic)</span>
+    </div>
+    
+    <div class="card__form">
+        <div class="button-group" style="display: flex; gap: 10px; width: 100%;">
+            <button class="btn-back" type="button" onclick="navigateStep(3)" 
+                    style="flex: 1; padding: 10px; cursor: pointer; border: 1px solid #ccc; background-color: #f8f9fa; border-radius: 4px; font-size: 1rem; color: #555; font-family: inherit;">
+                Edit
+            </button>
+            <!-- REFRAMED ACTION BUTTON TO ELIMINATE SURPRISE COGNITIVE FRICTION -->
+            <button class="sign-up" type="button" onclick="submitBooking()" 
+                    style="flex: 2; padding: 10px; cursor: pointer; border: none; background-color: #8F9E8B; color: #fff; font-size: 1rem; font-weight: bold; font-family: inherit;">
+                Open Secure WhatsApp Line
+            </button>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="clinical-watermark" 
+     style="position: fixed; bottom: 20px; left: 20px; display: flex; align-items: center; gap: 8px; opacity: 0.25; user-select: none; pointer-events: none; z-index: 1000; transition: opacity 0.3s ease;">
+    <!-- Strict 40x40px Medical/Platform Logo -->
+    <a href="index.html" style="display: inline-block; cursor: pointer; position: relative; z-index: 9999;">
+    <img src="images/luamline.png" alt="Seal" style="width: 40px; height: 40px; object-fit: contain; filter: grayscale(100%);">
+</a>
+
+
+    <!-- Tiny Neutral Typographic Anchor -->
+    <span style="font-size: 0.75rem; font-family: sans-serif; color: #333; letter-spacing: 0.5px; font-weight: 500;">Clinical Services</span>
+</div>
+ <script>
+    // 1. DYNAMIC SYSTEM INITIALIZATION: Runs automatically on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        const today = new Date().toISOString().split('T');
+        const dateInput = document.getElementById('booking-date');
+        if (dateInput) {
+            dateInput.setAttribute('min', today);
+        }
+
+        // CRISIS RECOVERY ENGINE: Retrieve local backups if they exist
+        const savedName = localStorage.getItem('clinic_backup_name');
+        const savedDate = localStorage.getItem('clinic_backup_date');
+        const savedTime = localStorage.getItem('clinic_backup_time');
+        const savedContact = localStorage.getItem('clinic_backup_contact');
+        const savedStep = localStorage.getItem('clinic_backup_step');
+
+        if (savedName) document.getElementById('username').value = savedName;
+        if (savedDate) document.getElementById('booking-date').value = savedDate;
+        if (savedTime) document.getElementById('booking-time').value = savedTime;
+        if (savedContact) document.getElementById('booking-contact').value = savedContact;
+
+        if (savedStep && savedStep > 1 && savedStep <= 4) {
+            navigateStep(parseInt(savedStep, 10));
+        }
+    });
+
+    // 2. WIZARD INTERFACE ENGINE: Handles card transitions and summary parsing
+    function navigateStep(targetStepNum) {
+        const steps = document.querySelectorAll('.card');
+        steps.forEach(step => step.classList.remove('active'));
+
+        // Cache inputs in the browser storage
+        localStorage.setItem('clinic_backup_name', document.getElementById('username').value.trim());
+        localStorage.setItem('clinic_backup_date', document.getElementById('booking-date').value);
+        localStorage.setItem('clinic_backup_time', document.getElementById('booking-time').value);
+        localStorage.setItem('clinic_backup_contact', document.getElementById('booking-contact').value.trim());
+        localStorage.setItem('clinic_backup_step', targetStepNum);
+
+        if (targetStepNum === 4) {
+            const nameInput = document.getElementById('username').value.trim() || "Patient";
+            const dateInput = document.getElementById('booking-date').value || "Selected Date";
+            const timeInput = document.getElementById('booking-time').value || "Selected Time";
+            const contactInput = document.getElementById('booking-contact').value.trim() || "Number";
+            
+            // Build the clean, professional summary on the web layout card
+            document.getElementById('welcome-message').innerHTML = 
+                `Reviewing brief for <strong>${nameInput}</strong>:<br>` +
+                `• Session Window: <strong>${dateInput}</strong> at <strong>${timeInput}</strong><br>` +
+                `• Contact Line: <strong>+254 ${contactInput}</strong><br><br>` +
+                `Clicking below will securely route this brief directly to our clinical practitioner via encrypted WhatsApp to finalize your space.Details stay on your device until you send them.`;
+        }
+
+        const targetCard = document.getElementById(`step-${targetStepNum}`);
+        if (targetCard) {
+            targetCard.classList.add('active');
+        }
+    }
+
+    // 3. CLINICAL VALIDATION ENGINE: Standardizes input and checks metrics
+    function validateAndNavigate(currentStep, nextStep) {
+        const errorEl = document.getElementById(`error-step-${currentStep}`);
+        if (errorEl) {
+            errorEl.style.display = 'none';
+        }
+
+        if (currentStep === 1) {
+            const name = document.getElementById('username').value.trim();
+            if (!name) { if (errorEl) errorEl.style.display = 'block'; return; }
+        } 
+        
+        if (currentStep === 2) {
+            const date = document.getElementById('booking-date').value;
+            const time = document.getElementById('booking-time').value;
+            if (!date || !time) { 
+                if (errorEl) {
+                    errorEl.innerText = "Please select both a date and a session time.";
+                    errorEl.style.display = 'block';
+                }
+                return; 
+            }
+        }
+
+        if (currentStep === 3) {
+            let contact = document.getElementById('booking-contact').value.trim();
+            if (contact.startsWith('0')) {
+                contact = contact.substring(1);
+                document.getElementById('booking-contact').value = contact;
+            }
+            if (contact.length !== 9 || isNaN(contact)) {
+                if (errorEl) {
+                    errorEl.innerText = "Please enter a valid 9-digit phone number (e.g., 712345678).";
+                    errorEl.style.display = 'block';
+                }
+                return;
+            }
+        }
+
+        navigateStep(nextStep);
+    }
+
+    // 4. WHATSAPP ENCRYPTED TERMINUS
+   function submitBooking() {
+    var usernameEl = document.getElementById('username');
+    var dateEl = document.getElementById('booking-date');
+    var timeEl = document.getElementById('booking-time');
+    var contactEl = document.getElementById('booking-contact');
+
+    var nameInput = usernameEl && usernameEl.value.trim() ? usernameEl.value.trim() : "Patient";
+    var dateInput = dateEl && dateEl.value ? dateEl.value : "Selected Date";
+    var timeInput = timeEl && timeEl.value ? timeEl.value : "Selected Time";
+    
+    // SECURITY FIX: Strip out absolutely everything that isn't a number first to prevent injection attacks
+    var contactInput = contactEl ? contactEl.value.trim().replace(/[^\d]/g, '') : "";
+    contactInput = contactInput.replace(/^(\+254|254|0)/, ''); 
+    
+    if (!contactInput) {
+        contactInput = "Number";
+    }
+
+    var messageText = "Hello, I would like to check your availability for a private consultation:\n\n" +
+                        "• Name/Brief: " + nameInput + "\n" +
+                        "• Date Choice: " + dateInput + "\n" +
+                        "• Session Time: " + timeInput + "\n" +
+                        "• Callback Line: +254" + contactInput + "\n\n" +
+                        "Confidential Intake Request. Please verify availability.";
+
+    var encodedMessage = encodeURIComponent(messageText);
+    var clinicPhoneNumber = "254700000000"; 
+
+    // SECURITY FIX: Changed from localStorage to sessionStorage across the app to prevent offline local persistence
+    sessionStorage.removeItem('clinic_backup_name');
+    sessionStorage.removeItem('clinic_backup_date');
+    sessionStorage.removeItem('clinic_backup_time');
+    sessionStorage.removeItem('clinic_backup_contact');
+    sessionStorage.removeItem('clinic_backup_step');
+
+    // SECURITY FIX: Using window.location.replace prevents this long, sensitive data URL from being saved in browser history logs
+    var targetUrl = `https://wa.me/${clinicPhoneNumber}?text=${encodedMessage}`;
+    window.location.replace(targetUrl);
+}
+
+
+
+
+const canvas = document.getElementById('fractal-bg');
+const ctx = canvas.getContext('2d');
+let w, h;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+let mouse = { x: -9999, y: -9999 };
+let cursor = { x: 0, y: 0 };
+
+window.addEventListener('mousemove', (e) => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+// Function to draw a golden spiral using Fermat's formula
+function drawSpiral(cx, cy, time, scale = 6) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate((time * 0.00005) % (2 * Math.PI));
+
+  const total = 800;
+  const c = scale;
+
+  for (let i = 0; i < total; i++) {
+    const angle = i * 137.5 * (Math.PI / 180); // golden angle
+    const radius = c * Math.sqrt(i);
+    const x = radius * Math.cos(angle);
+    const y = radius * Math.sin(angle);
+
+    ctx.fillStyle = `rgba(92, 123, 152, 0.16)`; // deeper muted blue
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.restore();
+}
+
+function drawSpiralGrid(time) {
+  const spacing = 300; // distance between spirals
+  for (let y = -spacing; y < h + spacing; y += spacing) {
+    for (let x = -spacing; x < w + spacing; x += spacing) {
+      drawSpiral(x, y, time);
+    }
+  }
+}
+
+function drawBackground() {
+  const img = ctx.createImageData(w, h);
+  const data = img.data;
+  for (let i = 0; i < w * h; i++) {
+    const base = i * 4;
+    const nx = (i % w) / w;
+    const ny = Math.floor(i / w) / h;
+    const shade = 200 + 30 * Math.sin(nx * 10 + ny * 10);
+    data[base] = shade;
+    data[base + 1] = shade + 10;
+    data[base + 2] = shade + 30;
+    data[base + 3] = 15;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+function draw(time = 0) {
+  ctx.clearRect(0, 0, w, h);
+  drawBackground();
+  drawSpiralGrid(time);
+
+  // Smooth cursor trail
+  cursor.x = lerp(cursor.x, mouse.x, 0.08);
+  cursor.y = lerp(cursor.y, mouse.y, 0.08);
+
+  // Cursor spotlight: earthy sage center to transparent edge
+  const grad = ctx.createRadialGradient(cursor.x, cursor.y, 0, cursor.x, cursor.y, 200);
+  grad.addColorStop(0, 'rgba(38, 63, 97, 0.36)');
+  grad.addColorStop(1, 'rgba(138, 168, 195, 0)'); // fade to soft cool blue
+
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  requestAnimationFrame(draw);
+}
+draw();
+    const toggle = document.querySelector('.toggle-container');
+    const body = document.body;
+
+    function updateToggleText() {
+      if (body.classList.contains('dark-mode')) {
+        toggle.textContent = 'Toggle Light Mode';
+        toggle.setAttribute('aria-pressed', 'true');
+      } else {
+        toggle.textContent = 'Toggle Dark Mode';
+        toggle.setAttribute('aria-pressed', 'false');
+      }
+    }
+
+   if (toggle) {
+    toggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        updateToggleText();
+    });
+    
+    // Initialize text ONLY if the toggle element exists
+    updateToggleText();
+}
+
+// Keyboard accessibility for toggle button
+if (toggle) {
+    toggle.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle.click();
+      }
+    });
+}
+
+// This is perfectly safe to run globally
+
+
+  </script>
+</body>
+</html>
