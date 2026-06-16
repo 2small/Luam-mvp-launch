@@ -20,7 +20,15 @@
   <link rel="manifest" href="manifest.json">
 
 <!-- Register your background service worker script -->
-  
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register(new URL('sw.js', window.location.href))
+          .then(reg => console.log('Symmetry PWA Registered Safely.', reg))
+          .catch(err => console.log('Registration Error:', err));
+      });
+    }
+</script>
 
   <style>
     html {
@@ -268,8 +276,6 @@
     .sage-nav-link.active {
       color: #87a96b;
       transform: translateY(-1px);
-      background: transparent !important; /* Forcefully blocks any global background inheritance */
-      background-color: transparent !important;
     }
     
 
@@ -290,7 +296,7 @@
     }
 
     .mobile-nav-toggle:hover {
-      background: #1a1a1a;
+      background: rgba(255, 255, 255, 0.08);
       transform: translateY(-1px);
     }
 
@@ -1927,8 +1933,8 @@
     <div class="flex justify-between items-center">
       <a href="dashboard.html" class="sage-nav-brand" style="display: flex; align-items: center; height: 100%; margin-right: 32px;"><img src="images/symmetrysvg.png" alt="symetry logo " style="width: 30px; vertical-align: middle;"></a>
       <button id="mobileNavToggle" class="mobile-nav-toggle" aria-expanded="false" aria-label="Open menu" style="background: transparent; border: none; cursor: pointer; padding: 10px; margin-right: 12px;">
-        <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
-        <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
+        <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; margin-bottom: 5px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
+        <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; margin-bottom: 5px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
         <span style="display:block; width: 22px; height: 2px; background: #f8fafc; border-radius: 2px; transition: transform 0.25s ease, opacity 0.25s ease;"></span>
       </button>
       <ul class="sage-nav-links">
@@ -2239,21 +2245,10 @@
               </div>
             </div>
             
-            <!-- The Gap Button -->
-            <div style="text-align: center; margin-bottom: 1.5rem;">
-              <button onclick="startTheGap()" style="padding: 16px 48px; background: #2F3E46; color: white; border: none; border-radius: 12px; font-family: Livvic, sans-serif; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.05em;">The Gap</button>
-            </div>
-            
-            <!-- Neural Gym Trigger -->
-            <div style="text-align: center; margin-bottom: 1.5rem;">
-              <button onclick="openConflictControlModal()" style="padding: 10px 24px; background: rgba(135, 169, 107, 0.1); color: #87A96B; border: 1px solid #87A96B; border-radius: 8px; font-family: Livvic, sans-serif; font-size: 0.875rem; cursor: pointer; transition: all 0.3s ease; margin-right: 8px;">🧠 Conflict Control</button>
-              <button onclick="openNeuralAgilityModal()" style="padding: 10px 24px; background: rgba(135, 169, 107, 0.1); color: #87A96B; border: 1px solid #87A96B; border-radius: 8px; font-family: Livvic, sans-serif; font-size: 0.875rem; cursor: pointer; transition: all 0.3s ease;">🔄 Neural Agility</button>
-            </div>
-            
             <!-- Bento Grid for Momentum Tools -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
               
-              <!-- The Weight Lifter -->
+              <!-- Eisenhower Matrix (2-category) -->
               <div style="background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(47, 62, 70, 0.15); border-radius: 12px; padding: 1.5rem;">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#87A96B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2262,18 +2257,37 @@
                     <path d="M12 8v8"></path>
                   </svg>
                   <div>
-                    <h4 style="font-family: 'Livvic', sans-serif; color: #2F3E46; font-size: 1.1rem; font-weight: 600;">The Weight Lifter</h4>
-                    <p style="color: #5A6B73; font-size: 0.8rem;">Lighten your mental load. Sort the heavy from the hollow.</p>
+                    <h4 style="font-family: 'Livvic', sans-serif; color: #2F3E46; font-size: 1.1rem; font-weight: 600;">Eisenhower (2-box)</h4>
+                    <p style="color: #5A6B73; font-size: 0.8rem;">Capture tasks, then sort them into “Do now” or “Defer”. Click a task to move it.</p>
                   </div>
                 </div>
-                <input type="text" id="weightLifterInput" placeholder="Add a thought..." onkeypress="if(event.key === 'Enter') addStone()" style="width: 100%; padding: 10px; border: 1px solid #E9ECEF; border-radius: 8px; font-family: 'Livvic', sans-serif; font-size: 0.875rem; color: #2F3E46; margin-bottom: 10px;">
-                <div id="stonesContainer" style="min-height: 60px; margin-bottom: 12px;"></div>
-                <div style="display: flex; gap: 12px;">
-                  <div id="highValueZone" onclick="moveSelectedStone('highValue')" style="flex: 1; padding: 16px; border: 2px dashed #87A96B; border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(135, 169, 107, 0.05);">
-                    <div style="font-size: 0.8rem; font-weight: 600; color: #87A96B;">High Value</div>
+                <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                  <input
+                    type="text"
+                    id="weightLifterInput"
+                    placeholder="Add a task and press Enter…"
+                    onkeypress="if(event.key === 'Enter') addEisenTask()"
+                    style="flex: 1; padding: 10px; border: 1px solid #E9ECEF; border-radius: 999px; font-family: 'Livvic', sans-serif; font-size: 0.875rem; color: #111827; background: #F9FAFB;"
+                  >
+                  <button
+                    type="button"
+                    onclick="addEisenTask()"
+                    aria-label="Add task"
+                    style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 999px; border: none; background: #87A96B; color: #0F172A; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; box-shadow: 0 10px 18px rgba(15, 23, 42, 0.15); transition: transform 0.12s ease, box-shadow 0.12s ease;"
+                    onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 14px 24px rgba(15,23,42,0.22)';"
+                    onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 10px 18px rgba(15,23,42,0.15)';"
+                  >
+                    +
+                  </button>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div id="eisenDoNowZone" style="padding: 12px; border: 2px dashed rgba(135, 169, 107, 0.65); border-radius: 10px; background: rgba(135, 169, 107, 0.06);">
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #87A96B; margin-bottom: 8px;">Do now</div>
+                    <div id="eisenDoNowList" style="min-height: 60px; display: flex; flex-direction: column; gap: 8px;" ondragover="onEisenDragOver(event)" ondrop="onEisenDrop(event, 'do_now')"></div>
                   </div>
-                  <div id="noiseZone" onclick="moveSelectedStone('noise')" style="flex: 1; padding: 16px; border: 2px dashed #E8E8E0; border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: rgba(232, 232, 224, 0.05);">
-                    <div style="font-size: 0.8rem; font-weight: 600; color: #5A6B73;">Noise</div>
+                  <div id="eisenDeferZone" style="padding: 12px; border: 2px dashed rgba(90, 107, 115, 0.35); border-radius: 10px; background: rgba(232, 232, 224, 0.05);">
+                    <div style="font-size: 0.8rem; font-weight: 700; color: #5A6B73; margin-bottom: 8px;">Defer</div>
+                    <div id="eisenDeferList" style="min-height: 60px; display: flex; flex-direction: column; gap: 8px;" ondragover="onEisenDragOver(event)" ondrop="onEisenDrop(event, 'defer')"></div>
                   </div>
                 </div>
               </div>
@@ -2484,7 +2498,39 @@
       <p class="booking-note">We respect your privacy — details stay on your device until you send them.</p>
     </div>
   </div>
-
+  <footer class="u-clearfix u-color-var u-footer u-footer" id="footer"><div class="u-clearfix u-sheet u-sheet-1">
+        <div class="data-layout-selected u-clearfix u-expanded-width u-gutter-30 u-layout-wrap u-layout-wrap-1">
+          <div class="u-gutter-0 u-layout" style="">
+            <div class="u-layout-row" style="">
+              <div class="u-align-left u-container-align-left u-container-style u-layout-cell u-left-cell u-size-20 u-layout-cell-1">
+                <div class="u-container-layout u-container-layout-1">
+                  <a href="Privacy.html" data-page-id="2072026754" class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-no-left u-border-no-right u-border-no-top u-border-white u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-white u-btn-1" title="Page 2">Privacy </a>
+                  <a href="Terms.html" data-page-id="832219586" class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-no-left u-border-no-right u-border-no-top u-border-white u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-white u-btn-2" title="About">Terms </a>
+                  <a href="disclaimer.html" class="u-active-none u-border-2 u-border-active-palette-2-dark-1 u-border-hover-palette-2-base u-border-no-left u-border-no-right u-border-no-top u-border-white u-btn u-button-style u-hover-none u-none u-text-hover-palette-2-base u-text-white u-btn-3">Disclaimer </a>
+                </div>
+              </div>
+              <div class="u-align-left u-container-align-left u-container-style u-layout-cell u-size-20 u-layout-cell-2">
+                <div class="u-container-layout u-valign-top-lg u-valign-top-md u-valign-top-sm u-valign-top-xs u-container-layout-2"><!--position-->
+                  <div data-position="" class="u-position u-position-1"><!--block--><!--/block--></div><!--/position-->
+                  <a href="symmetry.html" class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-style u-none u-text-body-alt-color u-btn-4">Symmetry </a>
+                  <a href="FromLuam.html" class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-style u-none u-text-body-alt-color u-btn-5">Blog </a>
+                  <a href="emergency.html" class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn u-button-style u-none u-text-body-alt-color u-btn-6">Emergency </a>
+                  <a href="index.html#block13" class="u-border-1 u-border-active-palette-2-base u-border-hover-palette-1-base u-border-no-left u-border-no-right u-border-no-top u-btn	u-button-style	u-none	u-text-body-alt-color	u-btn-7">Help </a>
+                </div>
+              </div>
+              <div class="u-align-left u-container-align-left u-container-style u-layout-cell u-right-cell u-size-20 u-layout-cell-3">
+                <div class="u-container-layout u-valign-top-xl u-container-layout-3">
+                  <p class="u-text u-text-color-var u-text-1">Reach us: luamavelis@gmail.com</p>
+                  <p class="u-text u-text-color-var u-text-2">+254 113111931 </p>
+                  <p class="u-text u-text-color-var u-text-3">Nairobi, Kenya </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="u-align-left u-border-1 u-border-white u-expanded-width u-line u-line-horizontal u-opacity u-opacity-25 u-line-1"></div>
+        <p class="u-text u-text-color-var u-text-4">©2026 Luam™ Logic For Agency&nbsp;✦</p>
+      </div></footer>
 
   <script>
     (function () {
@@ -2690,15 +2736,16 @@
     }
 
     function escapeHtml(text) {
-      const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      };
-      return text.replace(/[&<>"']/g, m => map[m]);
-    }
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return String(text || '').replace(/[&<>"']/g, m => map[m]);
+}
 
     async function confirmAndBookSession() {
       if (!pendingBookingData) return;
@@ -2949,126 +2996,7 @@
       document.getElementById('clarityEngineModal').style.display = 'none';
     }
     
-    // Conflict Control Modal Functions
-    let neuralMasteryLevel = 1;
-    let conflictHighScore = 0;
-    
-    async function openConflictControlModal() {
-      document.getElementById('conflictControlModal').style.display = 'flex';
-      document.getElementById('conflictStartScreen').style.display = 'block';
-      document.getElementById('conflictGameScreen').style.display = 'none';
-      document.getElementById('conflictResultsScreen').style.display = 'none';
-      
-      // Load mastery level from PouchDB
-      await loadMasteryLevel();
-      document.getElementById('neuralMasteryLevel').textContent = 'Level ' + neuralMasteryLevel;
-    }
-    
-    function closeConflictControlModal() {
-      document.getElementById('conflictControlModal').style.display = 'none';
-      if (conflictTimerInterval) {
-        clearInterval(conflictTimerInterval);
-      }
-    }
-    
-    // Neural Agility Modal Functions
-    let agilityTimerInterval = null;
-    let agilitySwitchInterval = null;
-    let agilityTimeLeft = 60;
-    let metronomeInterval = null;
-    let metronomeProgress = 0;
-    
-    function openNeuralAgilityModal() {
-      document.getElementById('neuralAgilityModal').style.display = 'flex';
-      document.getElementById('agilityStartScreen').style.display = 'block';
-      document.getElementById('agilityPracticeScreen').style.display = 'none';
-      document.getElementById('agilityResultsScreen').style.display = 'none';
-    }
-    
-    function closeNeuralAgilityModal() {
-      document.getElementById('neuralAgilityModal').style.display = 'none';
-      if (agilityTimerInterval) clearInterval(agilityTimerInterval);
-      if (agilitySwitchInterval) clearInterval(agilitySwitchInterval);
-      if (metronomeInterval) clearInterval(metronomeInterval);
-    }
-    
-    // The Gap Functions
-    let gapInterval = null;
-    let gapCount = 5;
-    
-    function startTheGap() {
-      const overlay = document.getElementById('theGapOverlay');
-      overlay.style.display = 'flex';
-      
-      setTimeout(() => {
-        overlay.style.opacity = '1';
-      }, 50);
-      
-      gapCount = 5;
-      document.getElementById('gapCountdown').textContent = '5';
-      
-      gapInterval = setInterval(() => {
-        gapCount--;
-        
-        if (gapCount > 0) {
-          document.getElementById('gapCountdown').textContent = gapCount;
-        } else {
-          clearInterval(gapInterval);
-          endTheGap();
-        }
-      }, 1000);
-    }
-    
-    function endTheGap() {
-      const overlay = document.getElementById('theGapOverlay');
-      overlay.style.opacity = '0';
-      
-      setTimeout(() => {
-        overlay.style.display = 'none';
-        
-        // Show calm message
-        showSkillUp('Amygdala Override');
-        
-        // Save Composure Point to PouchDB
-        saveMomentumHistory('the_gap', 'The Gap', 'Composure Point earned');
-        
-        // Increment momentum
-        incrementMomentum();
-      }, 500);
-    }
-    
-    async function loadMasteryLevel() {
-      try {
-        const result = await luamDB.get('conflict_mastery');
-        neuralMasteryLevel = result.level || 1;
-        conflictHighScore = result.highScore || 0;
-      } catch (error) {
-        neuralMasteryLevel = 1;
-        conflictHighScore = 0;
-      }
-    }
-    
-    async function saveMasteryLevel() {
-      try {
-        const doc = {
-          _id: 'conflict_mastery',
-          level: neuralMasteryLevel,
-          highScore: conflictHighScore
-        };
-        
-        try {
-          const existing = await luamDB.get('conflict_mastery');
-          doc._rev = existing._rev;
-          await luamDB.put(doc);
-        } catch {
-          await luamDB.put(doc);
-        }
-      } catch (error) {
-        console.error('Error saving mastery level:', error);
-      }
-    }
-    
-    function selectTemplate(template) {
+    function selectTemplate(template, event) {
       // Update button styles
       document.querySelectorAll('.template-btn').forEach(btn => {
         btn.style.background = '#F5F5F0';
@@ -3287,7 +3215,8 @@
     function updateMomentumDisplay() {
       const circles = document.querySelectorAll('.momentum-circle');
       const countDisplay = document.getElementById('momentumCount');
-      
+      if (!countDisplay) return;
+
       circles.forEach((circle, index) => {
         if (index < dailyMomentumCount) {
           circle.style.background = '#87A96B';
@@ -3348,80 +3277,138 @@
       }
     }
     
-    // Weight Lifter Functions
-    let selectedStone = null;
-    let stoneIdCounter = 0;
-    
-    function addStone() {
+    // Eisenhower (2-box) Functions
+    let eisenTaskIdCounter = 0;
+
+    function getEisenList(zone) {
+      if (zone === 'do_now') return document.getElementById('eisenDoNowList');
+      return document.getElementById('eisenDeferList');
+    }
+
+    function createEisenTaskElement(taskId, text, zone) {
+      const el = document.createElement('div');
+      el.id = taskId;
+      el.dataset.zone = zone;
+      el.draggable = true;
+      el.style.cssText = 'width: 100%; display:flex; align-items:center; justify-content:space-between; gap:8px; padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(15, 23, 42, 0.25); background: #0F172A; color: #F9FAFB; font-family: Livvic, sans-serif; font-size: 0.85rem; cursor: grab; transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;';
+
+      const textSpan = document.createElement('span');
+      textSpan.textContent = text;
+      textSpan.style.cssText = 'flex:1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;';
+
+      const actions = document.createElement('div');
+      actions.style.cssText = 'display:flex; align-items:center; gap:6px; flex-shrink:0;';
+
+      const editBtn = document.createElement('button');
+      editBtn.type = 'button';
+      editBtn.textContent = '✎';
+      editBtn.title = 'Edit task';
+      editBtn.style.cssText = 'width: 22px; height: 22px; border-radius: 999px; border: none; background: rgba(15,23,42,0.9); color: #E5E7EB; cursor: pointer; font-size: 0.7rem;';
+      editBtn.onclick = (event) => {
+        event.stopPropagation();
+        editEisenTask(taskId);
+      };
+
+      const handle = document.createElement('span');
+      handle.textContent = '⋮⋮';
+      handle.title = 'Drag to move';
+      handle.style.cssText = 'font-size: 0.7rem; color: #94A3B8; cursor: grab;';
+
+      actions.appendChild(editBtn);
+      actions.appendChild(handle);
+
+      el.appendChild(textSpan);
+      el.appendChild(actions);
+
+      el.onmouseenter = () => {
+        el.style.transform = 'translateY(-1px)';
+        el.style.boxShadow = '0 10px 18px rgba(15,23,42,0.35)';
+      };
+      el.onmouseleave = () => {
+        el.style.transform = 'translateY(0px)';
+        el.style.boxShadow = 'none';
+      };
+
+      el.ondblclick = () => editEisenTask(taskId);
+
+      el.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text/plain', taskId);
+        event.dataTransfer.effectAllowed = 'move';
+        el.style.opacity = '0.7';
+      });
+
+      el.addEventListener('dragend', () => {
+        el.style.opacity = '1';
+      });
+
+      return el;
+    }
+
+    function addEisenTask() {
       const input = document.getElementById('weightLifterInput');
-      const stoneText = input.value.trim();
-      if (!stoneText) return;
-      
-      const container = document.getElementById('stonesContainer');
-      const stone = document.createElement('div');
-      stone.id = 'stone-' + stoneIdCounter++;
-      stone.className = 'stone';
-      stone.style.cssText = 'display: inline-block; padding: 8px 16px; margin: 4px; background: rgba(135, 169, 107, 0.1); border: 1px solid #87A96B; border-radius: 20px; font-size: 0.875rem; color: #2F3E46; cursor: pointer; transition: all 0.3s ease; font-family: Livvic, sans-serif;';
-      stone.textContent = stoneText;
-      stone.onclick = () => selectStone(stone.id);
-      
-      container.appendChild(stone);
+      const raw = input ? input.value : '';
+      const text = (raw || '').trim();
+      if (!text) return;
+
+      const doNowList = getEisenList('do_now');
+      if (!doNowList) return;
+
+      const taskId = 'eisen-task-' + (eisenTaskIdCounter++);
+      const taskEl = createEisenTaskElement(taskId, text, 'do_now');
+      doNowList.prepend(taskEl);
+
       input.value = '';
+      saveMomentumHistory('captured', 'Eisenhower', text);
     }
-    
-    function selectStone(stoneId) {
-      // Deselect previous
-      if (selectedStone) {
-        const prevStone = document.getElementById(selectedStone);
-        if (prevStone) {
-          prevStone.style.background = 'rgba(135, 169, 107, 0.1)';
-          prevStone.style.boxShadow = 'none';
-        }
-      }
-      
-      // Select new
-      selectedStone = stoneId;
-      const stone = document.getElementById(stoneId);
-      if (stone) {
-        stone.style.background = 'rgba(135, 169, 107, 0.3)';
-        stone.style.boxShadow = '0 0 8px rgba(135, 169, 107, 0.5)';
-      }
+
+    function onEisenDragOver(event) {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
     }
-    
-    function moveSelectedStone(zone) {
-      if (!selectedStone) return;
-      
-      const stone = document.getElementById(selectedStone);
-      if (!stone) return;
-      
-      const stoneText = stone.textContent;
-      
-      if (zone === 'highValue') {
-        // Glow effect
-        stone.style.background = '#87A96B';
-        stone.style.color = 'white';
-        stone.style.boxShadow = '0 0 12px rgba(135, 169, 107, 0.8)';
-        
-        setTimeout(() => {
-          stone.remove();
-          saveMomentumHistory('sorted', 'High Value', stoneText);
-          incrementMomentum();
-          showSkillUp('Executive Function');
-        }, 500);
-      } else {
-        // Fade effect
-        stone.style.opacity = '0';
-        stone.style.transform = 'scale(0.8)';
-        
-        setTimeout(() => {
-          stone.remove();
-          saveMomentumHistory('sorted', 'Noise', stoneText);
-          incrementMomentum();
-          showSkillUp('Cognitive Clarity');
-        }, 500);
-      }
-      
-      selectedStone = null;
+
+    function onEisenDrop(event, zone) {
+      event.preventDefault();
+      const taskId = event.dataTransfer.getData('text/plain');
+      if (!taskId) return;
+      moveEisenTaskToZone(taskId, zone);
+    }
+
+    function moveEisenTaskToZone(taskId, nextZone) {
+      const task = document.getElementById(taskId);
+      if (!task) return;
+      const currentZone = task.dataset.zone === 'defer' ? 'defer' : 'do_now';
+      if (currentZone === nextZone) return;
+
+      const nextList = getEisenList(nextZone);
+      if (!nextList) return;
+
+      task.dataset.zone = nextZone;
+      nextList.prepend(task);
+
+      saveMomentumHistory('sorted', nextZone === 'do_now' ? 'Eisenhower — Do now' : 'Eisenhower — Defer', task.firstChild?.textContent || '');
+      incrementMomentum();
+      showSkillUp('Prioritization');
+    }
+
+    function toggleEisenTaskZone(taskId) {
+      const task = document.getElementById(taskId);
+      if (!task) return;
+      const currentZone = task.dataset.zone === 'defer' ? 'defer' : 'do_now';
+      const nextZone = currentZone === 'do_now' ? 'defer' : 'do_now';
+      moveEisenTaskToZone(taskId, nextZone);
+    }
+
+    function editEisenTask(taskId) {
+      const task = document.getElementById(taskId);
+      if (!task) return;
+      const textNode = task.firstChild;
+      const current = (textNode && textNode.textContent) ? textNode.textContent.trim() : '';
+      const updated = window.prompt('Edit task', current);
+      if (updated === null) return;
+      const trimmed = updated.trim();
+      if (!trimmed) return;
+      textNode.textContent = trimmed;
+      saveMomentumHistory('edited', 'Eisenhower', trimmed);
     }
     
     // Fog Clearer Functions
@@ -3511,7 +3498,10 @@
     
     // Update momentum data with current daily count
     function updateMomentumChartData() {
-      symmetryData.momentum.data[3] = dailyMomentumCount; // Update "Today" value
+      defaultSymmetryData.momentum.data[3] = dailyMomentumCount;
+      if (currentSymmetryTab === 'momentum' && typeof updateSymmetryChart === 'function') {
+        updateSymmetryChart();
+      }
     }
     
     // Momentum History Functions
@@ -3537,32 +3527,32 @@
     }
     
     async function loadRecentWins() {
+      const winsContainer = document.getElementById('recentWins');
+      if (!winsContainer) return;
+
       try {
-        const result = await luamDB.allDocs({
-          include_docs: true,
-          descending: true,
-          limit: 10,
-          startkey: 'momentum_history_\uffff'
-        });
-        
-        const winsContainer = document.getElementById('recentWins');
-        if (result.rows.length === 0) {
+        const docs = await readAllPouchDocs();
+        const wins = docs
+          .filter(doc => doc.type === 'momentum_history' && doc.tool)
+          .sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0))
+          .slice(0, 10);
+
+        if (!wins.length) {
           winsContainer.innerHTML = '<div style="font-size: 0.8rem; color: #5A6B73; font-style: italic;">No wins yet. Start your momentum journey!</div>';
           return;
         }
-        
+
         winsContainer.innerHTML = '';
-        result.rows.forEach(row => {
-          const doc = row.doc;
+        wins.forEach(doc => {
           const winDiv = document.createElement('div');
           winDiv.style.cssText = 'padding: 8px 12px; background: rgba(135, 169, 107, 0.05); border-radius: 6px; font-size: 0.8rem; color: #2F3E46; display: flex; justify-content: space-between; align-items: center;';
-          
+
           const time = new Date(doc.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
           winDiv.innerHTML = `
-            <span>${doc.tool}: ${doc.details}</span>
+            <span>${escapeHtml(doc.tool)}: ${escapeHtml(doc.details || '')}</span>
             <span style="color: #5A6B73; font-size: 0.75rem;">${time}</span>
           `;
-          
+
           winsContainer.appendChild(winDiv);
         });
       } catch (error) {
@@ -3587,231 +3577,6 @@
       }, 2000);
     }
     
-    // Neural Agility Game Logic
-    function startAgilityPractice() {
-      document.getElementById('agilityStartScreen').style.display = 'none';
-      document.getElementById('agilityPracticeScreen').style.display = 'block';
-      document.getElementById('agilityResultsScreen').style.display = 'none';
-      
-      agilityTimeLeft = 60;
-      metronomeProgress = 0;
-      document.getElementById('agilityTimer').textContent = '60';
-      document.getElementById('metronomeTick').style.width = '0%';
-      document.getElementById('switchPrompt').style.opacity = '0';
-      
-      // Reset hand positions
-      document.getElementById('leftHand').textContent = '👌';
-      document.getElementById('rightHand').textContent = '✌️';
-      
-      startAgilityTimer();
-      startMetronome();
-      startSwitchInterval();
-    }
-    
-    function startAgilityTimer() {
-      agilityTimerInterval = setInterval(() => {
-        agilityTimeLeft--;
-        document.getElementById('agilityTimer').textContent = agilityTimeLeft;
-        
-        if (agilityTimeLeft <= 0) {
-          clearInterval(agilityTimerInterval);
-          clearInterval(agilitySwitchInterval);
-          clearInterval(metronomeInterval);
-          endAgilityPractice();
-        }
-      }, 1000);
-    }
-    
-    function startMetronome() {
-      metronomeInterval = setInterval(() => {
-        metronomeProgress += 2; // 2% every 100ms = 5 seconds full cycle
-        if (metronomeProgress > 100) metronomeProgress = 0;
-        document.getElementById('metronomeTick').style.width = metronomeProgress + '%';
-      }, 100);
-    }
-    
-    function startSwitchInterval() {
-      agilitySwitchInterval = setInterval(() => {
-        // Flash SWITCH! prompt
-        const switchPrompt = document.getElementById('switchPrompt');
-        switchPrompt.style.opacity = '1';
-        
-        setTimeout(() => {
-          switchPrompt.style.opacity = '0';
-        }, 500);
-        
-        // Swap hand positions
-        const leftHand = document.getElementById('leftHand');
-        const rightHand = document.getElementById('rightHand');
-        
-        const tempText = leftHand.textContent;
-        leftHand.textContent = rightHand.textContent;
-        rightHand.textContent = tempText;
-        
-        // Add animation effect
-        leftHand.style.transform = 'scale(1.2)';
-        rightHand.style.transform = 'scale(1.2)';
-        
-        setTimeout(() => {
-          leftHand.style.transform = 'scale(1)';
-          rightHand.style.transform = 'scale(1)';
-        }, 300);
-      }, 5000);
-    }
-    
-    function endAgilityPractice() {
-      document.getElementById('agilityPracticeScreen').style.display = 'none';
-      document.getElementById('agilityResultsScreen').style.display = 'block';
-    }
-    
-    function submitAgilityScore() {
-      const score = parseInt(document.getElementById('agilityScore').value) || 5;
-      
-      // Save to momentum history
-      saveMomentumHistory('neural_agility', 'Neural Agility', `Successful Switches: ${score}/10`);
-      
-      // Increment momentum
-      incrementMomentum();
-      showSkillUp('Cognitive Flexibility');
-      
-      // Close modal
-      closeNeuralAgilityModal();
-    }
-    
-    // Conflict Control Game Logic
-    const stroopWords = ['RED', 'GREEN', 'BLUE', 'YELLOW'];
-    const stroopColors = ['#EF4444', '#22C55E', '#3B82F6', '#EAB308']; // Red, Bright Green, Blue, Bright Yellow
-    const colorNames = ['RED', 'GREEN', 'BLUE', 'YELLOW'];
-    const geometricIcons = ['■', '●', '▲', '◆']; // Square, Circle, Triangle, Diamond for dual-coding
-    
-    function startConflictGame() {
-      document.getElementById('conflictStartScreen').style.display = 'none';
-      document.getElementById('conflictGameScreen').style.display = 'block';
-      document.getElementById('conflictResultsScreen').style.display = 'none';
-      
-      conflictScore = 0;
-      
-      // Adjust timer based on level
-      if (neuralMasteryLevel === 3) {
-        conflictTimeLeft = 24; // 20% faster
-      } else {
-        conflictTimeLeft = 30;
-      }
-      
-      document.getElementById('conflictScore').textContent = 'Score: 0';
-      document.getElementById('conflictTimer').textContent = conflictTimeLeft;
-      
-      // Apply level-based animations
-      const wordElement = document.getElementById('conflictWord');
-      if (neuralMasteryLevel >= 2) {
-        wordElement.style.animation = 'float 2s ease-in-out infinite';
-      } else {
-        wordElement.style.animation = 'none';
-      }
-      
-      generateStroopTrial();
-      startConflictTimer();
-    }
-    
-    function generateStroopTrial() {
-      // Random word
-      currentWord = stroopWords[Math.floor(Math.random() * stroopWords.length)];
-      // Random color (may or may not match the word)
-      currentColor = stroopColors[Math.floor(Math.random() * stroopColors.length)];
-      
-      const wordElement = document.getElementById('conflictWord');
-      wordElement.textContent = currentWord;
-      wordElement.style.color = currentColor;
-      
-      // Generate 3 color buttons (one correct, two wrong) with geometric icons
-      const buttonsContainer = document.getElementById('conflictButtons');
-      buttonsContainer.innerHTML = '';
-      
-      const correctColorIndex = stroopColors.indexOf(currentColor);
-      const availableIndices = [0, 1, 2, 3].filter(i => i !== correctColorIndex);
-      const wrongIndices = availableIndices.sort(() => Math.random() - 0.5).slice(0, 2);
-      const buttonIndices = [correctColorIndex, ...wrongIndices].sort(() => Math.random() - 0.5);
-      
-      buttonIndices.forEach(index => {
-        const btn = document.createElement('button');
-        // Dual-coding: color name + geometric icon
-        btn.innerHTML = `<span style="font-size: 1.2rem; margin-right: 6px;">${geometricIcons[index]}</span>${colorNames[index]}`;
-        btn.style.cssText = 'padding: 12px 24px; background: white; border: 2px solid #E8E8E0; border-radius: 8px; font-family: Livvic, sans-serif; font-size: 0.875rem; cursor: pointer; transition: all 0.2s ease; color: #2F3E46; display: flex; align-items: center; justify-content: center;';
-        btn.onclick = () => checkStroopAnswer(index);
-        buttonsContainer.appendChild(btn);
-      });
-    }
-    
-    function checkStroopAnswer(selectedIndex) {
-      const correctIndex = stroopColors.indexOf(currentColor);
-      
-      if (selectedIndex === correctIndex) {
-        conflictScore++;
-        document.getElementById('conflictScore').textContent = 'Score: ' + conflictScore;
-      }
-      
-      // Level 3: Switch button positions after every tap
-      if (neuralMasteryLevel === 3) {
-        const buttonsContainer = document.getElementById('conflictButtons');
-        const buttons = Array.from(buttonsContainer.children);
-        buttons.sort(() => Math.random() - 0.5);
-        buttons.forEach(btn => buttonsContainer.appendChild(btn));
-      }
-      
-      generateStroopTrial();
-    }
-    
-    function startConflictTimer() {
-      conflictTimerInterval = setInterval(() => {
-        conflictTimeLeft--;
-        document.getElementById('conflictTimer').textContent = conflictTimeLeft;
-        
-        if (conflictTimeLeft <= 0) {
-          clearInterval(conflictTimerInterval);
-          endConflictGame();
-        }
-      }, 1000);
-    }
-    
-    function endConflictGame() {
-      document.getElementById('conflictGameScreen').style.display = 'none';
-      document.getElementById('conflictResultsScreen').style.display = 'block';
-      
-      // Calculate Brain Sharpness score (0-100)
-      const maxScore = neuralMasteryLevel === 3 ? 24 : 30;
-      const sharpness = Math.min(100, Math.round((conflictScore / maxScore) * 100));
-      document.getElementById('conflictFinalScore').textContent = sharpness + '%';
-      
-      // Update high score
-      if (conflictScore > conflictHighScore) {
-        conflictHighScore = conflictScore;
-      }
-      
-      // Level up logic: if score >= 80% and not at max level
-      if (sharpness >= 80 && neuralMasteryLevel < 3) {
-        neuralMasteryLevel++;
-        saveMasteryLevel();
-      }
-      
-      // Feedback based on score
-      let feedback = '';
-      if (sharpness >= 80) feedback = 'Exceptional inhibitory control!';
-      else if (sharpness >= 60) feedback = 'Strong cognitive flexibility.';
-      else if (sharpness >= 40) feedback = 'Good progress. Keep training.';
-      else feedback = 'Practice makes perfect.';
-      
-      document.getElementById('conflictFeedback').textContent = feedback;
-      
-      // Save to momentum history with level and high score
-      saveMomentumHistory('conflict_control', 'Conflict Control', `Level ${neuralMasteryLevel} | Score: ${conflictScore}/${maxScore} | High Score: ${conflictHighScore}`);
-      
-      // Save mastery level to PouchDB
-      saveMasteryLevel();
-      
-      // Increment momentum
-      incrementMomentum();
-      showSkillUp('Inhibitory Control');
-    }
     function toggleCognitiveMomentum(event) {
       event.preventDefault();
       event.stopPropagation();
@@ -3831,10 +3596,25 @@
     const originalGet = luamDB.get.bind(luamDB);
     const originalAllDocs = luamDB.allDocs.bind(luamDB);
 
+    function hasRecoverySeed() {
+      try {
+        const clientPrefs = localStorage.getItem('luam_client_prefs');
+        if (!clientPrefs) return false;
+        const prefs = JSON.parse(clientPrefs);
+        return Array.isArray(prefs.recoverySeed) && prefs.recoverySeed.length > 0;
+      } catch {
+        return false;
+      }
+    }
+
     luamDB.put = async function(doc) {
       try {
         // Skip encryption for design docs and internal docs
         if (doc._id && doc._id.startsWith('_design')) {
+          return originalPut(doc);
+        }
+
+        if (!hasRecoverySeed()) {
           return originalPut(doc);
         }
 
@@ -3871,23 +3651,37 @@
       }
     };
 
-    luamDB.get = async function(id, options) {
+    function isPouchNotFoundError(error) {
+      return error && (error.status === 404 || error.name === 'not_found');
+    }
+
+    luamDB.get = async function(id, options = {}) {
       try {
         const doc = await originalGet(id, options);
 
-        // If document is encrypted, decrypt it
         if (doc._encrypted && doc.data) {
-          const decryptedData = await decryptData(doc.data);
-          return {
-            ...decryptedData,
-            _id: doc._id,
-            _rev: doc._rev
-          };
+          try {
+            const decryptedData = await decryptData(doc.data);
+            return {
+              ...decryptedData,
+              _id: doc._id,
+              _rev: doc._rev
+            };
+          } catch (decryptError) {
+            console.error('Decryption error:', decryptError);
+            throw decryptError;
+          }
         }
 
         return doc;
       } catch (error) {
-        console.error('Decryption error:', error);
+        if (isPouchNotFoundError(error)) {
+          if (Object.prototype.hasOwnProperty.call(options, 'default')) {
+            return options.default;
+          }
+          throw error;
+        }
+        console.error('Database read error:', error);
         throw error;
       }
     };
@@ -3900,15 +3694,20 @@
         const decryptedRows = await Promise.all(
           result.rows.map(async (row) => {
             if (row.doc && row.doc._encrypted && row.doc.data) {
-              const decryptedData = await decryptData(row.doc.data);
-              return {
-                ...row,
-                doc: {
-                  ...decryptedData,
-                  _id: row.doc._id,
-                  _rev: row.doc._rev
-                }
-              };
+              try {
+                const decryptedData = await decryptData(row.doc.data);
+                return {
+                  ...row,
+                  doc: {
+                    ...decryptedData,
+                    _id: row.doc._id,
+                    _rev: row.doc._rev
+                  }
+                };
+              } catch (decryptError) {
+                console.warn('Skipping unreadable encrypted document:', row.doc._id, decryptError);
+                return row;
+              }
             }
             return row;
           })
@@ -4152,7 +3951,7 @@
           .sort((a, b) => a.date - b.date);
 
         updateProgressCard(calculateProgressImprovement(selfCheckins));
-        await switchSymmetryTab(currentSymmetryTab);
+        await updateSymmetryChart();
       } catch (error) {
         console.error('refreshOverviewMetrics failed:', error);
       }
@@ -4241,9 +4040,17 @@
     // Tabbed Pattern Viewer - Symmetry Hero
     let currentSymmetryTab = 'mood';
     let symmetryChart = null;
+    let symmetryChartGeneration = 0;
     let cachedLabels = [];
     let sageMoodChart = null;
     let sageMoodData = [5, 5, 5, 5, 5, 5, 5];
+
+    function updateSageChart() {
+      if (!sageMoodChart) return;
+      sageMoodChart.data.datasets[0].data = sageMoodData;
+      sageMoodChart.update('none');
+    }
+
     const defaultSymmetryData = {
       mood: { labels: ['3 days ago', '2 days ago', 'Yesterday', 'Today'], data: [6, 7, 5, 8], color: '#87A96B' },
       sleep: { labels: ['3 days ago', '2 days ago', 'Yesterday', 'Today'], data: [7, 6, 8, 7], color: '#3B82F6' },
@@ -4251,7 +4058,23 @@
       momentum: { labels: ['3 days ago', '2 days ago', 'Yesterday', 'Today'], data: [3, 4, 5, 0], color: '#87A96B' }
     };
 
+    function destroySymmetryChart() {
+      const canvas = document.getElementById('symmetryChart');
+      if (canvas) {
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+          existingChart.destroy();
+        }
+      }
+      if (symmetryChart) {
+        symmetryChart.destroy();
+        symmetryChart = null;
+      }
+    }
+
     async function switchSymmetryTab(tabName) {
+      const generation = ++symmetryChartGeneration;
+
       document.querySelectorAll('.symmetry-tab').forEach(tab => {
         if (tab.dataset.tab === tabName) {
           tab.style.color = '#87A96B';
@@ -4270,14 +4093,7 @@
 
       const canvas = document.getElementById('symmetryChart');
       if (!canvas) return;
-      const existingChart = Chart.getChart(canvas);
-      if (existingChart) {
-        existingChart.destroy();
-      }
-      if (symmetryChart) {
-        symmetryChart.destroy();
-        symmetryChart = null;
-      }
+      destroySymmetryChart();
 
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
@@ -4288,12 +4104,16 @@
       const momentumData = await fetchSymmetryDataFromPouchDB('momentum');
       const labels = cachedLabels.length ? cachedLabels : defaultSymmetryData.mood.labels;
 
+      if (generation !== symmetryChartGeneration) return;
+
       const hasData = await hasSymmetryDataInPouchDB(tabName);
       if (!hasData) {
         clearSymmetryFallbackMessage();
         renderSymmetryFallbackMessage(tabName);
         return;
       }
+
+      if (generation !== symmetryChartGeneration) return;
 
       if (tabName === 'all') {
         symmetryChart = new Chart(ctx, {
@@ -4327,6 +4147,48 @@
         },
         options: chartOptions()
       });
+    }
+
+    async function updateSymmetryChart() {
+      const hasData = await hasSymmetryDataInPouchDB(currentSymmetryTab);
+      if (!hasData) {
+        destroySymmetryChart();
+        clearSymmetryFallbackMessage();
+        renderSymmetryFallbackMessage(currentSymmetryTab);
+        return;
+      }
+
+      clearSymmetryFallbackMessage();
+
+      if (!symmetryChart) {
+        return switchSymmetryTab(currentSymmetryTab);
+      }
+
+      const moodData = await fetchSymmetryDataFromPouchDB('mood');
+      const sleepData = await fetchSymmetryDataFromPouchDB('sleep');
+      const energyData = await fetchSymmetryDataFromPouchDB('energy');
+      const momentumData = await fetchSymmetryDataFromPouchDB('momentum');
+      const labels = cachedLabels.length ? cachedLabels : defaultSymmetryData.mood.labels;
+
+      symmetryChart.data.labels = labels;
+
+      if (currentSymmetryTab === 'all') {
+        symmetryChart.data.datasets = [
+          buildDataset('Mood', moodData, '#87A96B'),
+          buildDataset('Sleep', sleepData, '#3B82F6'),
+          buildDataset('Energy', energyData, '#F59E0B')
+        ];
+      } else {
+        const config = {
+          mood: { data: moodData, color: '#87A96B', label: 'Mood' },
+          sleep: { data: sleepData, color: '#3B82F6', label: 'Sleep' },
+          energy: { data: energyData, color: '#F59E0B', label: 'Energy' },
+          momentum: { data: momentumData, color: '#9333EA', label: 'Momentum' }
+        }[currentSymmetryTab] || { data: moodData, color: '#87A96B', label: 'Mood' };
+        symmetryChart.data.datasets = [buildDataset(config.label, config.data, config.color)];
+      }
+
+      symmetryChart.update('none');
     }
 
     function buildDataset(label, data, color) {
@@ -4494,6 +4356,10 @@
       return switchSymmetryTab('mood');
     }
 
+    window.switchSymmetryTab = switchSymmetryTab;
+    window.updateSymmetryChart = updateSymmetryChart;
+    window.refreshOverviewMetrics = refreshOverviewMetrics;
+
     // Original dashboard functions (simplified versions)
     function checkAuthentication() {
       const isAuthenticated = localStorage.getItem('luamAuthenticated');
@@ -4513,12 +4379,17 @@
     }
 
     function showToast(message, type = 'success') {
+      const colors = {
+        success: '#10b981',
+        warning: '#f59e0b',
+        error: '#ef4444'
+      };
       const toast = document.createElement('div');
       toast.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? '#10b981' : '#ef4444'};
+        background: ${colors[type] || colors.error};
         color: white;
         padding: 12px 20px;
         border-radius: 8px;
@@ -4540,32 +4411,6 @@
           document.body.removeChild(toast);
         }, 300);
       }, 3000);
-    }
-
-    // Care Plan placeholder modal
-    function openCarePlanModal() {
-      const existing = document.getElementById('carePlanModal');
-      if (existing) return existing.style.display = 'block';
-      const modal = document.createElement('div');
-      modal.id = 'carePlanModal';
-      modal.style.cssText = 'position: fixed; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(2,6,23,0.6); z-index:10060;';
-      const box = document.createElement('div');
-      box.style.cssText = 'background: white; padding: 20px; border-radius: 12px; max-width: 520px; width: 96%; text-align: center;';
-      const title = document.createElement('h3');
-      title.textContent = 'Care Plan — Coming Soon';
-      title.style.marginBottom = '12px';
-      const p = document.createElement('p');
-      p.textContent = 'This feature is under development. We\'re building the Care Plan to help you manage medications and reminders. Thank you for your patience.';
-      p.style.marginBottom = '18px';
-      const btn = document.createElement('button');
-      btn.textContent = 'Got it';
-      btn.style.cssText = 'padding: 10px 18px; background: #87A96B; color: white; border:none; border-radius:8px; cursor:pointer;';
-      btn.onclick = () => modal.remove();
-      box.appendChild(title);
-      box.appendChild(p);
-      box.appendChild(btn);
-      modal.appendChild(box);
-      document.body.appendChild(modal);
     }
 
     // Mood tracking - Section removed, keeping code for reference
@@ -4591,11 +4436,12 @@
       lastMoodUpdate = now;
       showToast(`Great! You're feeling ${mood}.`, 'success');
       
-      // Update chart with new mood data
-      const moodScore = Math.floor(Math.random() * 10) + 5; // Simulate PHQ-9 score
-      sageMoodData.shift();
-      sageMoodData.push(moodScore);
-      updateSageChart();
+      if (sageMoodChart) {
+        const moodScore = Math.floor(Math.random() * 10) + 5;
+        sageMoodData.shift();
+        sageMoodData.push(moodScore);
+        updateSageChart();
+      }
       resetSageIdleTimer();
     }
 
@@ -5413,7 +5259,7 @@
         
         <button class="symmetry-btn" onclick="restoreSymmetry()">Unlock Sanctuary</button>
         
-        <button class="symmetry-btn" onclick="goToStep(1)" style="margin-top: 12px; background: transparent; border: 1px solid #87A96B; color: #87A96B;">New to Symmetry?</button>
+        <button class="symmetry-btn" onclick="goToSymmetryStep(1)" style="margin-top: 12px; background: transparent; border: 1px solid #87A96B; color: #87A96B;">New to Symmetry?</button>
       </div>
     </div>
   </div>
@@ -5479,9 +5325,16 @@
     }
 
     function generateRecoverySeed() {
+      if (typeof bip39 !== 'undefined' && typeof bip39.generateMnemonic === 'function') {
+        const mnemonic = bip39.wordlists?.english
+          ? bip39.generateMnemonic(bip39.wordlists.english, 128)
+          : bip39.generateMnemonic(128);
+        recoverySeed = mnemonic.trim().split(/\s+/);
+        return recoverySeed;
+      }
+
       recoverySeed = [];
       const usedIndices = new Set();
-      
       while (recoverySeed.length < 12) {
         const randomIndex = Math.floor(Math.random() * bip39WordList.length);
         if (!usedIndices.has(randomIndex)) {
@@ -5489,7 +5342,6 @@
           recoverySeed.push(bip39WordList[randomIndex]);
         }
       }
-      
       return recoverySeed;
     }
 
@@ -5516,6 +5368,16 @@
         `;
         seedDisplay.appendChild(seedItem);
       });
+    }
+
+    function goToSymmetryStep(step) {
+      document.getElementById('symmetryStep1').style.display = step === 1 ? 'block' : 'none';
+      document.getElementById('symmetryStep2').style.display = step === 2 ? 'block' : 'none';
+      document.getElementById('symmetryStep3').style.display = step === 3 ? 'block' : 'none';
+      document.getElementById('symmetryStep4').style.display = step === 4 ? 'block' : 'none';
+      if (step === 1) {
+        document.getElementById('recoveryError').style.display = 'none';
+      }
     }
 
     function goToSeedStep() {
@@ -5561,7 +5423,6 @@
     
     // Recovery Functions
     async function restoreSymmetry() {
-      // Collect 12 words
       const recoveryWords = [];
       for (let i = 0; i < 12; i++) {
         const word = document.getElementById(`recoveryWord${i}`).value.trim().toLowerCase();
@@ -5571,111 +5432,67 @@
         }
         recoveryWords.push(word);
       }
-      
+
       try {
-        // Validate mnemonic using bip39
         const mnemonic = recoveryWords.join(' ');
         const isValid = bip39.validateMnemonic(mnemonic);
-        
         if (!isValid) {
           document.getElementById('recoveryError').style.display = 'block';
           return;
         }
-        
-        // Convert mnemonic to seed using bip39
-        const seed = bip39.mnemonicToSeedSync(mnemonic);
-        
-        // Derive master key from seed using Web Crypto API
-        const masterKey = await deriveKeyFromSeed(seed);
-        
-        // Hash seed to regenerate Sage ID
-        const sageId = await generateSageIdFromSeed(seed);
-        
-        // Set Sage ID to localStorage
-        localStorage.setItem('symmetrySageId', sageId);
-        localStorage.setItem('symmetryMasterKey', await exportKey(masterKey));
-        
-        // Try to sync from remote backup if available
+
         const remoteUrl = localStorage.getItem('symmetryRemoteUrl');
         if (remoteUrl) {
           try {
+            const seed = bip39.mnemonicToSeedSync(mnemonic);
+            const sageId = await generateSageIdFromSeed(seed);
             await luamDB.replicate.from(remoteUrl, {
               filter: function(doc) {
                 return doc.ownerId === sageId || !doc.ownerId;
               }
             });
-            console.log('Synced from remote backup');
-          } catch (error) {
-            console.log('Remote sync failed, prompting for backup file');
-            document.getElementById('backupUploadSection').style.display = 'block';
+            completeRestore({ sageId, recoveryWords });
             return;
+          } catch (error) {
+            console.log('Remote sync failed, prompting for backup file:', error);
           }
-        } else {
-          // No remote URL, prompt for backup file
-          document.getElementById('backupUploadSection').style.display = 'block';
-          return;
         }
-        
-        // If we got here, restore was successful
-        completeRestore(sageId);
-        
+
+        document.getElementById('backupUploadSection').style.display = 'block';
+        document.getElementById('recoveryError').style.display = 'none';
       } catch (error) {
         console.error('Restore failed:', error);
         document.getElementById('recoveryError').style.display = 'block';
       }
     }
-    
-    async function deriveKeyFromSeed(seedBuffer) {
-      // Derive master key from seed buffer
-      const keyMaterial = await crypto.subtle.importKey(
-        'raw',
-        seedBuffer,
-        'PBKDF2',
-        false,
-        ['deriveKey']
-      );
-      
-      const masterKey = await crypto.subtle.deriveKey(
-        {
-          name: 'PBKDF2',
-          salt: new TextEncoder().encode('SymmetrySalt'),
-          iterations: 100000,
-          hash: 'SHA-256'
-        },
-        keyMaterial,
-        { name: 'AES-GCM', length: 256 },
-        true,
-        ['encrypt', 'decrypt']
-      );
-      
-      return masterKey;
-    }
-    
+
     async function generateSageIdFromSeed(seedBuffer) {
       const hashBuffer = await crypto.subtle.digest('SHA-256', seedBuffer);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      
-      // Generate Sage ID from hash (first 8 characters)
       return 'SAGE-' + hashHex.substring(0, 8).toUpperCase();
     }
-    
-    async function exportKey(key) {
-      const exported = await crypto.subtle.exportKey('jwk', key);
-      return JSON.stringify(exported);
-    }
-    
-    function completeRestore(sageId) {
-      // Update UI with restored identity
-      document.getElementById('symmetrySageId').value = sageId;
-      
-      // Close modal
+
+    function completeRestore({ sageId, recoveryWords, preferredName }) {
+      const prefs = {
+        preferredName: preferredName || localStorage.getItem('userName') || 'Explorer',
+        sageId: sageId,
+        recoverySeed: recoveryWords,
+        restoredAt: new Date().toISOString()
+      };
+      localStorage.setItem('luam_client_prefs', JSON.stringify(prefs));
+      localStorage.setItem('symmetrySageId', sageId);
+      localStorage.setItem('userName', prefs.preferredName);
+
+      const sageIdInput = document.getElementById('symmetrySageId');
+      if (sageIdInput) sageIdInput.value = sageId;
+
+      mirrorSync(prefs.preferredName);
       closeSymmetryModal();
-      
-      // Reload page to apply changes
-      location.reload();
+      showSkillUp('Symmetry Restored');
+      setTimeout(() => location.reload(), 600);
     }
-    
+
     // Backup file upload handler
     document.getElementById('backupFileInput').addEventListener('change', async function(event) {
       const file = event.target.files[0];
@@ -5686,25 +5503,25 @@
         reader.onload = async function(e) {
           try {
             const backupData = JSON.parse(e.target.result);
-            
-            // Validate backup metadata using seed
             const recoveryWords = [];
             for (let i = 0; i < 12; i++) {
               const word = document.getElementById(`recoveryWord${i}`).value.trim().toLowerCase();
               recoveryWords.push(word);
             }
-            
+
             const mnemonic = recoveryWords.join(' ');
-            const seed = bip39.mnemonicToSeedSync(mnemonic);
-            const expectedSageId = await generateSageIdFromSeed(seed);
-            
-            if (backupData.sageId !== expectedSageId) {
+            if (!bip39.validateMnemonic(mnemonic)) {
               document.getElementById('recoveryError').style.display = 'block';
               return;
             }
-            
-            // Decrypt and restore data
-            await restoreFromBackup(backupData);
+
+            let sageId = backupData.sageId || backupData.preferences?.sageId;
+            if (!sageId) {
+              const seed = bip39.mnemonicToSeedSync(mnemonic);
+              sageId = await generateSageIdFromSeed(seed);
+            }
+
+            await restoreFromBackup(backupData, recoveryWords, sageId);
             
           } catch (error) {
             console.error('Backup file parsing failed:', error);
@@ -5719,83 +5536,41 @@
       }
     });
     
-    async function restoreFromBackup(backupData) {
+    async function restoreFromBackup(backupData, recoveryWords, sageId) {
       try {
-        // Import all documents from backup
-        for (const doc of backupData.documents) {
+        for (const doc of backupData.documents || []) {
           try {
             await luamDB.put(doc);
           } catch (error) {
-            // Document might already exist, skip
             console.log('Document already exists:', doc._id);
           }
         }
-        
-        // Complete restore with refresh
-        completeRestore(backupData.sageId);
-        
+
+        completeRestore({
+          sageId,
+          recoveryWords,
+          preferredName: backupData.preferredName || backupData.preferences?.preferredName
+        });
       } catch (error) {
         console.error('Restore from backup failed:', error);
         document.getElementById('recoveryError').style.display = 'block';
       }
     }
-    
-    function completeRestore(sageId) {
-      // Update UI with restored identity
-      document.getElementById('symmetrySageId').value = sageId;
-      
-      // Close modal
-      closeSymmetryModal();
-      
-      // Refresh Mood Patterns and Momentum History
-      setTimeout(() => {
-        refreshSymmetryData();
-        refreshMomentumHistory();
-      }, 500);
-      
-      // Show success message
-      showSkillUp('Symmetry Restored');
-    }
-    
+
     async function refreshSymmetryData() {
       try {
-        // Refresh mood data from PouchDB
-        const moodData = await fetchSymmetryDataFromPouchDB('mood');
-        if (moodData) {
-          symmetryData.mood.data = moodData;
-        }
-        
-        // Refresh sleep data from PouchDB
-        const sleepData = await fetchSymmetryDataFromPouchDB('sleep');
-        if (sleepData) {
-          symmetryData.sleep.data = sleepData;
-        }
-        
-        // Refresh energy data from PouchDB
-        const energyData = await fetchSymmetryDataFromPouchDB('energy');
-        if (energyData) {
-          symmetryData.energy.data = energyData;
-        }
-        
-        // Update chart if exists
         if (typeof updateSymmetryChart === 'function') {
-          updateSymmetryChart();
+          await updateSymmetryChart();
         }
-        
       } catch (error) {
         console.error('Error refreshing symmetry data:', error);
       }
     }
-    
+
     async function refreshMomentumHistory() {
       try {
-        // Load recent wins from PouchDB
-        const result = await luamDB.get('momentum_history', { default: { entries: [] } });
-        if (result && result.entries) {
-          // Update momentum UI if needed
-          const momentumCount = result.entries.length;
-          document.getElementById('momentumCount').textContent = `${momentumCount}/5`;
-        }
+        await loadRecentWins();
+        await loadDailyMomentum();
       } catch (error) {
         console.error('Error refreshing momentum history:', error);
       }
@@ -6051,6 +5826,15 @@
     }
 
     // Web Crypto API Encryption/Decryption Functions
+    function uint8ArrayToBase64(bytes) {
+      let binary = '';
+      const chunkSize = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+      }
+      return btoa(binary);
+    }
+
     async function deriveKeyFromSeed(seedWords) {
       const seedString = seedWords.join(' ');
       const encoder = new TextEncoder();
@@ -6110,7 +5894,7 @@
       combined.set(new Uint8Array(encryptedData), iv.length);
       
       // Convert to base64
-      const base64 = btoa(String.fromCharCode.apply(null, combined));
+      const base64 = uint8ArrayToBase64(combined);
       return base64;
     }
 
@@ -6173,6 +5957,7 @@
 
     function openCheckInModal() {
       const modal = document.getElementById('checkInModal');
+      if (!modal) return;
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
       resetSymmetryPulse();
@@ -6180,6 +5965,7 @@
 
     function closeCheckInModal() {
       const modal = document.getElementById('checkInModal');
+      if (!modal) return;
       modal.style.display = 'none';
       document.body.style.overflow = '';
     }
@@ -6401,12 +6187,14 @@
     // Care Plan Modal Functions
     function openCarePlanModal() {
       const modal = document.getElementById('carePlanModal');
+      if (!modal) return;
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
 
     function closeCarePlanModal() {
       const modal = document.getElementById('carePlanModal');
+      if (!modal) return;
       modal.style.display = 'none';
       document.body.style.overflow = '';
     }
@@ -6838,104 +6626,6 @@
         
         <button onclick="processFirstPrinciples()" style="padding: 12px 24px; background: #87A96B; color: white; border: none; border-radius: 8px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; width: 100%;">Save & Complete</button>
       </div>
-    </div>
-  </div>
-
-  <!-- Conflict Control Modal (Stroop Effect) -->
-  <div id="conflictControlModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 4000;">
-    <style>
-      @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-      }
-    </style>
-    <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border: 1px solid rgba(135, 169, 107, 0.3); border-radius: 20px; padding: 40px; max-width: 500px; width: 90%; text-align: center;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h2 style="font-size: 1.5rem; font-weight: 600; color: #2F3E46; font-family: 'Livvic', sans-serif;">Conflict Control</h2>
-        <button onclick="closeConflictControlModal()" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">×</button>
-      </div>
-      
-      <!-- Game Start Screen -->
-      <div id="conflictStartScreen">
-        <div style="background: rgba(135, 169, 107, 0.1); padding: 16px; border-radius: 8px; margin-bottom: 20px;">
-          <div style="font-size: 0.8rem; color: #5A6B73; margin-bottom: 4px;">Neural Mastery</div>
-          <div id="neuralMasteryLevel" style="font-size: 1.5rem; font-weight: 700; color: #87A96B; font-family: 'Livvic', sans-serif;">Level 1</div>
-        </div>
-        <p style="color: #5A6B73; font-size: 0.9rem; margin-bottom: 24px;">Select the INK color, not the word. Train your inhibitory control.</p>
-        <button onclick="startConflictGame()" style="padding: 12px 32px; background: #87A96B; color: white; border: none; border-radius: 8px; font-family: 'Livvic', sans-serif; font-size: 0.9rem; cursor: pointer;">Start Game</button>
-      </div>
-      
-      <!-- Game Screen -->
-      <div id="conflictGameScreen" style="display: none;">
-        <div id="conflictTimer" style="font-size: 1.5rem; font-weight: 600; color: #87A96B; margin-bottom: 20px; font-family: 'Livvic', sans-serif;">30</div>
-        <div id="conflictWord" style="font-size: 3rem; font-weight: 700; margin-bottom: 30px; font-family: 'Livvic', sans-serif; transition: all 0.2s ease;"></div>
-        <div id="conflictButtons" style="display: flex; gap: 12px; justify-content: center; margin-bottom: 20px;"></div>
-        <div id="conflictScore" style="font-size: 0.875rem; color: #5A6B73;">Score: 0</div>
-      </div>
-      
-      <!-- Results Screen -->
-      <div id="conflictResultsScreen" style="display: none;">
-        <h3 style="font-size: 1.25rem; font-weight: 600; color: #2F3E46; margin-bottom: 16px; font-family: 'Livvic', sans-serif;">Brain Sharpness</h3>
-        <div id="conflictFinalScore" style="font-size: 2.5rem; font-weight: 700; color: #87A96B; margin-bottom: 8px; font-family: 'Livvic', sans-serif;"></div>
-        <p id="conflictFeedback" style="color: #5A6B73; font-size: 0.875rem; margin-bottom: 24px;"></p>
-        <button onclick="closeConflictControlModal()" style="padding: 12px 32px; background: #87A96B; color: white; border: none; border-radius: 8px; font-family: 'Livvic', sans-serif; font-size: 0.9rem; cursor: pointer;">Done</button>
-  <!-- Neural Agility Modal (The Switch) -->
-  <div id="neuralAgilityModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 4000;">
-    <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border: 1px solid rgba(135, 169, 107, 0.3); border-radius: 20px; padding: 40px; max-width: 500px; width: 90%; text-align: center;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h2 style="font-size: 1.5rem; font-weight: 600; color: #2F3E46; font-family: 'Livvic', sans-serif;">Neural Agility</h2>
-        <button onclick="closeNeuralAgilityModal()" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">×</button>
-      </div>
-      
-      <!-- Start Screen -->
-      <div id="agilityStartScreen">
-        <p style="color: #5A6B73; font-size: 0.9rem; margin-bottom: 24px;">Switch between hand positions every 5 seconds. Train your cognitive flexibility.</p>
-        <button onclick="startAgilityPractice()" style="padding: 12px 32px; background: #87A96B; color: white; border: none; border-radius: 8px; font-family: 'Livvic', sans-serif; font-size: 0.9rem; cursor: pointer;">Start Practice</button>
-      </div>
-      
-      <!-- Practice Screen -->
-      <div id="agilityPracticeScreen" style="display: none;">
-        <div id="agilityTimer" style="font-size: 1.5rem; font-weight: 600; color: #87A96B; margin-bottom: 20px; font-family: 'Livvic', sans-serif;">60</div>
-        
-        <!-- Metronome -->
-        <div id="metronome" style="height: 4px; background: #E8E8E0; border-radius: 2px; margin-bottom: 30px; overflow: hidden;">
-          <div id="metronomeTick" style="height: 100%; width: 0%; background: #87A96B; transition: width 0.1s linear;"></div>
-        </div>
-        
-        <!-- Hand Icons -->
-        <div id="handIcons" style="display: flex; justify-content: center; gap: 60px; margin-bottom: 30px; min-height: 120px;">
-          <div id="leftHand" style="font-size: 4rem; color: #2F3E46; transition: all 0.3s ease;">👌</div>
-          <div id="rightHand" style="font-size: 4rem; color: #2F3E46; transition: all 0.3s ease;">✌️</div>
-        </div>
-        
-        <!-- Switch Prompt -->
-        <div id="switchPrompt" style="font-size: 2rem; font-weight: 700; color: #87A96B; font-family: 'Livvic', sans-serif; opacity: 0; transition: opacity 0.3s ease; margin-bottom: 20px;">SWITCH!</div>
-      </div>
-      
-      <!-- Results Screen -->
-      <div id="agilityResultsScreen" style="display: none;">
-        <h3 style="font-size: 1.25rem; font-weight: 600; color: #2F3E46; margin-bottom: 16px; font-family: 'Livvic', sans-serif;">Practice Complete</h3>
-        <p style="color: #5A6B73; font-size: 0.875rem; margin-bottom: 16px;">How many successful switches did you complete?</p>
-        <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 24px;">
-          <input type="number" id="agilityScore" min="1" max="10" value="5" style="width: 80px; padding: 8px; border: 1px solid #E8E8E0; border-radius: 8px; text-align: center; font-family: 'Livvic', sans-serif; font-size: 1rem; color: #2F3E46;">
-        </div>
-        <button onclick="submitAgilityScore()" style="padding: 12px 32px; background: #87A96B; color: white; border: none; border-radius: 8px; font-family: 'Livvic', sans-serif; font-size: 0.9rem; cursor: pointer;">Submit</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- The Gap Full-Screen Overlay -->
-  <div id="theGapOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #2F3E46; display: none; align-items: center; justify-content: center; z-index: 5000; opacity: 0; transition: opacity 0.5s ease;">
-    <style>
-      @keyframes pulse {
-        0%, 100% { transform: scale(1); opacity: 0.6; }
-        50% { transform: scale(1.1); opacity: 1; }
-      }
-    </style>
-    <div style="text-align: center;">
-      <div id="gapCircle" style="width: 200px; height: 200px; border-radius: 50%; background: rgba(135, 169, 107, 0.3); border: 3px solid #87A96B; margin: 0 auto 40px; animation: pulse 2s ease-in-out infinite;"></div>
-      <div id="gapCountdown" style="font-size: 6rem; font-weight: 700; color: #87A96B; font-family: 'Livvic', sans-serif; margin-bottom: 20px;">5</div>
-      <div id="gapPrompt" style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.8); font-family: 'Livvic', sans-serif; font-weight: 300;">Breathe. The Sage is watching.</div>
     </div>
   </div>
 
