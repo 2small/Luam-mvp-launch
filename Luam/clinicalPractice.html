@@ -1,0 +1,704 @@
+<html lang="en"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luam — Psychiatric and psychological care in Nairobi</title>
+<meta name="description" content="Book a consultation with licensed psychiatrists and psychologists in Nairobi. Confidential, professional mental health care for depression, anxiety, trauma, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --stone:#EEF0EA;
+    --panel:#F8F8F3;
+    --ink:#1C2321;
+    --ink-soft:#4A524E;
+    --line:#D9D7CB;
+    --teal:#2B5959;
+    --teal-deep:#1E4141;
+    --clay:#BE7A3D;
+    --white:#FFFFFF;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--stone);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    line-height:1.12;
+    margin:0 0 0.5em 0;
+    color:var(--ink);
+  }
+
+  p{margin:0 0 1em 0;}
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+
+  a:focus-visible, button:focus-visible, summary:focus-visible{
+    outline:2.5px solid var(--teal);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  .measure{max-width:60ch;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(238,240,234,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.35rem;
+    letter-spacing:0.01em;
+    text-decoration:none;
+    color:var(--ink);
+  }
+  .logo span{color:var(--teal);}
+  nav.primary-nav{
+    display:flex;
+    align-items:center;
+    gap:28px;
+  }
+  nav.primary-nav a{
+    text-decoration:none;
+    font-size:0.95rem;
+    color:var(--ink-soft);
+  }
+  nav.primary-nav a:hover{color:var(--ink);}
+  .nav-emergency{
+    color:var(--teal-deep) !important;
+    font-weight:500;
+  }
+  .btn{
+    display:inline-block;
+    background:var(--teal);
+    color:var(--white);
+    padding:12px 22px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:500;
+    font-size:0.95rem;
+    border:none;
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  .btn:hover{background:var(--teal-deep);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1.5px solid var(--line);
+  }
+  .btn-ghost:hover{background:var(--panel); border-color:var(--ink-soft);}
+  .menu-toggle{display:none; background:none; border:none; cursor:pointer;}
+
+  /* ---------- Crisis strip ---------- */
+  .crisis-strip{
+    background:var(--teal-deep);
+    color:var(--white);
+  }
+  .crisis-strip .wrap{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 28px;
+    font-size:0.88rem;
+  }
+  .crisis-strip a{
+    color:var(--white);
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:76px 0 64px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:56px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.1rem, 4vw, 3rem);
+    max-width:14ch;
+  }
+  .hero .lede{
+    font-size:1.1rem;
+    color:var(--ink-soft);
+    max-width:44ch;
+    margin-bottom:1.6em;
+  }
+  .hero-actions{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .hero-actions .secondary-link{
+    font-size:0.95rem;
+    text-decoration:underline;
+    text-underline-offset:3px;
+    color:var(--ink-soft);
+  }
+  .hero-note{
+    margin-top:22px;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+
+  /* signature illustration */
+  .rhythm{
+    width:100%;
+    height:auto;
+  }
+
+  /* ---------- Conditions ---------- */
+  .section{padding:64px 0;}
+  .section-head{
+    max-width:52ch;
+    margin-bottom:36px;
+  }
+  .section-head h2{font-size:clamp(1.6rem, 2.6vw, 2.1rem);}
+  .section-head p{color:var(--ink-soft); font-size:1.02rem;}
+
+  .condition-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .condition-item{
+    background:var(--panel);
+    padding:22px 24px;
+    font-size:0.98rem;
+  }
+  .condition-item strong{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    margin-bottom:4px;
+  }
+
+  /* ---------- Providers ---------- */
+  .provider-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:28px;
+  }
+  .provider-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .provider-photo{
+    width:100%;
+    aspect-ratio:4/3.4;
+    background:linear-gradient(135deg, #DCE3DA, #C9D3C6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--ink-soft);
+    font-size:0.85rem;
+    text-align:center;
+    padding:16px;
+  }
+  .provider-body{padding:20px 22px 22px;}
+  .provider-body h3{font-size:1.15rem; margin-bottom:2px;}
+  .provider-credential{
+    font-size:0.85rem;
+    color:var(--teal-deep);
+    font-weight:500;
+    margin-bottom:10px;
+  }
+  .provider-body p{font-size:0.93rem; color:var(--ink-soft); margin-bottom:14px;}
+  .provider-body a{
+    font-size:0.9rem;
+    font-weight:500;
+    color:var(--teal-deep);
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+
+  /* ---------- How it works ---------- */
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:28px;
+  }
+  .step .num{
+    font-family:'Fraunces', serif;
+    font-size:1.6rem;
+    font-weight:600;
+    color:var(--teal);
+    margin-bottom:10px;
+  }
+  .step h3{font-size:1.05rem; margin-bottom:6px;}
+  .step p{font-size:0.92rem; color:var(--ink-soft); margin-bottom:0;}
+
+  /* ---------- Pricing ---------- */
+  .pricing-panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:36px 40px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+  }
+  .pricing-col h3{font-size:1.05rem; margin-bottom:14px;}
+  .price-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+    font-size:0.95rem;
+  }
+  .price-row:last-child{border-bottom:none;}
+  .price-row .amount{font-weight:500;}
+  .insurer-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:4px;
+  }
+  .insurer-list span{
+    background:var(--stone);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:6px 13px;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Symmetry teaser ---------- */
+  .symmetry-band{
+    background:var(--teal);
+    color:var(--white);
+    border-radius:var(--radius);
+    padding:38px 44px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:32px;
+    flex-wrap:wrap;
+  }
+  .symmetry-band h3{color:var(--white); font-size:1.4rem; max-width:26ch;}
+  .symmetry-band p{color:#D6E4E2; max-width:38ch; margin-bottom:0;}
+  .symmetry-band .btn{background:var(--white); color:var(--teal-deep);}
+  .symmetry-band .btn:hover{background:#E8ECE4;}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{max-width:72ch;}
+  details{
+    border-bottom:1px solid var(--line);
+    padding:18px 0;
+  }
+  details summary{
+    cursor:pointer;
+    list-style:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:500;
+    font-size:1.02rem;
+  }
+  details summary::-webkit-details-marker{display:none;}
+  details summary .plus{
+    font-family:'Fraunces', serif;
+    font-size:1.3rem;
+    color:var(--teal);
+    transition:transform 0.15s ease;
+  }
+  details[open] summary .plus{transform:rotate(45deg);}
+  details p{
+    margin-top:12px;
+    color:var(--ink-soft);
+    font-size:0.96rem;
+    max-width:62ch;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--ink);
+    color:#D8DBD5;
+    padding:56px 0 32px;
+    margin-top:20px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:40px;
+    margin-bottom:40px;
+  }
+  footer h4{
+    font-family:'Fraunces', serif;
+    color:var(--white);
+    font-size:1rem;
+    margin-bottom:14px;
+    font-weight:600;
+  }
+  footer .logo{color:var(--white);}
+  footer p{color:#AEB3A9; font-size:0.92rem;}
+  footer ul{list-style:none; padding:0; margin:0;}
+  footer li{margin-bottom:9px;}
+  footer a{color:#C7CBC0; text-decoration:none; font-size:0.92rem;}
+  footer a:hover{color:var(--white);}
+  .footer-bottom{
+    border-top:1px solid #333B34;
+    padding-top:24px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+    font-size:0.82rem;
+    color:#8B9186;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 880px){
+    nav.primary-nav{
+      position:fixed;
+      top:64px; left:0; right:0;
+      background:var(--stone);
+      border-bottom:1px solid var(--line);
+      flex-direction:column;
+      align-items:flex-start;
+      gap:0;
+      padding:8px 28px 18px;
+      display:none;
+    }
+    nav.primary-nav.open{display:flex;}
+    nav.primary-nav a{padding:10px 0; width:100%;}
+    .menu-toggle{display:block;}
+    .nav-row .btn{display:none;}
+    .hero-grid{grid-template-columns:1fr; gap:36px;}
+    .hero{padding:48px 0 40px;}
+    .condition-grid{grid-template-columns:1fr 1fr;}
+    .provider-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr 1fr; row-gap:32px;}
+    .pricing-panel{grid-template-columns:1fr; padding:28px;}
+    .footer-grid{grid-template-columns:1fr; gap:28px;}
+    .symmetry-band{padding:30px 26px;}
+  }
+  @media (max-width: 520px){
+    .condition-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body __processed_379b1f65-7d46-4499-87c2-7c7f2329cc0d__="true">
+
+<div class="crisis-strip">
+  <div class="wrap">
+    <span>If you or someone you know is in immediate danger, please act now.</span>
+    <span><a href="tel:+254113111931">Call our crisis line: +254 113 111 931</a> · <a href="#emergency">More emergency contacts</a></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav-row">
+    <a href="#top" class="logo">Lu<span>a</span>m</a>
+    <nav class="primary-nav" id="primaryNav">
+      <a href="#conditions">What we treat</a>
+      <a href="#providers">Our clinicians</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing &amp; insurance</a>
+      <a href="#faq">FAQ</a>
+      <a href="#emergency" class="nav-emergency">Emergency</a>
+    </nav>
+    <a href="#book" class="btn">Book a consultation</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7H20M4 12H20M4 17H20" stroke="#1C2321" stroke-width="1.8" stroke-linecap="round"></path></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ---------- HERO ---------- -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Psychiatric and psychological care, in Nairobi, from people qualified to give it.</h1>
+        <p class="lede">Luam connects you with licensed Kenyan psychiatrists and psychologists for confidential, professional treatment — not general wellness advice.</p>
+        <div class="hero-actions">
+          <a href="#book" class="btn">Book a consultation</a>
+          <a href="#conditions" class="secondary-link">Not sure this is for you? See what we treat</a>
+        </div>
+        <p class="hero-note">Sessions available in-person in Nairobi and by video. First-time patients are usually seen within a week.</p>
+      </div>
+      <div>
+        <!-- Signature illustration: calm repeating rhythm, echoing "Symmetry" -->
+        <svg class="rhythm" viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A calm, evenly-spaced wave pattern">
+          <rect width="480" height="360" rx="18" fill="#DCE3DA"></rect>
+          <g stroke="#2B5959" stroke-width="2.4" stroke-linecap="round" fill="none">
+            <path d="M40 120 C 90 80, 130 160, 180 120 S 270 80, 320 120 S 410 160, 440 120" opacity="0.9"></path>
+            <path d="M40 180 C 90 140, 130 220, 180 180 S 270 140, 320 180 S 410 220, 440 180" opacity="0.55"></path>
+            <path d="M40 240 C 90 200, 130 280, 180 240 S 270 200, 320 240 S 410 280, 440 240" opacity="0.3"></path>
+          </g>
+          <circle cx="180" cy="120" r="5" fill="#BE7A3D"></circle>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- CONDITIONS ---------- -->
+  <section class="section" id="conditions">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>It's okay to ask for help with any of this.</h2>
+        <p>People come to us at very different stages — some in crisis, some after months of feeling unlike themselves. Both are good reasons to book a first appointment.</p>
+      </div>
+      <div class="condition-grid">
+        <div class="condition-item"><strong>Depression</strong>Persistent low mood, loss of interest, or exhaustion that won't lift.</div>
+        <div class="condition-item"><strong>Anxiety</strong>Constant worry, panic attacks, or a racing mind you can't switch off.</div>
+        <div class="condition-item"><strong>Trauma &amp; PTSD</strong>Difficult past experiences still affecting your body, sleep, or relationships.</div>
+        <div class="condition-item"><strong>Bipolar disorder</strong>Mood swings between highs and lows that disrupt daily life.</div>
+        <div class="condition-item"><strong>Psychosis</strong>Hearing, seeing, or believing things others don't — and needing a proper diagnosis.</div>
+        <div class="condition-item"><strong>Grief &amp; loss</strong>Struggling to process the death of someone close to you.</div>
+        <div class="condition-item"><strong>Burnout</strong>Feeling depleted by work or caregiving, with no capacity left over.</div>
+        <div class="condition-item"><strong>Substance use</strong>Wanting support to change your relationship with alcohol or drugs.</div>
+        <div class="condition-item"><strong>Relationship &amp; family strain</strong>Conflict, separation, or family patterns you want to understand.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- PROVIDERS ---------- -->
+  <section class="section" id="providers" style="background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>The clinicians you'll actually meet.</h2>
+        <p>Every Luam session is with a named, licensed psychiatrist or psychologist — never a general "wellness coach." You can verify any clinician's registration directly with the <a href="https://kmpdc.go.ke/" target="_blank" rel="noopener">Kenya Medical Practitioners and Dentists Council</a>.</p>
+      </div>
+      <div class="provider-grid">
+        <div class="provider-card">
+          <div class="provider-photo"><!-- PLACEHOLDER: replace with real headshot -->Photo of Dr. [Full Name]</div>
+          <div class="provider-body">
+            <h3>Dr. [Full Name]</h3>
+            <div class="provider-credential">MBChB, MMed (Psychiatry) — [registration no.]</div>
+            <p>[One or two sentences on their focus, e.g. "Sees adults for mood disorders, anxiety, and medication management. 8 years in practice."]</p>
+            <a href="#book">Book with Dr. [Name]</a>
+          </div>
+        </div>
+        <div class="provider-card">
+          <div class="provider-photo">Photo of [Full Name]</div>
+          <div class="provider-body">
+            <h3>[Full Name]</h3>
+            <div class="provider-credential">Licensed Clinical Psychologist — [registration no.]</div>
+            <p>[Focus area, e.g. "Works with trauma, grief, and relationship therapy using CBT and supportive psychotherapy."]</p>
+            <a href="#book">Book with [Name]</a>
+          </div>
+        </div>
+        <div class="provider-card">
+          <div class="provider-photo">Photo of [Full Name]</div>
+          <div class="provider-body">
+            <h3>[Full Name]</h3>
+            <div class="provider-credential">[Credential] — [registration no.]</div>
+            <p>[Focus area and years of experience.]</p>
+            <a href="#book">Book with [Name]</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- HOW IT WORKS ---------- -->
+  <section class="section" id="how-it-works">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>What happens after you book.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Book online or by phone</h3>
+          <p>Choose a clinician and a time, or call us and we'll match you with one.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>First consultation</h3>
+          <p>A 45–60 minute session to understand what's going on and answer your questions.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>A plan, not just advice</h3>
+          <p>You leave with a clear next step — therapy, medication, both, or a referral.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h3>Ongoing care</h3>
+          <p>Ongoing sessions, and optional daily check-ins between them with Symmetry.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- PRICING ---------- -->
+  <section class="section" id="pricing" style="background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Pricing and insurance.</h2>
+        <p>Knowing the cost shouldn't be a barrier to booking. Here's what to expect.</p>
+      </div>
+      <div class="pricing-panel">
+        <div class="pricing-col">
+          <h3>Session fees</h3>
+          <div class="price-row"><span>Initial consultation</span><span class="amount">KES [X,XXX]</span></div>
+          <div class="price-row"><span>Follow-up session</span><span class="amount">KES [X,XXX]</span></div>
+          <div class="price-row"><span>Video consultation</span><span class="amount">KES [X,XXX]</span></div>
+          <div class="price-row"><span>Sliding-scale support</span><span class="amount">Available — ask us</span></div>
+        </div>
+        <div class="pricing-col">
+          <h3>Insurance we accept</h3>
+          <div class="insurer-list">
+            <span>[Insurer]</span><span>[Insurer]</span><span>[Insurer]</span>
+            <span>[Insurer]</span><span>[Insurer]</span><span>[Insurer]</span>
+          </div>
+          <p style="margin-top:16px; font-size:0.88rem;">Don't see your provider listed? Message us — we can usually confirm cover before your first session.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- SYMMETRY ---------- -->
+  <section class="section">
+    <div class="wrap">
+      <div class="symmetry-band">
+        <div>
+          <h3>Between sessions, Symmetry helps you notice your own patterns.</h3>
+          <p>A short daily check-in, built with your clinician's input — not a replacement for care, a companion to it.</p>
+        </div>
+        <a href="https://symmetry.luamavelis.workers.dev/" class="btn">See how Symmetry works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- FAQ ---------- -->
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Common questions.</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>Is everything I say confidential?<span class="plus">+</span></summary>
+          <p>Yes. What you discuss with your clinician stays between you, in line with professional and legal confidentiality standards — with the only exceptions being situations where there's a risk to your safety or someone else's, which your clinician will always explain clearly.</p>
+        </details>
+        <details>
+          <summary>What actually happens in the first session?<span class="plus">+</span></summary>
+          <p>Your clinician will ask about what's brought you in, your history, and what support looks like for you. There's no obligation to have the "right words" — it's a conversation, not a test.</p>
+        </details>
+        <details>
+          <summary>Can I have sessions by video instead of in person?<span class="plus">+</span></summary>
+          <p>Yes, most of our clinicians offer video consultations, and many patients continue their entire course of care this way.</p>
+        </details>
+        <details>
+          <summary>Do I need a referral to book?<span class="plus">+</span></summary>
+          <p>No referral is needed. You can book directly, whether this is your first time seeking care or you're switching providers.</p>
+        </details>
+        <details>
+          <summary>What if I'm not sure whether I need a psychiatrist or a psychologist?<span class="plus">+</span></summary>
+          <p>That's a normal thing to be unsure about. Tell us what you're experiencing when you book, or call us, and we'll match you with the right clinician.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="emergency">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="#top" class="logo">Luam</a>
+        <p style="margin-top:14px;">Patterns of mind. Psychiatric and psychological care in Nairobi.</p>
+      </div>
+      <div>
+        <h4>If this is an emergency</h4>
+        <ul>
+          <li><a href="tel:+254113111931">Crisis line: +254 113 111 931</a></li>
+          <li><a href="tel:1199">Kenya Red Cross: 1199</a></li>
+          <li><a href="tel:+254722178177">Befrienders Kenya: +254 722 178 177</a></li>
+          <li>If someone is in immediate physical danger, go to the nearest hospital emergency room.</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:hello@luam.co.ke">hello@luam.co.ke</a></li>
+          <li><a href="tel:+254113111931">+254 113 111 931</a></li>
+          <li>Nairobi, Kenya</li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="/privacy.html">Privacy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Luam. Patterns of mind.</span>
+      <span>This site does not replace emergency medical care.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('primaryNav');
+  toggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;2e26dc8cf3614d46ad421e793b479a5b&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+</body></html>
