@@ -1,11 +1,13 @@
-<html lang="en"><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/content/location/location.js" id="eppiocemhmnlbhjplcgkofciiegomcon"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/extend-native-history-api.js"></script><script src="chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/libs/requests.js"></script><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Luam — Psychiatric and psychological care in Nairobi</title>
 <meta name="description" content="Book a consultation with licensed psychiatrists and psychologists in Nairobi. Confidential, professional mental health care for depression, anxiety, trauma, and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --stone:#EEF0EA;
@@ -13,8 +15,8 @@
     --ink:#1C2321;
     --ink-soft:#4A524E;
     --line:#D9D7CB;
-    --teal:#2B5959;
-    --teal-deep:#1E4141;
+    --teal:#0C6B50;
+    --teal-deep:#104A48;
     --clay:#BE7A3D;
     --white:#FFFFFF;
     --radius:14px;
@@ -86,7 +88,7 @@
     text-decoration:none;
     color:var(--ink);
   }
-  .logo span{color:var(--teal);}
+  .logo span span{color:var(--teal);}
   nav.primary-nav{
     display:flex;
     align-items:center;
@@ -427,7 +429,7 @@
   }
 </style>
 </head>
-<body __processed_379b1f65-7d46-4499-87c2-7c7f2329cc0d__="true">
+<body>
 
 <div class="crisis-strip">
   <div class="wrap">
@@ -438,7 +440,7 @@
 
 <header>
   <div class="wrap nav-row">
-    <a href="#top" class="logo">Lu<span>a</span>m</a>
+    <a href="#top" class="logo" style="display:flex; align-items:center; gap:10px;"><img src="data:image/png;base64,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" alt="Luam logo" style="height:34px; width:auto;"><span>Lu<span>a</span>m</span></a>
     <nav class="primary-nav" id="primaryNav">
       <a href="#conditions">What we treat</a>
       <a href="#providers">Our clinicians</a>
@@ -449,7 +451,7 @@
     </nav>
     <a href="#book" class="btn">Book a consultation</a>
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="primaryNav">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7H20M4 12H20M4 17H20" stroke="#1C2321" stroke-width="1.8" stroke-linecap="round"></path></svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 7H20M4 12H20M4 17H20" stroke="#1C2321" stroke-width="1.8" stroke-linecap="round"/></svg>
     </button>
   </div>
 </header>
@@ -471,13 +473,13 @@
       <div>
         <!-- Signature illustration: calm repeating rhythm, echoing "Symmetry" -->
         <svg class="rhythm" viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A calm, evenly-spaced wave pattern">
-          <rect width="480" height="360" rx="18" fill="#DCE3DA"></rect>
+          <rect width="480" height="360" rx="18" fill="#DCE3DA"/>
           <g stroke="#2B5959" stroke-width="2.4" stroke-linecap="round" fill="none">
-            <path d="M40 120 C 90 80, 130 160, 180 120 S 270 80, 320 120 S 410 160, 440 120" opacity="0.9"></path>
-            <path d="M40 180 C 90 140, 130 220, 180 180 S 270 140, 320 180 S 410 220, 440 180" opacity="0.55"></path>
-            <path d="M40 240 C 90 200, 130 280, 180 240 S 270 200, 320 240 S 410 280, 440 240" opacity="0.3"></path>
+            <path d="M40 120 C 90 80, 130 160, 180 120 S 270 80, 320 120 S 410 160, 440 120" opacity="0.9"/>
+            <path d="M40 180 C 90 140, 130 220, 180 180 S 270 140, 320 180 S 410 220, 440 180" opacity="0.55"/>
+            <path d="M40 240 C 90 200, 130 280, 180 240 S 270 200, 320 240 S 410 280, 440 240" opacity="0.3"/>
           </g>
-          <circle cx="180" cy="120" r="5" fill="#BE7A3D"></circle>
+          <circle cx="180" cy="120" r="5" fill="#BE7A3D"/>
         </svg>
       </div>
     </div>
@@ -515,7 +517,7 @@
         <div class="provider-card">
           <div class="provider-photo"><!-- PLACEHOLDER: replace with real headshot -->Photo of Dr. [Full Name]</div>
           <div class="provider-body">
-            <h3>Dr. Hyline Keya Morara </h3>
+            <h3>Dr. [Full Name]</h3>
             <div class="provider-credential">MBChB, MMed (Psychiatry) — [registration no.]</div>
             <p>[One or two sentences on their focus, e.g. "Sees adults for mood disorders, anxiety, and medication management. 8 years in practice."]</p>
             <a href="#book">Book with Dr. [Name]</a>
@@ -568,7 +570,7 @@
         <div class="step">
           <div class="num">4</div>
           <h3>Ongoing care</h3>
-          <p>Ongoing sessions, and optional daily check-ins between them online.</p>
+          <p>Ongoing sessions, and optional daily check-ins between them with Symmetry.</p>
         </div>
       </div>
     </div>
@@ -651,7 +653,7 @@
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <a href="#top" class="logo">Luam</a>
+        <a href="#top" class="logo" style="display:flex; align-items:center; gap:10px;"><img src="data:image/png;base64,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" alt="Luam logo" style="height:30px; width:auto;"><span>Lu<span>a</span>m</span></a>
         <p style="margin-top:14px;">Patterns of mind. Psychiatric and psychological care in Nairobi.</p>
       </div>
       <div>
@@ -697,8 +699,5 @@
   });
 </script>
 
-
-
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;2e26dc8cf3614d46ad421e793b479a5b&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
-
-</body></html>
+</body>
+</html>
