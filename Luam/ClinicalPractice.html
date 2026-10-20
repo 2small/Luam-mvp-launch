@@ -222,29 +222,33 @@
   }
 
   /* ---------- Providers ---------- */
-  .provider-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:28px;
-  }
+ 
   .provider-card{
     background:var(--panel);
     border:1px solid var(--line);
     border-radius:var(--radius);
     overflow:hidden;
   }
-  .provider-photo{
-    width:100%;
-    aspect-ratio:4/3.4;
-    background:linear-gradient(135deg, #DCE3DA, #C9D3C6);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--ink-soft);
-    font-size:0.85rem;
-    text-align:center;
-    padding:16px;
-  }
+  
+  .provider-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr)); /* two cards, equal width */
+  gap:28px;
+  max-width:880px;                                  /* keeps cards a sensible size */
+  margin:0 auto;                                    /* centred, since the third is commented out */
+}
+.provider-photo{
+  width:100%;
+  aspect-ratio:4 / 5;                               /* identical frame for every photo */
+  background:linear-gradient(135deg, #DCE3DA, #C9D3C6); /* shows while the image loads */
+  overflow:hidden;
+}
+.provider-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;                                 /* crops to fill, never stretches */
+  object-position:center 20%;                       /* keeps faces in frame; raise toward 0% if heads get cut */
+}
   .provider-body{padding:20px 22px 22px;}
   .provider-body h3{font-size:1.15rem; margin-bottom:2px;}
   .provider-credential{
@@ -417,7 +421,7 @@
     .hero-grid{grid-template-columns:1fr; gap:36px;}
     .hero{padding:48px 0 40px;}
     .condition-grid{grid-template-columns:1fr 1fr;}
-    .provider-grid{grid-template-columns:1fr;}
+    .provider-grid{grid-template-columns:1fr; max-width:420px;}
     .steps{grid-template-columns:1fr 1fr; row-gap:32px;}
     .pricing-panel{grid-template-columns:1fr; padding:28px;}
     .footer-grid{grid-template-columns:1fr; gap:28px;}
@@ -515,7 +519,7 @@
       </div>
       <div class="provider-grid">
         <div class="provider-card">
-          <div class="provider-photo"><img src="/images/psychiatristPic2rm.jpeg"></div>
+          <div class="provider-photo"><img src="/images/psychiatristPic2rm.jpeg" alt="Portrait of Hyline Keya Morara" width="640" height="800" loading="lazy"></div>
           <div class="provider-body">
             <h3>Hyline Keya Morara</h3>
             <div class="provider-credential">MBChB, MMed (Psychiatry) — [registration no.]</div>
@@ -524,7 +528,7 @@
           </div>
         </div>
         <div class="provider-card">
-          <div class="provider-photo"><img src="/images/psychologistPic.jpeg"></div>
+          <div class="provider-photo"><img src="/images/psychologistPic.jpeg" alt="Portrait of Dr. Mwaniga Mwavua" width="640" height="800" loading="lazy"></div>
           <div class="provider-body">
             <h3>Dr. Mwaniga Mwavua</h3>
             <div class="provider-credential">Licensed Clinical Psychologist — [registration no.]</div>
