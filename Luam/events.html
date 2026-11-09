@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wellness events in Kenya | Luam</title>
+<meta name="description" content="Walks, classes, talks and retreats across Kenya, found and updated every day. Pick the one that sounds like you.">
+<link rel="icon" type="image/png" href="images/luamline.png">
+<link rel="stylesheet" href="library.css">
+<link rel="stylesheet" href="events.css">
+</head>
+<body class="lb-body-bg">
+<canvas id="fractal-bg" aria-hidden="true"></canvas>
+<a class="lb-skip" href="#list">Skip to the events</a>
+<header class="lb-top"><a class="lb-brand" href="index.html">Luam</a>
+<nav aria-label="Site"><a href="library.html">Library</a><a href="index.html#start">One question</a><a class="lb-sos" href="Emergency.html">Emergency</a></nav></header>
+
+<section class="lb-hero ev-hero" aria-labelledby="ev-h1"><div class="lb-in">
+<p class="lb-k">Wellness events in Kenya</p>
+<h1 id="ev-h1">Find something to go to <em>this week</em>.</h1>
+<p class="lb-lead">Walks, classes, talks and retreats. We scan for new ones every day. Pick the one that sounds like you.</p>
+<div class="ev-ids" id="ev-ids" role="group" aria-label="What sounds like you?" hidden>
+<button type="button" data-id="move" aria-pressed="false"><b>I move</b><span>Walks, yoga, sport</span></button>
+<button type="button" data-id="connect" aria-pressed="false"><b>I connect</b><span>Circles, groups, clubs</span></button>
+<button type="button" data-id="learn" aria-pressed="false"><b>I learn</b><span>Talks, workshops</span></button>
+<button type="button" data-id="reset" aria-pressed="false"><b>I reset</b><span>Retreats, stillness</span></button>
+</div>
+<p class="ev-legend">The colours follow how you want to feel: green for energy, coral for warmth, blue for focus, lavender for calm.</p>
+<p class="ev-upd" id="ev-upd"></p>
+</div></section>
+
+<div class="lb-tbw" id="lb-tbw"><div class="lb-tb ev-tb">
+<div class="ev-tools" id="ev-tools" hidden>
+<label class="lb-sel"><span class="lb-sr">Place</span><select id="ev-city"><option value="all">Anywhere in Kenya</option></select></label>
+<button type="button" id="ev-free" class="lb-sv" aria-pressed="false"><span>Free only</span></button>
+<button type="button" id="ev-plans" class="lb-sv" aria-pressed="false"><span>My plans <b id="ev-pn">0</b></span></button>
+<button type="button" id="ev-clear" class="ev-clear" hidden>Show everything</button>
+</div>
+<noscript><p class="ev-ns">This page needs JavaScript to show the list. You can still <a href="library.html">browse the Library</a> or email <a href="mailto:luamavelis@gmail.com">luamavelis@gmail.com</a> to ask about an event.</p></noscript>
+</div></div>
+<p id="ev-live" class="lb-sr" aria-live="polite"></p>
+
+<main id="list" class="ev-main-wrap"><div class="lb-in">
+<div id="ev-out"></div>
+<div class="ev-empty" id="ev-empty" hidden><h2>Nothing matches right now.</h2><p>Try another place, or clear the filters. New events are added every day.</p><button type="button" class="lb-btn" data-reset>Show everything</button></div>
+<div class="ev-more"><button type="button" id="ev-more" class="lb-btn lb-btn-g" hidden>Show more</button></div>
+</div></main>
+
+<section class="ev-info"><div class="lb-in ev-info-g">
+<div class="lb-panel"><h2>Run an event?</h2><p>Listing is free. Send us the name, date, place, price and a link. If you also share a public calendar, we can find your future events on our own.</p><p><a class="lb-btn" href="mailto:luamavelis@gmail.com?subject=Event%20for%20the%20Luam%20list&body=Name%3A%0ADate%20and%20time%3A%0APlace%3A%0APrice%3A%0ALink%3A%0AOrganiser%3A">Send an event</a></p></div>
+<div class="lb-panel"><h2>Before you go</h2><p>We find events online and link to the organiser. We do not run, check or endorse them. Dates, prices and places can change, so confirm with the organiser first. Meeting new people: tell someone where you are going. Health or trauma events are not a replacement for treatment. In danger, call <b>999</b> or <b>112</b>, or <a href="Emergency.html">open our Emergency page</a>.</p><p class="lb-priv">Your plans stay on this device.</p></div>
+</div></section>
+<div id="lb-toast" class="lb-toast" role="status" aria-live="polite" hidden></div>
+<script src="data/events.js"></script>
+<script src="events.js"></script>
+</body></html>
