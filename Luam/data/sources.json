@@ -1,0 +1,7 @@
+{
+  "_help": "Add only sources you may read: an organiser's public calendar (.ics), a Meetup group iCal feed, or a page that publishes schema.org Event data. Set enabled to true. Do not add sites whose terms forbid automated reading.",
+  "sources": [
+    {"name": "Example organiser calendar", "type": "ics", "url": "https://example.org/events.ics", "city": "Nairobi", "enabled": false},
+    {"name": "Example events page", "type": "jsonld", "url": "https://example.org/events", "city": "Nairobi", "enabled": false}
+  ]
+}

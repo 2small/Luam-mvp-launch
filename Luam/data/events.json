@@ -1,0 +1,30 @@
+{
+  "updated": "2026-11-05",
+  "events": [
+    {
+      "id": "seed-return-home",
+      "title": "7 Day Retreat: Return Home",
+      "start": "2026-11-08", "end": "2026-11-14",
+      "city": "Diani Beach", "venue": "Kwale County", "online": false,
+      "free": false, "price": "From US$562",
+      "category": "reset",
+      "organiser": "", "source": "BookRetreats",
+      "url": "https://bookretreats.com/r/7-day-retreat-return-home-in-kenya",
+      "found": "2026-11-05", "status": "unconfirmed",
+      "note": "A week-long wellness retreat on the coast."
+    },
+    {
+      "id": "seed-family-constellations",
+      "title": "6 Day Family Constellations and Trauma Retreat",
+      "start": "2026-11-11", "end": "2026-11-16",
+      "city": "Diani Beach", "venue": "Kwale County", "online": false,
+      "free": false, "price": "From US$2,320",
+      "category": "connect",
+      "organiser": "", "source": "BookRetreats",
+      "url": "https://bookretreats.com/r/6-day-family-constellations-trauma-retreat-kenya",
+      "found": "2026-11-05", "status": "unconfirmed",
+      "note": "Trauma-focused group work. Ask the organiser how they screen and support people.",
+      "sensitive": true
+    }
+  ]
+}
