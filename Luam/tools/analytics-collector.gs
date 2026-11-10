@@ -62,6 +62,7 @@ function doPost(e) {
 // Dashboard read: ?k=READ_KEY&days=60  ->  {ok, rows:[[time,event,path,label,session,referrer,utm,device,lang],...]}
 function doGet(e) {
   var p = (e && e.parameter) || {};
+  CB_ = /^[A-Za-z0-9_]{1,40}$/.test(p.callback || '') ? p.callback : '';
   if (p.k !== READ_KEY) return out_({ ok: false, error: 'key' });
   var days = Math.min(Math.max(parseInt(p.days, 10) || 30, 1), 400);
   var sh = sheet_(), last = sh.getLastRow();
@@ -75,4 +76,11 @@ function doGet(e) {
   return out_({ ok: true, rows: rows, capped: n === MAX_ROWS_RETURNED });
 }
 
-function out_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
+// If the request has ?callback=name the reply is a script call, which browsers load without cross-origin limits.
+var CB_ = '';
+function out_(o) {
+  var j = JSON.stringify(o);
+  if (CB_) return ContentService.createTextOutput(CB_ + '(' + j + ');').setMimeType(ContentService.MimeType.JAVASCRIPT);
+  return ContentService.createTextOutput(j).setMimeType(ContentService.MimeType.JSON);
+}
+

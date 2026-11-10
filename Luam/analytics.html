@@ -205,7 +205,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
       inc(a.byEv, e); var k = e + '|' + s; if (!seenS[k]) { seenS[k] = 1; inc(a.byEvS, e); }
       if (e === 'page_view') {
         a.views++; inc(a.pages, p);
-        if (/\/clinicalpractice\.html$/i.test(p)) a.f.vp[s] = 1;
+        if (/\/clinicalpractice(\.html)?\/?$/i.test(p)) a.f.vp[s] = 1;
         if (/^\/blog\//i.test(p)) inc(a.blog, p.replace(/^\/blog\//i, '').replace(/\.html$/i, ''));
       }
       if (e === 'checkin_pick' || e === 'checkin_alt') a.f.sc[s] = 1;
