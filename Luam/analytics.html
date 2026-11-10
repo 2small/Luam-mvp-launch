@@ -174,10 +174,22 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   }
   function fromServer() {
     var u = cfg.endpoint + (cfg.endpoint.indexOf('?') < 0 ? '?' : '&') + 'k=' + encodeURIComponent(cfg.key) + '&days=' + (range * 2);
-    return fetch(u).then(function (r) { return r.json(); }).then(function (j) {
+    function check(j) {
       if (!j || !j.ok) throw new Error(j && j.error === 'key' ? 'Wrong read key.' : 'The collector did not accept the request.');
       return { rows: j.rows || [], capped: !!j.capped };
-    });
+    }
+    // Some browsers/accounts block the direct request; a script-tag request does not have that limit.
+    function viaScript() {
+      return new Promise(function (res, rej) {
+        var cb = 'lqcb' + Date.now(), s = document.createElement('script'), done = false;
+        function end() { done = true; delete window[cb]; s.remove(); }
+        window[cb] = function (j) { end(); res(j); };
+        s.onerror = function () { if (!done) { end(); rej(new Error('Could not reach the collector. Check the URL, and that the deployment access is "Anyone".')); } };
+        setTimeout(function () { if (!done) { end(); rej(new Error('No reply. Redeploy the collector script as a New version (README), then try again.')); } }, 20000);
+        s.src = u + '&callback=' + cb; document.head.appendChild(s);
+      });
+    }
+    return fetch(u).then(function (r) { return r.json(); }).catch(viaScript).then(check);
   }
 
   /* ---------- aggregate ---------- */
