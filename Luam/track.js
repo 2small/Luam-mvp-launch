@@ -46,10 +46,12 @@
     var batch = q.splice(0, MAX);
     if (!C.endpoint) { local(batch); return; }
     var body = JSON.stringify({ k: C.token || '', ev: batch });
+    // no-cors + no cookies: the reply is never read, so Google's redirect cannot raise a CORS error. keepalive lets it finish as the page closes.
     try {
-      if (nav.sendBeacon && nav.sendBeacon(C.endpoint, new Blob([body], { type: 'text/plain;charset=UTF-8' }))) return;
+      fetch(C.endpoint, { method: 'POST', mode: 'no-cors', credentials: 'omit', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: body });
+      return;
     } catch (e) { /* fall through */ }
-    try { fetch(C.endpoint, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: body }); } catch (e) { /* drop */ }
+    try { nav.sendBeacon && nav.sendBeacon(C.endpoint, new Blob([body], { type: 'text/plain;charset=UTF-8' })); } catch (e) { /* drop */ }
   }
 
   /* No endpoint yet: keep the last 500 events in this browser so analytics.html can show them. */

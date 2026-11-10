@@ -67,7 +67,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 
 <section id="setup" class="setup card" hidden>
   <h1>Luam analytics<small>Private. Counts only.</small></h1>
-  <label for="ep">Collector URL (ends in /exec)</label>
+  <label for="ep">Collector URL (leave empty to use this site's /stats)</label>
   <input id="ep" type="url" inputmode="url" autocomplete="off" placeholder="https://script.google.com/macros/s/…/exec">
   <label for="ky">Read key</label>
   <input id="ky" type="password" autocomplete="off">
@@ -326,7 +326,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   /* ---------- flow ---------- */
   function showSetup(msg) {
     $('#app').hidden = true; $('#setup').hidden = false; $('#err').textContent = msg || '';
-    $('#ep').value = cfg.endpoint || (window.LUAM_TRACK && window.LUAM_TRACK.endpoint) || ''; $('#ky').value = '';
+    $('#ep').value = cfg.endpoint && cfg.endpoint !== '/stats' ? cfg.endpoint : ''; $('#ky').value = '';
   }
   function open(m) {
     mode = m; $('#setup').hidden = true; $('#app').hidden = false; $('#view').hidden = true; $('#load').hidden = false; $('#load').textContent = 'Loading…';
@@ -346,7 +346,8 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   }
   $('#go').addEventListener('click', function () {
     var ep = $('#ep').value.trim(), ky = $('#ky').value.trim();
-    if (!/^https:\/\/script\.google\.com\//.test(ep)) { $('#err').textContent = 'Paste the Web app URL from Google Apps Script (starts with https://script.google.com/).'; return; }
+    if (!ep) ep = '/stats';
+    if (ep !== '/stats' && !/^https:\/\/script\.google\.com\//.test(ep)) { $('#err').textContent = 'Leave this empty, or paste the Apps Script Web app URL (starts with https://script.google.com/).'; return; }
     if (!ky) { $('#err').textContent = 'Enter your read key.'; return; }
     cfg = { endpoint: ep, key: ky }; save(); excludeMe(); open('live');
   });
