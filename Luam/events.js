@@ -145,11 +145,11 @@
     go.setAttribute('aria-label', "I'm going to " + ev.title);
     acts.appendChild(go);
     var href = safeUrl(ev.url);
-    if (href) { var a = el('a', 'ev-link', 'Details'); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.appendChild(el('span', 'lb-sr', ' (opens in a new tab)')); a.insertAdjacentText('beforeend', ' ↗'); acts.appendChild(a); }
+    if (href) { var a = el('a', 'ev-link', 'Details'); a.setAttribute('data-track', 'event_details'); a.setAttribute('data-track-label', ev.title); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.appendChild(el('span', 'lb-sr', ' (opens in a new tab)')); a.insertAdjacentText('beforeend', ' ↗'); acts.appendChild(a); }
     body.appendChild(acts);
     var after = el('div', 'ev-after'); after.hidden = !going[ev.id];
     var cal = el('button', '', 'Add to calendar'); cal.type = 'button'; cal.setAttribute('data-act', 'cal'); after.appendChild(cal);
-    if (href) { var wa = el('a', 'lb-go', 'Invite a friend'); wa.href = waLink(x); wa.target = '_blank'; wa.rel = 'noopener noreferrer'; after.appendChild(wa); }
+    if (href) { var wa = el('a', 'lb-go', 'Invite a friend'); wa.setAttribute('data-track', 'event_invite'); wa.setAttribute('data-track-label', ev.title); wa.href = waLink(x); wa.target = '_blank'; wa.rel = 'noopener noreferrer'; after.appendChild(wa); }
     body.appendChild(after);
     var src = ev.source ? 'Found on ' + ev.source + (ev.found ? ', ' + ev.found : '') : '';
     if (src) body.appendChild(el('p', 'ev-src', src));
@@ -199,6 +199,7 @@
     var b = e.target.closest('button'); if (!b) return;
     var id = b.getAttribute('data-id');
     setFilter(function () { st.id = st.id === id ? 'all' : id; });
+    if (st.id !== 'all' && window.luamTrack) luamTrack('event_filter', st.id);
     var t = $('#list'); if (t && st.id !== 'all') t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
   });
   citySel.addEventListener('change', function () { setFilter(function () { st.city = citySel.value; }); });
@@ -215,8 +216,8 @@
     var b = e.target.closest('button[data-act]'); if (!b) return;
     var li = b.closest('.ev-card'), id = li.getAttribute('data-id');
     var x = events.filter(function (y) { return y.ev.id === id; })[0]; if (!x) return;
-    if (b.getAttribute('data-act') === 'cal') { download(x); return; }
-    if (going[id]) { delete going[id]; } else { going[id] = 1; showToast("You're in. Add it to your calendar so it happens."); }
+    if (b.getAttribute('data-act') === 'cal') { if (window.luamTrack) luamTrack('event_calendar', x.ev.title); download(x); return; }
+    if (going[id]) { delete going[id]; } else { going[id] = 1; if (window.luamTrack) luamTrack('event_going', x.ev.title); showToast("You're in. Add it to your calendar so it happens."); }
     persist();
     if (st.plans) { render(false); return; }
     var on = !!going[id];

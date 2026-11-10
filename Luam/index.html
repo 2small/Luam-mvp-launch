@@ -100,7 +100,7 @@
       <h3 class="mt-[64px] font-brand text-[36px] leading-none font-bold text-white max-sm:mt-[159px] max-sm:text-[24px]">Clarity, then your next step.</h3>
       <p class="mt-[27px] text-[#fbeced]">Connect with licenced Kenyan psychologists and psychiatrists to gain trusted, confidential support.</p>
       <div class="mt-[36px] mr-[391px] min-h-[55px] w-[232px] max-xl:mr-[341px] max-md:mr-[288px] max-sm:mt-[149px] max-sm:mr-[27px] max-sm:mb-[-18px] max-sm:ml-auto">
-        <a href="ServiceBooking.html" class="table rounded-[50px] bg-[#191919] pt-[17px] pr-[31px] pb-[18px] pl-[30px] text-[14px] leading-[1.4] font-bold tracking-[1px] text-aqua uppercase hover:text-sky active:text-[#5a86ad]">Meet your specialist</a>
+        <a href="ServiceBooking.html" data-track="cta_click" data-track-label="hero_specialist" class="table rounded-[50px] bg-[#191919] pt-[17px] pr-[31px] pb-[18px] pl-[30px] text-[14px] leading-[1.4] font-bold tracking-[1px] text-aqua uppercase hover:text-sky active:text-[#5a86ad]">Meet your specialist</a>
       </div>
     </div>
   </div>
@@ -152,15 +152,15 @@
         <p class="lq-why" data-r="why"></p>
         <div class="lq-row">
           <button type="button" class="lq-pill" id="lq-done" data-i18n="doneBtn">I did it</button>
-          <a class="lq-link" id="lq-read" href="blog/the-message-you-keep-meaning-to-send.html" hidden><span data-i18n="read">Read the short post</span></a>
-          <a class="lq-link" id="lq-watch" href="pillars.html"><span data-i18n="watch">Watch the scene</span></a>
+          <a class="lq-link" id="lq-read" data-track="checkin_next" data-track-label="read" href="blog/the-message-you-keep-meaning-to-send.html" hidden><span data-i18n="read">Read the short post</span></a>
+          <a class="lq-link" id="lq-watch" data-track="checkin_next" data-track-label="watch" href="pillars.html"><span data-i18n="watch">Watch the scene</span></a>
         </div>
         <div class="lq-next" id="lq-next" hidden>
           <p class="lq-msg" data-i18n="doneMsg">Done. That counts. Come back whenever you like.</p>
           <p class="lq-why" data-i18n="nextLead">Want to go further?</p>
           <div class="lq-row">
-            <a class="lq-link" href="dashboard.html" data-i18n="nextSym">Track how you feel over time with Symmetry</a>
-            <a class="lq-link" href="ServiceBooking.html" data-i18n="nextCare">Talk with a licensed psychologist</a>
+            <a class="lq-link" href="dashboard.html" data-track="checkin_next" data-track-label="symmetry" data-i18n="nextSym">Track how you feel over time with Symmetry</a>
+            <a class="lq-link" href="ServiceBooking.html" data-track="checkin_next" data-track-label="care" data-i18n="nextCare">Talk with a licensed psychologist</a>
           </div>
         </div>
       </div>
@@ -479,5 +479,7 @@
 
 <script src="main.js"></script>
 <script src="start.js"></script>
+<script src="track-config.js"></script>
+<script src="track.js" defer></script>
 </body>
 </html>

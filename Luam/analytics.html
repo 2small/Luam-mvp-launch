@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="color-scheme" content="dark">
+<title>Analytics | Luam</title>
+<link rel="icon" type="image/png" href="images/luamline.png">
+<style>
+:root{--ground:#1a1a1a;--panel:#262626;--line:#3a3a3a;--ink:#e8efe9;--mute:#9aa8a4;--acc:#94eadc;--acc-d:#2c5f58;--r:14px}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font:16px/1.5 "Open Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}
+.wrap{max-width:1040px;margin:0 auto;padding:24px 16px 64px}
+header.top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between;margin-bottom:20px}
+h1{font-size:22px;margin:0;font-weight:700}
+h1 small{display:block;font-size:13px;font-weight:400;color:var(--mute)}
+h2{font-size:14px;margin:0 0 12px;font-weight:600;color:var(--mute);letter-spacing:.02em}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{background:none;border:0;color:var(--mute);padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;min-height:40px}
+.seg button[aria-pressed=true]{background:var(--acc);color:#0b1f1c;font-weight:600}
+.btn{background:none;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;min-height:40px}
+.btn[aria-pressed=true]{border-color:var(--acc);color:var(--acc)}
+.btn.pri{background:var(--acc);border-color:var(--acc);color:#0b1f1c;font-weight:600}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.card{background:var(--panel);border-radius:var(--r);padding:18px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:12px}
+.tile .n{font-size:30px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile .l{font-size:13px;color:var(--mute);margin-top:4px}
+.tile .d{font-size:12px;color:var(--mute);margin-top:6px;font-variant-numeric:tabular-nums}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+.bars{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.bars li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;font-size:14px}
+.bars .k{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bars .v{font-variant-numeric:tabular-nums;color:var(--mute)}
+.bars .t{grid-column:1/-1;height:8px;background:#303030;border-radius:4px;overflow:hidden}
+.bars .t i{display:block;height:100%;background:var(--acc);border-radius:0 4px 4px 0;min-width:2px}
+.empty{color:var(--mute);font-size:14px;margin:0}
+.chartbox{position:relative}
+svg.ch{display:block;width:100%;height:220px;touch-action:pan-y}
+svg.ch text{fill:var(--mute);font-size:11px;font-family:inherit}
+.tip{position:absolute;pointer-events:none;background:#101010;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px;white-space:nowrap;transform:translate(-50%,-100%);margin-top:-10px}
+.tip b{font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.banner{border:1px solid var(--acc-d);background:#1f2c2a;border-radius:var(--r);padding:12px 16px;margin-bottom:12px;font-size:14px}
+.setup{max-width:520px;margin:8vh auto 0}
+.setup label{display:block;font-size:14px;color:var(--mute);margin:14px 0 4px}
+.setup input{width:100%;background:var(--ground);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:10px 12px;font:inherit;min-height:44px}
+.setup .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.err{color:#ffc15e;font-size:14px;min-height:21px;margin:12px 0 0}
+.note{color:var(--mute);font-size:13px;margin-top:20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+[hidden]{display:none!important}
+</style>
+<script src="track-config.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+<section id="setup" class="setup card" hidden>
+  <h1>Luam analytics<small>Private. Counts only.</small></h1>
+  <label for="ep">Collector URL (ends in /exec)</label>
+  <input id="ep" type="url" inputmode="url" autocomplete="off" placeholder="https://script.google.com/macros/s/…/exec">
+  <label for="ky">Read key</label>
+  <input id="ky" type="password" autocomplete="off">
+  <p id="err" class="err" role="alert"></p>
+  <div class="row">
+    <button class="btn pri" id="go" type="button">Connect</button>
+    <button class="btn" id="loc" type="button">This browser only</button>
+    <button class="btn" id="demo" type="button">Demo data</button>
+  </div>
+  <p class="note">Setup takes about 10 minutes: see <b>tools/analytics-collector.gs</b>. Connecting also stops this browser from being counted in your own stats.</p>
+</section>
+
+<section id="app" hidden>
+  <header class="top">
+    <h1>Luam analytics<small id="src"></small></h1>
+    <div class="ctl">
+      <div class="seg" role="group" aria-label="Date range" id="rng">
+        <button type="button" data-d="7" aria-pressed="false">7 days</button>
+        <button type="button" data-d="30" aria-pressed="true">30 days</button>
+        <button type="button" data-d="90" aria-pressed="false">90 days</button>
+      </div>
+      <button class="btn" id="tv" type="button" aria-pressed="false">Table</button>
+      <button class="btn" id="out" type="button">Disconnect</button>
+    </div>
+  </header>
+  <div id="banner" class="banner" hidden></div>
+  <div id="load" class="empty" role="status">Loading…</div>
+
+  <div id="view" hidden>
+    <div class="tiles" id="tiles"></div>
+    <div class="card">
+      <h2 id="ch-h">Visitors per day</h2>
+      <div class="chartbox" id="cb"><svg class="ch" id="svg" role="img" aria-labelledby="ch-h" tabindex="0"></svg><div class="tip" id="tip" hidden></div></div>
+    </div>
+    <div class="grid" id="lists">
+      <div class="card"><h2>Sessions that…</h2><ul class="bars" id="l-funnel"></ul></div>
+      <div class="card"><h2>Booking requests by practitioner</h2><ul class="bars" id="l-prac"></ul></div>
+      <div class="card"><h2>Top pages</h2><ul class="bars" id="l-pages"></ul></div>
+      <div class="card"><h2>Where visitors come from</h2><ul class="bars" id="l-src"></ul></div>
+      <div class="card"><h2>Check-in: what people pick</h2><ul class="bars" id="l-pick"></ul></div>
+      <div class="card"><h2>Events people want</h2><ul class="bars" id="l-ev"></ul></div>
+      <div class="card"><h2>Library: saved</h2><ul class="bars" id="l-lib"></ul></div>
+      <div class="card"><h2>Blog: read</h2><ul class="bars" id="l-blog"></ul></div>
+      <div class="card full"><h2>Device and language</h2><p class="empty" id="devlang" style="color:var(--ink)"></p></div>
+    </div>
+    <div class="card full" id="tbl" hidden style="margin-top:12px"><h2>All events</h2><table><thead><tr><th>Event</th><th class="num">Count</th><th class="num">Sessions</th></tr></thead><tbody id="tb"></tbody></table></div>
+    <p class="note">No names, cookies or IP addresses. A "session" is one browser tab visit. Times are Nairobi time (EAT).</p>
+  </div>
+</section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var KEY = 'lq_an_cfg';
+  var cfg = {}, range = 30, mode = '', rows = [], tz = 'Africa/Nairobi';
+  var fmt = new Intl.NumberFormat('en-KE');
+  var ymd = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' });
+  var tf = new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  var dshort = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short' });
+
+  function el(t, c, x) { var n = document.createElement(t); if (c) n.className = c; if (x != null) n.textContent = x; return n; }
+  function load() { try { cfg = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { cfg = {}; } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(cfg)); } catch (e) { /* blocked: works for this visit */ } }
+  function excludeMe() { try { localStorage.setItem('lq_notrack', '1'); } catch (e) { /* ignore */ } }
+
+  /* ---------- dates (all EAT strings 'YYYY-MM-DD') ---------- */
+  function today() { return ymd.format(new Date()); }
+  function addDays(d, n) { var t = new Date(d + 'T12:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); }
+  function span(from, to) { var o = [], d = from; while (d <= to) { o.push(d); d = addDays(d, 1); } return o; }
+
+  /* ---------- data sources ---------- */
+  function fromLocal() {
+    var raw = []; try { raw = JSON.parse(localStorage.getItem('lq_trk_buf') || '[]'); } catch (e) { /* ignore */ }
+    return raw.map(function (x) {
+      var d = new Date(x.t || Date.now());
+      return [ymd.format(d) + ' ' + tf.format(d), x.e, x.p, x.l, x.s, x.r, x.u, x.d, x.g];
+    });
+  }
+  function demoRows() {
+    var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    var out = [], end = today(), pages = ['/', '/ClinicalPractice.html', '/library.html', '/events.html', '/pillars.html', '/blog/you-need-a-next-step.html', '/blog/the-message-you-keep-meaning-to-send.html', '/Emergency.html'];
+    var refs = ['', '', '', 'google.com', 'instagram.com', 'x.com', 'wa.me', 'tiktok.com'], picks = ['connection', 'vitality', 'attunement', 'purpose'];
+    var evs = ['Sunday sound bath, Karura', 'Run club, Nairobi', 'Breathwork evening', 'Grief circle'];
+    span(addDays(end, -2 * 90 + 1), end).forEach(function (day, i) {
+      var n = Math.round(20 + i * 0.25 + rnd() * 16);
+      for (var s = 0; s < n; s++) {
+        var sid = 'd' + i + 'x' + s, dev = rnd() < .78 ? 'm' : rnd() < .8 ? 'd' : 't', lang = rnd() < .9 ? 'en' : 'sw', ref = refs[Math.floor(rnd() * refs.length)];
+        var t = day + ' ' + ('0' + Math.floor(6 + rnd() * 16)).slice(-2) + ':' + ('0' + Math.floor(rnd() * 60)).slice(-2) + ':00';
+        function ev(e, p, l) { out.push([t, e, p, l || '', sid, ref, '', dev, lang]); }
+        ev('page_view', pages[Math.floor(rnd() * 3 * rnd() * pages.length) % pages.length]);
+        if (rnd() < .45) { ev('checkin_pick', '/', picks[Math.floor(rnd() * 4)]); if (rnd() < .6) ev('checkin_done', '/'); }
+        if (rnd() < .3) ev('page_view', '/ClinicalPractice.html');
+        if (rnd() < .09) ev('practitioner_book', '/ClinicalPractice.html', rnd() < .55 ? 'Hyline Keya Morara' : 'Dr. Mwaniga Mwavua');
+        if (rnd() < .03) ev('booking_whatsapp', '/ServiceBooking.html');
+        if (rnd() < .012) ev('emergency_click', '/Emergency.html');
+        if (rnd() < .14) ev('event_going', '/events.html', evs[Math.floor(rnd() * 4)]);
+        if (rnd() < .1) ev('library_save', '/library.html', ['supa-modo', 'inside-out', 'good-will-hunting'][Math.floor(rnd() * 3)]);
+        if (rnd() < .12) ev('blog_click', '/', ['you-need-a-next-step', 'the-message-you-keep-meaning-to-send', 'one-word-to-turn-down-the-kelele'][Math.floor(rnd() * 3)]);
+      }
+    });
+    return out;
+  }
+  function fromServer() {
+    var u = cfg.endpoint + (cfg.endpoint.indexOf('?') < 0 ? '?' : '&') + 'k=' + encodeURIComponent(cfg.key) + '&days=' + (range * 2);
+    return fetch(u).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j || !j.ok) throw new Error(j && j.error === 'key' ? 'Wrong read key.' : 'The collector did not accept the request.');
+      return { rows: j.rows || [], capped: !!j.capped };
+    });
+  }
+
+  /* ---------- aggregate ---------- */
+  var INTENT = { booking_click: 1, practitioner_book: 1, booking_whatsapp: 1, call_click: 1, whatsapp_click: 1, email_click: 1 };
+  function agg(rs) {
+    var a = { sess: {}, views: 0, byEv: {}, byEvS: {}, daily: {}, pages: {}, src: {}, prac: {}, pick: {}, ev: {}, lib: {}, blog: {}, dev: {}, lang: {}, f: { sc: {}, sd: {}, vp: {}, bi: {}, bw: {} } };
+    function inc(o, k, n) { if (k !== '' && k != null) o[k] = (o[k] || 0) + (n || 1); }
+    var seenS = {}, firstSeen = {};
+    rs.forEach(function (r) {
+      var day = r[0].slice(0, 10), e = r[1], p = r[2], l = r[3], s = r[4];
+      if (!a.sess[s]) { a.sess[s] = 1; a.daily[day] = a.daily[day] || {}; a.daily[day][s] = 1; inc(a.dev, r[7]); inc(a.lang, r[8]); inc(a.src, r[6] ? 'utm: ' + r[6] : r[5] || 'Direct or unknown'); }
+      else { a.daily[day] = a.daily[day] || {}; a.daily[day][s] = 1; }
+      inc(a.byEv, e); var k = e + '|' + s; if (!seenS[k]) { seenS[k] = 1; inc(a.byEvS, e); }
+      if (e === 'page_view') {
+        a.views++; inc(a.pages, p);
+        if (/\/clinicalpractice\.html$/i.test(p)) a.f.vp[s] = 1;
+        if (/^\/blog\//i.test(p)) inc(a.blog, p.replace(/^\/blog\//i, '').replace(/\.html$/i, ''));
+      }
+      if (e === 'checkin_pick' || e === 'checkin_alt') a.f.sc[s] = 1;
+      if (e === 'checkin_pick') inc(a.pick, l);
+      if (e === 'checkin_done') a.f.sd[s] = 1;
+      if (INTENT[e]) a.f.bi[s] = 1;
+      if (e === 'booking_whatsapp') a.f.bw[s] = 1;
+      if (e === 'practitioner_book') inc(a.prac, l || 'Unnamed');
+      if (e === 'event_going' || e === 'event_calendar') inc(a.ev, l || 'Event', e === 'event_calendar' ? 1 : 1);
+      if (e === 'library_save') inc(a.lib, l);
+    });
+    return a;
+  }
+  function count(o) { return Object.keys(o).length; }
+
+  /* ---------- render ---------- */
+  function tile(label, n, prev, showDelta) {
+    var t = el('div', 'card tile'); t.appendChild(el('div', 'n', fmt.format(n))); t.appendChild(el('div', 'l', label));
+    var d = '';
+    if (showDelta) { if (prev > 0) { var p = Math.round((n - prev) / prev * 100); d = (p > 0 ? '▲ ' : p < 0 ? '▼ ' : '– ') + Math.abs(p) + '% vs previous ' + range + ' days'; } else d = 'No earlier data'; }
+    t.appendChild(el('div', 'd', d)); return t;
+  }
+  function bars(id, pairs, total, pct, max) {
+    var ul = $(id); ul.textContent = '';
+    pairs = pairs.slice(0, max || 6);
+    if (!pairs.length) { var li = el('li'); li.appendChild(el('p', 'empty', 'Nothing yet.')); ul.appendChild(li); return; }
+    var top = Math.max.apply(null, pairs.map(function (p) { return p[1]; })) || 1;
+    pairs.forEach(function (p) {
+      var li = el('li'); li.title = p[0] + ': ' + fmt.format(p[1]);
+      li.appendChild(el('span', 'k', p[0]));
+      li.appendChild(el('span', 'v', fmt.format(p[1]) + (pct && total ? ' · ' + Math.round(p[1] / total * 100) + '%' : '')));
+      var t = el('span', 't'), i = document.createElement('i'); i.style.width = Math.max(1, p[1] / (pct && total ? total : top) * 100) + '%'; t.appendChild(i); li.appendChild(t); ul.appendChild(li);
+    });
+  }
+  function sorted(o) { return Object.keys(o).map(function (k) { return [k, o[k]]; }).sort(function (a, b) { return b[1] - a[1]; }); }
+
+  function render() {
+    var end = today(), from = addDays(end, -range + 1), pFrom = addDays(from, -range), pTo = addDays(from, -1);
+    var cur = rows.filter(function (r) { var d = r[0].slice(0, 10); return d >= from && d <= end; });
+    var prv = rows.filter(function (r) { var d = r[0].slice(0, 10); return d >= pFrom && d <= pTo; });
+    var a = agg(cur), b = agg(prv), S = count(a.sess);
+
+    var tl = $('#tiles'); tl.textContent = '';
+    tl.appendChild(tile('Visitors', S, count(b.sess), true));
+    tl.appendChild(tile('Page views', a.views, b.views, true));
+    tl.appendChild(tile('Booking interest', count(a.f.bi), count(b.f.bi), true));
+    tl.appendChild(tile('Check-ins done', a.byEv.checkin_done || 0, b.byEv.checkin_done || 0, true));
+    tl.appendChild(tile('Emergency clicks', a.byEv.emergency_click || 0, b.byEv.emergency_click || 0, true));
+
+    drawChart(span(from, end).map(function (d) { return [d, a.daily[d] ? count(a.daily[d]) : 0]; }));
+
+    bars('#l-funnel', [['Visited', S], ['Started the check-in', count(a.f.sc)], ['Finished the check-in', count(a.f.sd)], ['Viewed practitioners', count(a.f.vp)], ['Showed booking interest', count(a.f.bi)], ['Sent a booking request', count(a.f.bw)]], S, true, 6);
+    bars('#l-prac', sorted(a.prac), 0, false);
+    bars('#l-pages', sorted(a.pages), 0, false);
+    bars('#l-src', sorted(a.src), S, true);
+    bars('#l-pick', sorted(a.pick), 0, false);
+    bars('#l-ev', sorted(a.ev), 0, false);
+    bars('#l-lib', sorted(a.lib), 0, false);
+    bars('#l-blog', sorted(a.blog), 0, false);
+
+    var dl = function (o, names) { var t = 0; Object.keys(o).forEach(function (k) { t += o[k]; }); return sorted(o).map(function (p) { return (names[p[0]] || p[0]) + ' ' + Math.round(p[1] / (t || 1) * 100) + '%'; }).join(' · ') || 'No data'; };
+    $('#devlang').textContent = dl(a.dev, { m: 'Mobile', t: 'Tablet', d: 'Desktop' }) + '   |   ' + dl(a.lang, { en: 'English', sw: 'Kiswahili' });
+
+    var tb = $('#tb'); tb.textContent = '';
+    sorted(a.byEv).forEach(function (p) { var tr = el('tr'); tr.appendChild(el('td', '', p[0])); tr.appendChild(el('td', 'num', fmt.format(p[1]))); tr.appendChild(el('td', 'num', fmt.format(a.byEvS[p[0]] || 0))); tb.appendChild(tr); });
+  }
+
+  /* ---------- line chart with crosshair tooltip ---------- */
+  var pts = [], hi = -1;
+  var NS = 'http://www.w3.org/2000/svg';
+  function sv(n, at) { var e = document.createElementNS(NS, n); for (var k in at) e.setAttribute(k, at[k]); return e; }
+  function drawChart(data) {
+    pts = data; var svg = $('#svg'), W = svg.clientWidth || 600, H = 220, m = { l: 36, r: 10, t: 10, b: 24 };
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.textContent = '';
+    var max = Math.max(4, Math.max.apply(null, data.map(function (d) { return d[1]; }))), step = Math.pow(10, Math.floor(Math.log10(max / 3))), ny = Math.ceil(max / step); if (ny > 5) { step *= 2; ny = Math.ceil(max / step); }
+    max = step * ny;
+    var X = function (i) { return m.l + (data.length < 2 ? 0 : i / (data.length - 1)) * (W - m.l - m.r); }, Y = function (v) { return H - m.b - v / max * (H - m.t - m.b); };
+    for (var g = 0; g <= ny; g++) {
+      var y = Y(g * step); svg.appendChild(sv('line', { x1: m.l, x2: W - m.r, y1: y, y2: y, stroke: '#333', 'stroke-width': 1 }));
+      var tx = sv('text', { x: m.l - 6, y: y + 4, 'text-anchor': 'end' }); tx.textContent = g * step; svg.appendChild(tx);
+    }
+    [0, Math.floor((data.length - 1) / 2), data.length - 1].forEach(function (i, k) {
+      if (!data[i]) return; var tx = sv('text', { x: X(i), y: H - 6, 'text-anchor': k === 0 ? 'start' : k === 2 ? 'end' : 'middle' }); tx.textContent = dshort.format(new Date(data[i][0] + 'T12:00:00Z')); svg.appendChild(tx);
+    });
+    var line = data.map(function (d, i) { return (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(d[1]).toFixed(1); }).join('');
+    svg.appendChild(sv('path', { d: line + 'L' + X(data.length - 1) + ' ' + Y(0) + 'L' + X(0) + ' ' + Y(0) + 'Z', fill: 'rgba(148,234,220,.12)' }));
+    svg.appendChild(sv('path', { d: line, fill: 'none', stroke: '#94eadc', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+    var cross = sv('line', { y1: m.t, y2: H - m.b, stroke: '#9aa8a4', 'stroke-width': 1, 'stroke-dasharray': '3 3', visibility: 'hidden' }), dot = sv('circle', { r: 5, fill: '#94eadc', stroke: '#262626', 'stroke-width': 2, visibility: 'hidden' });
+    svg.appendChild(cross); svg.appendChild(dot);
+    svg._g = { X: X, Y: Y, cross: cross, dot: dot, W: W, m: m };
+    var lab = pts.reduce(function (s, d) { return s + d[1]; }, 0);
+    svg.setAttribute('aria-label', 'Visitors per day. Total ' + lab + ' over ' + data.length + ' days. Use the Table button for exact numbers.');
+    hide();
+  }
+  function show(i) {
+    var svg = $('#svg'), g = svg._g; if (!g || !pts.length) return; i = Math.max(0, Math.min(pts.length - 1, i)); hi = i;
+    var x = g.X(i), y = g.Y(pts[i][1]);
+    g.cross.setAttribute('x1', x); g.cross.setAttribute('x2', x); g.cross.setAttribute('visibility', 'visible');
+    g.dot.setAttribute('cx', x); g.dot.setAttribute('cy', y); g.dot.setAttribute('visibility', 'visible');
+    var tip = $('#tip'); tip.hidden = false; tip.textContent = '';
+    tip.appendChild(document.createTextNode(dshort.format(new Date(pts[i][0] + 'T12:00:00Z')) + ': ')); tip.appendChild(el('b', '', fmt.format(pts[i][1]) + (pts[i][1] === 1 ? ' visitor' : ' visitors')));
+    var w = $('#cb').clientWidth, tx = Math.max(60, Math.min(w - 60, x)); tip.style.left = tx + 'px'; tip.style.top = y + 'px';
+  }
+  function hide() { var g = $('#svg')._g; hi = -1; $('#tip').hidden = true; if (g) { g.cross.setAttribute('visibility', 'hidden'); g.dot.setAttribute('visibility', 'hidden'); } }
+  function idxAt(ev) { var svg = $('#svg'), g = svg._g, r = svg.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width * g.W; return Math.round((x - g.m.l) / (g.W - g.m.l - g.m.r) * (pts.length - 1)); }
+  var svgEl = $('#svg');
+  svgEl.addEventListener('pointermove', function (e) { show(idxAt(e)); });
+  svgEl.addEventListener('pointerdown', function (e) { show(idxAt(e)); });
+  svgEl.addEventListener('pointerleave', hide);
+  svgEl.addEventListener('blur', hide);
+  svgEl.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { show(hi < 0 ? pts.length - 1 : hi - 1); e.preventDefault(); }
+    else if (e.key === 'ArrowRight') { show(hi < 0 ? 0 : hi + 1); e.preventDefault(); }
+    else if (e.key === 'Escape') hide();
+  });
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (!$('#view').hidden) render(); }, 150); });
+
+  /* ---------- flow ---------- */
+  function showSetup(msg) {
+    $('#app').hidden = true; $('#setup').hidden = false; $('#err').textContent = msg || '';
+    $('#ep').value = cfg.endpoint || (window.LUAM_TRACK && window.LUAM_TRACK.endpoint) || ''; $('#ky').value = '';
+  }
+  function open(m) {
+    mode = m; $('#setup').hidden = true; $('#app').hidden = false; $('#view').hidden = true; $('#load').hidden = false; $('#load').textContent = 'Loading…';
+    var ban = $('#banner'); ban.hidden = true;
+    $('#src').textContent = m === 'demo' ? 'Demo data' : m === 'local' ? 'This browser only' : 'Live';
+    function done(r, capped) {
+      rows = r; $('#load').hidden = true; $('#view').hidden = false;
+      if (m === 'demo') { ban.hidden = false; ban.textContent = 'Demo data. These numbers are made up, to show the layout.'; }
+      else if (m === 'local') { ban.hidden = false; ban.textContent = 'Showing events recorded in this browser only. Connect the collector to see everyone. Your own visits are not counted once you connect.'; }
+      else if (capped) { ban.hidden = false; ban.textContent = 'Only the newest 20,000 events are shown. Older numbers are in your Google Sheet.'; }
+      if (!r.length && m !== 'demo') $('#load').hidden = false, $('#load').textContent = m === 'local' ? 'Nothing recorded in this browser yet. Visit the site, click around, then reload this page.' : 'No events yet. Visit your site and reload.';
+      render();
+    }
+    if (m === 'demo') done(demoRows());
+    else if (m === 'local') done(fromLocal());
+    else fromServer().then(function (x) { done(x.rows, x.capped); }).catch(function (e) { cfg.key = ''; save(); showSetup(e && e.message && e.message.length < 90 ? e.message : 'Could not reach the collector. Check the URL.'); });
+  }
+  $('#go').addEventListener('click', function () {
+    var ep = $('#ep').value.trim(), ky = $('#ky').value.trim();
+    if (!/^https:\/\/script\.google\.com\//.test(ep)) { $('#err').textContent = 'Paste the Web app URL from Google Apps Script (starts with https://script.google.com/).'; return; }
+    if (!ky) { $('#err').textContent = 'Enter your read key.'; return; }
+    cfg = { endpoint: ep, key: ky }; save(); excludeMe(); open('live');
+  });
+  $('#loc').addEventListener('click', function () { open('local'); });
+  $('#demo').addEventListener('click', function () { open('demo'); });
+  $('#out').addEventListener('click', function () { cfg = {}; try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ } showSetup(''); });
+  $('#rng').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return; range = parseInt(b.getAttribute('data-d'), 10);
+    [].forEach.call($('#rng').children, function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    if (mode === 'live') open('live'); else render();
+  });
+  $('#tv').addEventListener('click', function () { var on = $('#tv').getAttribute('aria-pressed') !== 'true'; $('#tv').setAttribute('aria-pressed', on ? 'true' : 'false'); $('#tbl').hidden = !on; });
+
+  load();
+  var q = location.search;
+  if (/[?&]demo\b/.test(q)) open('demo');
+  else if (cfg.endpoint && cfg.key) open('live');
+  else showSetup('');
+})();
+</script>
+</body>
+</html>

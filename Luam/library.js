@@ -51,7 +51,7 @@
     }
   }
 
-  if (sel) sel.addEventListener('change', function () { state.pillar = sel.value; apply(true); });
+  if (sel) sel.addEventListener('change', function () { state.pillar = sel.value; if (state.pillar !== 'all' && window.luamTrack) luamTrack('library_filter', state.pillar); apply(true); });
   if (svBtn) svBtn.addEventListener('click', function () {
     state.savedOnly = !state.savedOnly;
     svBtn.setAttribute('aria-pressed', state.savedOnly ? 'true' : 'false');
@@ -62,7 +62,7 @@
     var sv = e.target.closest('.lb-save');
     if (sv) {
       var id = sv.getAttribute('data-id');
-      if (saved[id]) delete saved[id]; else saved[id] = 1;
+      if (saved[id]) delete saved[id]; else { saved[id] = 1; if (window.luamTrack) luamTrack('library_save', id); }
       persist(); syncSaveUI();
       if (state.savedOnly) apply(true);
       return;
@@ -94,7 +94,7 @@
     c.classList.remove('lb-hit'); void c.offsetWidth; c.classList.add('lb-hit');
     showToast('Try <b>' + esc(h ? h.textContent : '') + '</b> <span style="color:#b9c7c4">in ' + esc(shelf ? shelf.textContent : '') + '</span>', { label: 'Another', fn: pick });
   }
-  if (surprise) surprise.addEventListener('click', pick);
+  if (surprise) surprise.addEventListener('click', function () { if (window.luamTrack) luamTrack('library_surprise'); pick(); });
 
   /* ---------- rails: arrows + edge state ---------- */
   function railState(shelf) {

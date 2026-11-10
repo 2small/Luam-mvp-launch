@@ -422,6 +422,7 @@ Next</button>
             }
         }
 
+        if (window.luamTrack) luamTrack('booking_step', String(nextStep));
         navigateStep(nextStep);
     }
 
@@ -462,6 +463,7 @@ Next</button>
     sessionStorage.removeItem('clinic_backup_step');
 
     // SECURITY FIX: Using window.location.replace prevents this long, sensitive data URL from being saved in browser history logs
+    if (window.luamTrack) luamTrack('booking_whatsapp');
     var targetUrl = `https://wa.me/${clinicPhoneNumber}?text=${encodedMessage}`;
     window.location.replace(targetUrl);
 }
@@ -598,5 +600,7 @@ if (toggle) {
 
 
   </script>
+<script src="track-config.js"></script>
+<script src="track.js" defer></script>
 </body>
 </html>

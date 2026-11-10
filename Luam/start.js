@@ -174,14 +174,17 @@
     var lang = btn.getAttribute('data-lang');
 
     if (k) {
+      if (window.luamTrack) { if (/^(connection|vitality|attunement|purpose)$/.test(k)) luamTrack('checkin_pick', k); else luamTrack('checkin_alt'); }
       state.picked = k;
       state.done = false;
       render();
     } else if (lang) {
+      if (window.luamTrack) luamTrack('lang_switch', lang);
       state.lang = lang;
       try { localStorage.setItem('lq_lang', lang); } catch (err) { /* ignore */ }
       applyLang();
     } else if (btn.id === 'lq-done') {
+      if (window.luamTrack) luamTrack('checkin_done');
       state.done = true;
       state.count += 1;
       try { localStorage.setItem('lq_steps', String(state.count)); } catch (err) { /* ignore */ }
