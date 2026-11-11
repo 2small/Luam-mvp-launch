@@ -1,20 +1,16 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "luamvp",
-  "main": "Luam/src/worker.js",
-  "compatibility_date": "2026-06-02",
-  "observability": {
-    "enabled": true
-  },
-  "assets": {
-    "directory": "Luam",
-    "binding": "ASSETS",
-    "run_worker_first": ["/collect", "/stats"]
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
-  "vars": {
-    "COLLECTOR_URL": "https://script.google.com/macros/s/AKfycbzVd_DY5yy6JeNjyaaCrO2ejwbIfQs93ipvhgXVVXQKF_3zQCjJ02i7ieSk2z6_AyH4uA/exec"
-  }
-}
+   {
+     "$schema": "node_modules/wrangler/config-schema.json",
+     "name": "luamvp",
+     "main": "Luam/src/worker.js",
+     "compatibility_date": "2026-06-02",
+     "observability": { "enabled": true },
+     "assets": {
+       "directory": "Luam",
+       "binding": "ASSETS",
+       "run_worker_first": ["/collect", "/stats"]
+     },
+     "compatibility_flags": ["nodejs_compat"],
+     "vars": {
+       "COLLECTOR_URL": "https://script.google.com/macros/s/AKfycbzVd_DY5yy6JeNjyaaCrO2ejwbIfQs93ipvhgXVVXQKF_3zQCjJ02i7ieSk2z6_AyH4uA/exec"
+     }
+   }
