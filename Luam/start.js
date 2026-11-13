@@ -7,7 +7,7 @@
 
   var D = {
     en: {
-      'kicker': 'Not sure where to start?',
+      'kicker': '',
       'q': 'Are you building a life or just making a living?',
       'sub': 'Tap one. There is no wrong answer, and nothing to fill in.',
       'o.connection.l': 'Connection', 'o.connection.s': 'The people in your life',
@@ -51,7 +51,7 @@
       'r.ok.why': 'Knowing where to begin before you need it makes it easier to use.'
     },
     sw: {
-      'kicker': 'Huna uhakika wa pa kuanzia?',
+      'kicker': '',
       'q': 'Je, unajenga maisha au unapata tu riziki?',
       'sub': 'Gusa kimoja. Hakuna jibu baya, na hakuna cha kujaza.',
       'o.connection.l': 'Muunganiko', 'o.connection.s': 'Watu katika maisha yako',
