@@ -1,12 +1,26 @@
-/* Luam "one question" module. No dependencies. Everything stays on the visitor's device. */
+/* Luam "one question" module. No dependencies. Everything stays on the visitor's device.
+
+   Pipeline per pillar, one consistent rhythm:
+     question -> answer -> a fact that speaks to that question (key ...a) -> a one-line bridge to the short post (key ...w) -> read link -> next steps.
+   Key names are unchanged so the logic below needs no new branches.
+
+   SOURCES (verify wording against each report before publishing):
+   - Work follows people home (85 in 100 constantly connected, global 72); highest stress of 16 countries (93%) with
+     disrupted sleep and trouble concentrating; 95 in 100 with at least one burnout symptom; social health 63.9 vs 62.9:
+     Cigna 360 Global Well-Being Survey, Kenya report (8th annual edition). Add the year from the report.
+   - Vitality 79.3, third globally, global average 63.2: Cigna International Health Study 2025, Kenya findings.
+   - 87 in 100 Kenyan workers report workplace stress: Niche Human Capital Advisory survey, July 2026.
+   - Colleagues: Gallup workplace research, US data (about 2 in 10 employees have a best friend at work).
+   - Saving: FinAccess Household Survey 2024 (CBK, KNBS, FSD Kenya): retirement saving doubled since 2021;
+     36 / 28 / 13 in 100 save for day-to-day needs / emergencies / retirement; formal financial access 84.8% in 2024
+     vs 26.7% in 2006.
+   Note: Cigna and Niche figures are company-commissioned, self-reported surveys. FinAccess is the official national survey. */
 (function () {
   'use strict';
 
   var root = document.getElementById('start');
   if (!root) return;
 
-  /* Flow per pillar: question -> answer -> a fact (key ...a) -> a nudge toward the post (key ...w) -> read link.
-     Key names are unchanged so the logic below needs no new branches. */
   var D = {
     en: {
       'kicker': '',
@@ -33,44 +47,50 @@
       'helpBody': 'Reach someone now: a person you trust, a clinician, or your nearest health facility. You do not have to explain it perfectly.',
       'helpDanger': 'In danger or thinking of ending your life? Call 999 or 112 now.',
       'helpBtn': 'Open the Emergency page',
+
       'r.connection.label': 'Connection',
       'm.connection.q': 'You reach home after a long matatu ride. How long before the day stops following you through the door?',
       'm.connection.y': 'A few minutes', 'm.connection.n': 'It stays all evening',
-      'm.connection.ya': 'Researchers call this stepping away from work in your head. It is one of the habits most consistently linked to waking up rested. You have a skill many hard workers lose.',
-      'm.connection.yw': 'The short post shows what the best at it do differently.',
-      'm.connection.na': 'That is very common among people who care about their work. Research suggests what ends the day for the mind is often a smaller signal than rest.',
-      'm.connection.nw': 'The short post names the one most people overlook.',
+      'm.connection.ya': 'You switch off faster than most. 85 in 100 Kenyan workers say they feel constantly connected to work. Globally it is 72. (Cigna 360° survey)',
+      'm.connection.yw': 'Evenings are for people. The short post is about the message you keep meaning to send.',
+      'm.connection.na': 'You are not carrying it home alone. 85 in 100 Kenyan workers say they feel constantly connected to work. Globally it is 72. (Cigna 360° survey)',
+      'm.connection.nw': 'Evenings are for people. The short post is about the one message that makes room for a person.',
+
       'r.vitality.label': 'Vitality',
       'm.vitality.q': 'By evening, where does the day sit in your body: shoulders, jaw, stomach, hands?',
       'm.vitality.y': 'Somewhere, yes', 'm.vitality.n': 'I cannot tell',
-      'm.vitality.ya': 'Noticing where stress sits in your body is a real skill, and researchers link it to handling stress better. Most people only notice when it starts to hurt.',
-      'm.vitality.yw': 'The short post shows the next step once you have found it.',
-      'm.vitality.na': 'That is normal. The body is easiest to read when you stop moving. Many people only feel the tension on a quiet evening, or when the matatu finally stops.',
-      'm.vitality.nw': 'The short post explains where to look first.',
+      'm.vitality.ya': 'You are reading a real signal. In Cigna\'s 360° survey Kenya had the highest stress of 16 countries (93%), and people reported disrupted sleep and trouble concentrating. (Cigna 360° survey)',
+      'm.vitality.yw': 'The short post is about sleep, and why everything feels harder without it.',
+      'm.vitality.na': 'Kenya ranked third in the world for vitality in Cigna\'s 2025 study, scoring 79.3 against a global average of 63.2. A strong body is worth listening to. (Cigna, 2025)',
+      'm.vitality.nw': 'The short post is about what four hours of sleep does to a day.',
+
       'r.attunement.label': 'Attunement',
       'm.attunement.q': 'Think of the hardest moment at work this week. Can you say in a few words what it did to you?',
       'm.attunement.y': 'I can', 'm.attunement.n': 'I just moved on',
-      'm.attunement.ya': 'Brain imaging studies show that putting a feeling into words calms the part of the brain that sounds the alarm. You have already done the hard part.',
+      'm.attunement.ya': 'Naming it is worth doing. 87 in 100 Kenyan workers report stress at work. (Niche Human Capital Advisory, 2026)',
       'm.attunement.yw': 'The short post is about one word, and what it does to the noise in your head.',
-      'm.attunement.na': 'Moving on fast is a strength in a tough hustle. The same research shows a feeling that is named tends to quiet down, and it takes a single word.',
+      'm.attunement.na': 'Moving on is a skill. So is having someone at work who gets it: only about 2 in 10 employees say they have a best friend there. (Gallup, US data)',
       'm.attunement.nw': 'The short post shows which word.',
+
       'r.purpose.label': 'Purpose',
       'm.purpose.q': 'If someone asked who you are without mentioning your job, what would you say?',
       'm.purpose.y': 'I have an answer', 'm.purpose.n': 'I would struggle',
-      'm.purpose.ya': 'Large studies link having a sense of purpose with better health and a lower risk of dying early. Having an answer ready is a good sign.',
+      'm.purpose.ya': 'Planning beyond the job is catching on. The number of Kenyans saving for retirement doubled between 2021 and 2024. (FinAccess 2024)',
       'm.purpose.yw': 'The short post is about the next step, where purpose becomes real.',
-      'm.purpose.na': 'Many hard workers cannot answer it, because the job has answered for them for years. Research suggests purpose tends to grow from small steps, not from one big revelation.',
-      'm.purpose.nw': 'The short post shows where that small step starts.',
+      'm.purpose.na': 'Most savings go to now. 36 in 100 Kenyans save for day-to-day needs, 28 for emergencies, 13 for retirement. (FinAccess 2024)',
+      'm.purpose.nw': 'The short post shows where a small step starts.',
+
       'r.unsure.label': 'Not sure',
       'm.unsure.q': 'Is there one work task you are still carrying in your head, long after you left it?',
       'm.unsure.y': 'Yes, one', 'm.unsure.n': 'No, I let it go',
-      'm.unsure.ya': 'The mind keeps unfinished tasks open, which is why they follow you home. Researchers have documented this, and it is easier to switch off than most people think.',
+      'm.unsure.ya': 'Carrying work around is common. In one Cigna survey, 95 in 100 Kenyans reported at least one symptom of burnout. (Cigna 360° survey)',
       'm.unsure.yw': 'The four pillars show where to start.',
-      'm.unsure.na': 'Letting work go at the end of the day is linked to sleeping better and feeling more recovered. That is a skill worth noticing.',
+      'm.unsure.na': 'Letting go is a skill. Kenya also scored above the global average for social health, 63.9 against 62.9. (Cigna 360° survey)',
       'm.unsure.nw': 'The four pillars show where it fits in a good life.',
+
       'r.ok.label': 'Going well',
-      'r.ok.action': 'A good week is the time to build. Pick above the part of your life you would give two more hours to.',
-      'r.ok.why': 'Looking after what works is easier than repairing it later.'
+      'r.ok.action': 'Good weeks are the ones to build on. Formal financial access in Kenya rose from 26.7% in 2006 to 84.8% in 2024. (FinAccess 2024)',
+      'r.ok.why': 'Pick above the part of your life you would give two more hours to.'
     },
     sw: {
       'kicker': '',
@@ -97,44 +117,50 @@
       'helpBody': 'Mfikie mtu sasa: mtu unayemwamini, mhudumu wa afya, au kituo cha afya kilicho karibu. Si lazima uelezee kikamilifu.',
       'helpDanger': 'Ukiwa hatarini au unafikiria kujiua? Piga 999 au 112 sasa.',
       'helpBtn': 'Fungua ukurasa wa Dharura',
+
       'r.connection.label': 'Muunganiko',
       'm.connection.q': 'Umefika nyumbani baada ya safari ndefu ya matatu. Ni baada ya muda gani siku inaacha kukufuata mlangoni?',
       'm.connection.y': 'Baada ya dakika chache', 'm.connection.n': 'Inabaki jioni nzima',
-      'm.connection.ya': 'Watafiti huita hili kujitenga na kazi akilini. Ni mojawapo ya tabia zinazohusishwa zaidi na kuamka ukiwa umepumzika. Una ujuzi ambao wachapakazi wengi hupoteza.',
-      'm.connection.yw': 'Makala fupi inaonyesha wanaoujua vizuri hufanya nini tofauti.',
-      'm.connection.na': 'Hilo ni la kawaida kwa watu wanaojali kazi yao. Utafiti unaonyesha kinachomaliza siku akilini mara nyingi ni ishara ndogo kuliko mapumziko.',
-      'm.connection.nw': 'Makala fupi inataja ishara ambayo wengi huikosa.',
+      'm.connection.ya': 'Unajitenga na kazi haraka kuliko wengi. Wafanyakazi 85 kati ya 100 nchini Kenya wanasema wanahisi wameunganishwa na kazi kila wakati. Duniani ni 72. (Utafiti wa Cigna 360°)',
+      'm.connection.yw': 'Jioni ni kwa ajili ya watu. Makala fupi inahusu ujumbe unaoendelea kusema utatuma.',
+      'm.connection.na': 'Hubebi peke yako. Wafanyakazi 85 kati ya 100 nchini Kenya wanasema wanahisi wameunganishwa na kazi kila wakati. Duniani ni 72. (Utafiti wa Cigna 360°)',
+      'm.connection.nw': 'Jioni ni kwa ajili ya watu. Makala fupi inahusu ujumbe mmoja unaotoa nafasi kwa mtu.',
+
       'r.vitality.label': 'Nguvu',
       'm.vitality.q': 'Kufikia jioni, siku inakaa wapi mwilini mwako: mabegani, kwenye taya, tumboni, mikononi?',
       'm.vitality.y': 'Mahali fulani, ndiyo', 'm.vitality.n': 'Siwezi kujua',
-      'm.vitality.ya': 'Kutambua mahali msongo unapokaa mwilini ni ujuzi halisi, na watafiti wanauhusisha na kukabiliana vizuri na msongo. Wengi huugundua unapoanza kuuma tu.',
-      'm.vitality.yw': 'Makala fupi inaonyesha hatua inayofuata ukishaupata.',
-      'm.vitality.na': 'Hilo ni la kawaida. Mwili husomeka kwa urahisi zaidi unapotulia. Wengi huhisi mvutano jioni tulivu, au matatu inaposimama hatimaye.',
-      'm.vitality.nw': 'Makala fupi inaeleza pa kuanza kutazama.',
+      'm.vitality.ya': 'Unasoma ishara halisi. Katika utafiti wa Cigna 360°, Kenya ilikuwa na msongo wa juu zaidi kati ya nchi 16 (93%), na watu waliripoti kukatika kwa usingizi na ugumu wa kuzingatia. (Utafiti wa Cigna 360°)',
+      'm.vitality.yw': 'Makala fupi inahusu usingizi, na kwa nini kila kitu huwa kigumu bila huo.',
+      'm.vitality.na': 'Kenya ilishika nafasi ya tatu duniani kwa nguvu katika utafiti wa Cigna wa 2025, ikipata alama 79.3 dhidi ya wastani wa dunia wa 63.2. Mwili imara unastahili kusikilizwa. (Cigna, 2025)',
+      'm.vitality.nw': 'Makala fupi inahusu kile saa nne za usingizi hufanya kwa siku.',
+
       'r.attunement.label': 'Kujisikiliza',
       'm.attunement.q': 'Fikiria wakati mgumu zaidi kazini wiki hii. Unaweza kusema kwa maneno machache ulikufanya nini?',
       'm.attunement.y': 'Naweza', 'm.attunement.n': 'Nilipita tu',
-      'm.attunement.ya': 'Picha za ubongo zimeonyesha kwamba kutaja hisia kwa maneno hutuliza sehemu ya ubongo inayopiga kengele ya hatari. Umeshafanya sehemu ngumu.',
+      'm.attunement.ya': 'Kuutaja kuna thamani. Wafanyakazi 87 kati ya 100 nchini Kenya wanaripoti msongo kazini. (Niche Human Capital Advisory, 2026)',
       'm.attunement.yw': 'Makala fupi inahusu neno moja, na linachofanya kwa kelele kichwani.',
-      'm.attunement.na': 'Kupita haraka ni nguvu katika kuhangaika kwa bidii. Utafiti huohuo unaonyesha hisia iliyotajwa hutulia, na inahitaji neno moja tu.',
+      'm.attunement.na': 'Kupita ni ujuzi. Kuwa na mtu kazini anayekuelewa pia ni ujuzi: ni wafanyakazi 2 tu kati ya 10 wanaosema wana rafiki wa karibu huko. (Gallup, data ya Marekani)',
       'm.attunement.nw': 'Makala fupi inaonyesha neno hilo ni lipi.',
+
       'r.purpose.label': 'Lengo',
       'm.purpose.q': 'Kama mtu angekuuliza wewe ni nani bila kutaja kazi yako, ungesema nini?',
       'm.purpose.y': 'Nina jibu', 'm.purpose.n': 'Ningekwama',
-      'm.purpose.ya': 'Tafiti kubwa zinahusisha kuwa na lengo maishani na afya bora na hatari ndogo ya kufa mapema. Kuwa na jibu tayari ni ishara nzuri.',
+      'm.purpose.ya': 'Kupanga zaidi ya kazi kunazidi kuenea. Idadi ya Wakenya wanaoweka akiba ya kustaafu iliongezeka maradufu kati ya 2021 na 2024. (FinAccess 2024)',
       'm.purpose.yw': 'Makala fupi inahusu hatua inayofuata, mahali ambapo lengo huwa halisi.',
-      'm.purpose.na': 'Wachapakazi wengi hawawezi kulijibu, kwa sababu kazi imewajibia kwa miaka. Utafiti unaonyesha lengo mara nyingi hukua kutokana na hatua ndogo, si ufunuo mmoja mkubwa.',
-      'm.purpose.nw': 'Makala fupi inaonyesha hatua hiyo ndogo inaanzia wapi.',
+      'm.purpose.na': 'Akiba nyingi huenda kwa leo. Wakenya 36 kati ya 100 huweka akiba kwa mahitaji ya kila siku, 28 kwa dharura, 13 kwa kustaafu. (FinAccess 2024)',
+      'm.purpose.nw': 'Makala fupi inaonyesha hatua ndogo inaanzia wapi.',
+
       'r.unsure.label': 'Sina uhakika',
       'm.unsure.q': 'Kuna kazi moja unayoendelea kuibeba kichwani muda mrefu baada ya kuiacha?',
       'm.unsure.y': 'Ndiyo, moja', 'm.unsure.n': 'Hapana, naiachilia',
-      'm.unsure.ya': 'Akili huweka kazi ambazo hazijakamilika wazi, ndiyo maana hukufuata nyumbani. Watafiti wameliandika hili, na ni rahisi kulizima kuliko watu wengi wanavyodhani.',
+      'm.unsure.ya': 'Kubeba kazi akilini ni jambo la kawaida. Katika utafiti mmoja wa Cigna, Wakenya 95 kati ya 100 waliripoti angalau dalili moja ya uchovu wa kazi. (Utafiti wa Cigna 360°)',
       'm.unsure.yw': 'Nguzo nne zinaonyesha pa kuanza.',
-      'm.unsure.na': 'Kuiachia kazi mwisho wa siku kunahusishwa na usingizi bora na kujisikia umepumzika zaidi. Huo ni ujuzi wa kuuthamini.',
+      'm.unsure.na': 'Kuachilia ni ujuzi. Kenya pia ilipata alama za juu kuliko wastani wa dunia kwa afya ya kijamii, 63.9 dhidi ya 62.9. (Utafiti wa Cigna 360°)',
       'm.unsure.nw': 'Nguzo nne zinaonyesha unavyofaa katika maisha mazuri.',
+
       'r.ok.label': 'Mambo yanaenda vizuri',
-      'r.ok.action': 'Wiki nzuri ni wakati wa kujenga. Chagua hapo juu sehemu ya maisha ungeipa saa mbili zaidi.',
-      'r.ok.why': 'Kutunza kinachofanya kazi ni rahisi kuliko kukirekebisha baadaye.'
+      'r.ok.action': 'Wiki nzuri ndizo za kujengea juu yake. Upatikanaji wa huduma rasmi za kifedha nchini Kenya ulipanda kutoka 26.7% mwaka 2006 hadi 84.8% mwaka 2024. (FinAccess 2024)',
+      'r.ok.why': 'Chagua hapo juu sehemu ya maisha ungeipa saa mbili zaidi.'
     }
   };
 
