@@ -30,7 +30,7 @@
   var D = {
     en: {
       'kicker': '',
-      'q': 'How to build supportive connections',
+      'q': 'Making room for supportive connections',
       'sub': 'Pick one part of your life. One question, one small step.',
       'o.connection.l': 'Connection', 'o.connection.s': 'The people in your life',
       'o.vitality.l': 'Vitality', 'o.vitality.s': 'My body',
