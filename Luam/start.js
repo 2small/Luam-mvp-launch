@@ -30,7 +30,7 @@
   var D = {
     en: {
       'kicker': '',
-      'q': 'Which part of your life could use a little more attention today?',
+      'q': 'How to build supportive connections',
       'sub': 'Pick one part of your life. One question, one small step.',
       'o.connection.l': 'Connection', 'o.connection.s': 'The people in your life',
       'o.vitality.l': 'Vitality', 'o.vitality.s': 'My body',
