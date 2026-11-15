@@ -20,7 +20,7 @@
 
   var D = {
     en: {
-      'kicker': '',
+      'kicker': 'Not sure where to start?',
       'q': 'Making room for supportive connections',
       'sub': 'You do not have to carry this alone, and you do not have to do it all at once. Start with one person, one honest sentence, one small step.',
       'pickLead': 'What kind of support would help most today?',
@@ -86,7 +86,7 @@
       'r.ok.s2': 'No reason, I just wanted to say hello.'
     },
     sw: {
-      'kicker': '',
+      'kicker': 'Unatafuta pa kuanzia?',
       'q': 'Kutoa nafasi kwa miunganisho ya kusaidiana',
       'sub': 'Si lazima ubebe haya peke yako, wala kufanya yote kwa mara moja. Anza na mtu mmoja, sentensi moja ya kweli, hatua moja ndogo.',
       'pickLead': 'Ni msaada wa aina gani ungekusaidia zaidi leo?',
