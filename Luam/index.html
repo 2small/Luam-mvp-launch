@@ -106,6 +106,89 @@
   </div>
 </section>
 
+<!-- ============ MAKING ROOM FOR SUPPORTIVE CONNECTIONS (start.css / start.js) ============
+     Replace the whole existing <section id="start" ...> ... </section> block in index.html with this file's contents.
+     Uses the existing lq-* classes plus the small style block below. -->
+<style>
+  #start .lq-pick { margin: 18px 0 10px; font-weight: 600; }
+  #start .lq-script { margin: 18px 0 6px; padding: 4px 0 4px 16px; border-left: 3px solid currentColor; }
+  #start .lq-script-text { margin: 6px 0 14px; font-size: 1.1em; line-height: 1.6; }
+  #start .lq-copied { min-height: 1.4em; margin: 8px 0 0; font-size: .9em; }
+  #start .lq-booknote { margin: 6px 0 0; font-size: .9em; }
+</style>
+<section id="start" class="lq" aria-labelledby="lq-title">
+  <div class="lq-wrap">
+    <div class="lq-top">
+      <p class="lq-kicker" data-i18n="kicker"></p>
+      <div class="lq-lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">English</button>
+        <button type="button" data-lang="sw" aria-pressed="false">Kiswahili</button>
+      </div>
+    </div>
+    <h2 id="lq-title" data-i18n="q">Making room for supportive connections</h2>
+    <p class="lq-sub" data-i18n="sub">You do not have to carry this alone, and you do not have to do it all at once. Start with one person, one honest sentence, one small step.</p>
+
+    <p class="lq-pick" data-i18n="pickLead">What kind of support would help most today?</p>
+    <div class="lq-opts">
+      <button type="button" class="lq-opt" data-k="listen" aria-pressed="false"><span class="t" data-i18n="o.listen.l">Someone who listens</span><span class="s" data-i18n="o.listen.s">No fixing, just company</span></button>
+      <button type="button" class="lq-opt" data-k="hand" aria-pressed="false"><span class="t" data-i18n="o.hand.l">Someone who helps</span><span class="s" data-i18n="o.hand.s">A practical hand</span></button>
+      <button type="button" class="lq-opt" data-k="been" aria-pressed="false"><span class="t" data-i18n="o.been.l">Someone who has been there</span><span class="s" data-i18n="o.been.s">A person with a similar story</span></button>
+      <button type="button" class="lq-opt" data-k="trained" aria-pressed="false"><span class="t" data-i18n="o.trained.l">Someone trained to help</span><span class="s" data-i18n="o.trained.s">A counsellor or psychologist</span></button>
+    </div>
+    <div class="lq-alts">
+      <button type="button" class="lq-alt" data-k="unsure" aria-pressed="false" data-i18n="x.unsure">Not sure</button>
+      <button type="button" class="lq-alt" data-k="ok" aria-pressed="false" data-i18n="x.ok">Things are going well</button>
+      <button type="button" class="lq-alt" data-k="help" aria-pressed="false" data-i18n="x.help">It is heavier than this</button>
+    </div>
+
+    <p class="lq-nojs">This section needs JavaScript. You can <a href="pillars.html">explore the four pillars</a>, or open the <a href="Emergency.html">Emergency page</a> if you need help now.</p>
+
+    <div class="lq-out" aria-live="polite">
+      <div class="lq-card" id="lq-action" hidden>
+        <p class="lq-tag"><span data-r="label"></span> &middot; <span data-i18n="twoMin">One small step</span></p>
+        <p class="lq-act" data-r="action"></p>
+        <p class="lq-why" data-r="why"></p>
+
+        <div class="lq-script">
+          <p class="lq-why" data-i18n="scriptLead">A first sentence you can borrow:</p>
+          <p class="lq-script-text" id="lq-script"></p>
+          <div class="lq-row">
+            <button type="button" class="lq-pill" id="lq-copy" data-i18n="copy">Copy this sentence</button>
+            <button type="button" class="lq-pill" id="lq-swap" data-i18n="swap">Another sentence</button>
+          </div>
+          <p class="lq-copied" id="lq-copied"></p>
+        </div>
+
+        <div class="lq-row">
+          <button type="button" class="lq-pill" id="lq-done" data-i18n="doneBtn">I will reach out</button>
+          <a class="lq-link" id="lq-book" href="ServiceBooking.html" hidden></a>
+        </div>
+        <p class="lq-why lq-booknote" id="lq-booknote" hidden></p>
+
+        <div class="lq-next" id="lq-next" hidden>
+          <p class="lq-msg" data-i18n="doneMsg">Good. One honest sentence is enough for today. Come back whenever you like.</p>
+          <p class="lq-why" data-i18n="nextLead">If you would like someone trained alongside the people you trust:</p>
+          <div class="lq-row">
+            <a class="lq-link" href="dashboard.html" data-track="checkin_next" data-track-label="symmetry" data-i18n="nextSym">Track how you feel over time with Symmetry</a>
+            <a class="lq-link" href="ServiceBooking.html" data-track="checkin_next" data-track-label="care" data-i18n="nextCare">Talk with a licensed psychologist</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="lq-card" id="lq-help" hidden>
+        <p class="lq-tag" data-i18n="helpTag">Please talk to a person</p>
+        <p class="lq-act" data-i18n="helpLead">Thank you for saying so. A tip is not enough for this.</p>
+        <p class="lq-why" data-i18n="helpBody">Reach someone now: a person you trust, a clinician, or your nearest health facility. You do not have to explain it perfectly.</p>
+        <p class="lq-danger" data-i18n="helpDanger">In danger or thinking of ending your life? Call 999 or 112 now.</p>
+        <div class="lq-row">
+          <a class="lq-pill" href="Emergency.html" data-i18n="helpBtn">Open the Emergency page</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="lq-priv"><span data-i18n="privacy">Nothing you tap here leaves your device.</span><span id="lq-count"></span></p>
+  </div>
+</section>
 <!-- ============ INTRO ============ 
 <section id="intro" class="bg-mist">
   <div class="relative mx-auto min-h-[396px] w-(--sheet) flow-root max-xl:flex max-xl:min-h-[217px] max-xl:flex-col max-xl:justify-center max-lg:min-h-[317px] max-md:min-h-[1068px] max-sm:min-h-[269px]">
@@ -118,7 +201,7 @@
   </div>
 </section> --hehe -->
 
-<!-- ============ ONE QUESTION (start.css / start.js) ============ -->
+<!-- ============ ONE QUESTION (start.css / start.js) ============ 
 <section id="start" class="lq" aria-labelledby="lq-title">
   <div class="lq-wrap">
     <div class="lq-top">
