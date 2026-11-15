@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Roboto:wght@100;300;400;500;700;800;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="start.css">
+  <link rel="stylesheet" href="carried.css">
 </head>
 <body>
 
@@ -397,27 +398,64 @@
 </section> -->
 
 <!-- ============ BUILT ON SCIENCE ============ -->
-<section id="science" class="relative min-h-[796px] bg-fixed bg-cover bg-no-repeat px-[40px] text-white max-xl:min-h-[483px] max-lg:min-h-[447px] max-md:min-h-[828px] max-sm:min-h-[982px]" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('images/geralt-abstract-9670838_1920.jpg'); background-position: 50% 0;">
-  <div class="mx-auto flow-root mt-[168px] mb-[60px] w-[971px] max-xl:w-[800px] max-lg:w-[720px] max-md:w-[540px] max-sm:w-[340px]">
-    <div class="m-[-10px] flex flex-wrap max-md:flex-col">
-      <div class="flex w-[30%] p-[10px] min-h-[433px] max-xl:min-h-[357px] max-lg:min-h-[100px] max-md:w-full">
-        <div class="flex w-full flex-col justify-center rounded-[50px] px-[22px] py-[30px] max-md:px-[10px]" style="background-color:#1a1a1a; background-image: linear-gradient(to bottom, #c0c0c0, #478ac9);">
-          <h3 class="mx-[4px] text-[#1a1919] max-xl:mx-0" style="color:#fff">Built on 140 Years of Science..</h3>
-        </div>
+<!-- ============ CARRIED TOGETHER (carried.js) ============
+     Replace the whole existing <section id="science" ...> ... </section> block in index.html with this file.
+     Add  <script src="carried.js"></script>  right after start.js.
+     No new styling: it reuses your existing lq-* classes from start.css. -->
+<section id="carried" class="lq" aria-labelledby="cr-title">
+  <div class="lq-wrap">
+    <h2 id="cr-title" data-ci="title">Carried together</h2>
+    <p class="lq-sub" data-ci="sub">People look after each other, one small message at a time.</p>
+
+    <div class="lq-card">
+      <p class="lq-tag" data-ci="t1">People reach out</p>
+      <p class="lq-act" id="cr-line" aria-live="polite"></p>
+      <div class="lq-row">
+        <button type="button" class="lq-pill" id="cr-next" data-ci="another">Another</button>
       </div>
-      <div class="flex w-[30%] p-[10px] min-h-[433px] max-xl:min-h-[357px] max-lg:min-h-[100px] max-md:w-full max-sm:min-h-[218px]">
-        <div class="w-full rounded-[50px] bg-aqua px-[12px] py-[30px] max-md:px-[10px]">
-          <p class="mx-[18px] mt-[61px] text-night max-xl:mx-0 max-sm:mt-[37px]"> You live a full, fast life. Symmetry uses trusted research to give you simple daily tools that clear the fog&nbsp;Γ£ª
-          </p>
-        </div>
-      </div>
-      <div class="flex w-[40%] p-[10px] min-h-[433px] max-xl:min-h-[357px] max-lg:min-h-[321px] max-md:min-h-[602px] max-md:w-full max-sm:min-h-[379px]">
-        <div class="w-full rounded-[50px] bg-cover px-[23px] py-[30px] max-md:px-[10px]" style="background-image: linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)), url('images/pexels-emilio-sanchez-hernandez-285921208-29159068.jpg'); background-position: 50% 50%;">
-          <h3 class="mt-[112px] ml-[34px] text-[#d0d0d0] max-xl:ml-0">The full version of Symmetry is arriving soon.</h3>
-          <a href="https://symmetry.luamavelis.workers.dev/" class="mt-[43px] mr-auto ml-[26px] table bg-night pt-0 pr-[30px] pb-px pl-[29px] text-center leading-[1.4] text-white max-xl:ml-0">Peek&nbsp;&nbsp;<span class="relative inline text-[2.25em]"><img src="images/44522-1e6f2485.png" alt="" class="inline-block h-[1em] w-[1em] object-contain"></span></a>
+    </div>
+
+    <div class="lq-card">
+      <p class="lq-tag" data-ci="t4">A small discovery</p>
+      <p class="lq-act" id="cr-dq"></p>
+      <div class="lq-alts" id="cr-dopts" role="group" aria-label="Discovery"></div>
+      <div id="cr-dreveal" hidden aria-live="polite">
+        <p class="lq-act" id="cr-dr"></p>
+        <p class="lq-why" id="cr-ds"></p>
+        <div class="lq-row">
+          <a class="lq-link" href="#cr-pass" data-ci="tryIt">Pass a note on</a>
+          <button type="button" class="lq-pill" id="cr-dmore" data-ci="again">Another discovery</button>
         </div>
       </div>
     </div>
+
+    <div class="lq-card">
+      <p class="lq-tag" id="cr-pass" data-ci="t2">Pass it on</p>
+      <p class="lq-why" data-ci="p2">Send someone a kind note. Change it to sound like you.</p>
+      <div class="lq-opts" id="cr-notes" role="group" aria-label="Notes"></div>
+      <textarea id="cr-msg" rows="3" aria-labelledby="cr-msg-l"></textarea>
+      <p class="lq-why" id="cr-msg-l" hidden data-ci="yourNote">Your note</p>
+      <label><input type="checkbox" id="cr-link" checked> <span data-ci="addLink">Include a link to Luam</span></label>
+      <div class="lq-row">
+        <a class="lq-pill" id="cr-wa" target="_blank" rel="noopener" href="#" data-ci="wa">WhatsApp</a>
+        <a class="lq-pill" id="cr-sms" href="#" data-ci="sms">SMS</a>
+        <button type="button" class="lq-pill" id="cr-copy" data-ci="copy">Copy</button>
+        <button type="button" class="lq-pill" id="cr-share" data-ci="share" hidden>Share</button>
+      </div>
+      <p class="lq-why" id="cr-status" aria-live="polite"></p>
+    </div>
+
+    <div class="lq-card">
+      <p class="lq-tag" data-ci="t3">Shape it with us</p>
+      <p class="lq-why" data-ci="q1">What should we write about next?</p>
+      <div class="lq-alts" id="cr-topic" role="group" aria-label="Topics"></div>
+      <p class="lq-why" data-ci="q2">What should Symmetry help with first?</p>
+      <div class="lq-alts" id="cr-tool" role="group" aria-label="Symmetry"></div>
+      <p class="lq-why" id="cr-vstatus" aria-live="polite"></p>
+      <p class="lq-why"><span data-ci="ask">A question for us?</span> <a class="lq-link" id="cr-ask" href="mailto:hello@luam.co.ke" data-ci="askLink">Write to us</a></p>
+    </div>
+
+    <p class="lq-priv" data-ci="privacy">Nothing you type here is stored or sent to us.</p>
   </div>
 </section>
 
@@ -431,6 +469,7 @@
     </div>
   </div>
 </section>
+
 
 <!-- ============ BLOG ============ -->
 <section id="blog" class="bg-night text-center">
@@ -562,6 +601,7 @@
 
 <script src="main.js"></script>
 <script src="start.js"></script>
+<script src="carried.js"></script>
 <script src="track-config.js"></script>
 <script src="track.js" defer></script>
 </body>

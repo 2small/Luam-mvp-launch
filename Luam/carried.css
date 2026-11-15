@@ -1,0 +1,213 @@
+/* Luam "Carried together" section styling. Matches the existing site: Montserrat headings, night #1a1a1a,
+   mist #e8efe9, aqua #94eadc, sky #add8e6, blue #478ac9, pill buttons (50px radius, uppercase, 1px tracking),
+   30px card corners, dark 50% overlay on the photo background.
+
+   HOW TO USE
+   1. Add after start.css in <head>:  <link rel="stylesheet" href="carried.css">
+   2. Choose your background image on the --carried-bg line below. Nothing else needs editing.
+   Scoped to #carried, so nothing else on the page changes. */
+
+#carried {
+  /* ====== YOUR BACKGROUND IMAGE ====== */
+  --carried-bg: url("images/REPLACE-WITH-YOUR-IMAGE.jpg");
+  /* =================================== */
+
+  --night: #1a1a1a;
+  --mist: #e8efe9;
+  --aqua: #94eadc;
+  --sky: #add8e6;
+  --blue: #478ac9;
+  --blue-text: #2d6ca8;
+
+  box-sizing: border-box;
+  padding: 100px 40px 80px;
+  color: var(--night);
+  background-color: var(--night);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--carried-bg);
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover, cover;
+  background-position: 50% 50%, 50% 50%;
+}
+
+#carried *, #carried *::before, #carried *::after { box-sizing: border-box; }
+#carried [hidden] { display: none !important; }
+
+/* Layout: heading and subline across the top, four cards in two columns */
+#carried .lq-wrap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0;
+}
+#carried h2,
+#carried .lq-sub,
+#carried .lq-priv { grid-column: 1 / -1; }
+
+#carried h2 {
+  margin: 0;
+  font-family: Montserrat, sans-serif;
+  font-size: clamp(2.25rem, 4.2vw, 3.61rem);
+  line-height: 1.1;
+  font-weight: 700;
+  color: #fff;
+}
+#carried .lq-sub {
+  margin: 0 0 24px;
+  max-width: 40em;
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: #fbeced;
+}
+#carried .lq-priv {
+  margin: 8px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Cards */
+#carried .lq-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 32px 30px;
+  border: 0;
+  border-radius: 30px;
+  box-shadow: none;
+  background: var(--mist);
+  color: var(--night);
+}
+#carried .lq-card:nth-of-type(2) { background: var(--aqua); }
+#carried .lq-card:nth-of-type(4) { background: var(--sky); }
+
+#carried .lq-tag {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--blue-text);
+}
+#carried .lq-card:nth-of-type(2) .lq-tag,
+#carried .lq-card:nth-of-type(4) .lq-tag { color: #1f4f7d; }
+
+#carried .lq-act {
+  margin: 0;
+  font-family: Montserrat, sans-serif;
+  font-size: 1.375rem;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--night);
+}
+#carried .lq-why {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333;
+}
+#carried #cr-dreveal { display: flex; flex-direction: column; gap: 14px; }
+
+#carried .lq-row,
+#carried .lq-alts,
+#carried .lq-opts { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; margin: 0; padding: 0; }
+#carried .lq-opts { flex-direction: column; align-items: stretch; }
+
+/* Pill buttons and links styled as buttons (same as the hero button) */
+#carried .lq-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin: 0;
+  padding: 14px 30px;
+  border: 0;
+  border-radius: 50px;
+  background: #191919;
+  color: var(--aqua);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+#carried .lq-pill:hover { color: var(--sky); }
+#carried .lq-pill:active { color: #5a86ad; }
+
+/* Choices */
+#carried .lq-opt,
+#carried .lq-alt {
+  margin: 0;
+  border: 2px solid rgba(26, 26, 26, 0.35);
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--night);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.45;
+  cursor: pointer;
+  text-align: left;
+}
+#carried .lq-opt { padding: 14px 18px; border-radius: 20px; min-height: 48px; }
+#carried .lq-alt { padding: 10px 20px; border-radius: 50px; min-height: 44px; }
+#carried .lq-opt .t { display: block; font-weight: 500; }
+#carried .lq-opt:hover,
+#carried .lq-alt:hover { border-color: var(--blue); }
+#carried .lq-opt[aria-pressed="true"],
+#carried .lq-alt[aria-pressed="true"] {
+  border-color: var(--night);
+  background: var(--night);
+  color: var(--aqua);
+}
+
+/* Links, note field, checkbox */
+#carried .lq-link {
+  color: var(--night);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid var(--blue);
+  padding-bottom: 1px;
+}
+#carried .lq-link:hover { color: var(--blue-text); }
+
+#carried textarea {
+  display: block;
+  width: 100%;
+  min-height: 96px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 2px solid rgba(26, 26, 26, 0.35);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--night);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+#carried label { display: flex; align-items: center; gap: 10px; font-size: 0.9375rem; line-height: 1.5; color: #333; }
+#carried input[type="checkbox"] { width: 20px; height: 20px; margin: 0; accent-color: var(--night); flex: none; }
+
+#carried :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
+/* Tablet and phone */
+@media (max-width: 991px) {
+  #carried { padding: 80px 30px 64px; }
+}
+@media (max-width: 767px) {
+  #carried { padding: 60px 20px 48px; }
+  #carried .lq-wrap { grid-template-columns: minmax(0, 1fr); }
+  #carried .lq-sub { font-size: 1.125rem; }
+  #carried .lq-card { padding: 26px 20px; }
+  #carried .lq-act { font-size: 1.25rem; }
+}
+@media (max-width: 575px) {
+  #carried .lq-pill { width: 100%; }
+  #carried .lq-row { flex-direction: column; align-items: stretch; }
+  #carried .lq-link { align-self: flex-start; }
+}
