@@ -1,6 +1,7 @@
 /* Luam blog posts. Plain CSS. Palette from src/input.css: night #1a1a1a, mist #e8efe9, aqua #94eadc, sky #add8e6, blue #478ac9. */
 *,*::before,*::after{box-sizing:border-box}
-html{font-size:16px}
+html{font-size:16px;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{margin:0;background:#fff;color:#111;font-family:"Open Sans",sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 [hidden]{display:none!important}
@@ -30,7 +31,7 @@ h2.small{font-size:16px;margin-top:40px}
 .post a{text-decoration:underline;text-underline-offset:4px;text-decoration-color:#478ac9}
 .post a:hover{color:#1f5fa8}
 
-.try{margin:48px 0 0;padding:clamp(24px,5vw,40px);background:#1a1a1a;color:#fff;border-radius:30px}
+.try{scroll-margin-top:96px;margin:48px 0 0;padding:clamp(24px,5vw,40px);background:#1a1a1a;color:#fff;border-radius:30px}
 .try h2{margin:0 0 16px;color:#94eadc}
 .try p{color:#e6ecec}
 .try ol{margin:0 0 20px;padding:0;list-style:none;counter-reset:s}

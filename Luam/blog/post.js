@@ -6,6 +6,11 @@
   function set(l) {
     wraps.forEach(function (w) { w.hidden = w.getAttribute('data-l') !== l; });
     btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === l ? 'true' : 'false'); });
+    document.querySelectorAll('.try').forEach(function (section) {
+      var language = section.closest('[data-l]');
+      if (language && language.getAttribute('data-l') === l) section.id = 'try';
+      else section.removeAttribute('id');
+    });
     document.documentElement.setAttribute('lang', l === 'sw' ? 'sw' : 'en');
   }
   btns.forEach(function (b) {

@@ -23,7 +23,7 @@
 
   var D = {
     en: {
-      title: 'Carried together',
+      title: 'Reach a friend',
       sub: 'People look after each other, one small message at a time.',
       t1: 'People reach out', another: 'Another',
       t2: 'Pass it on', p2: 'Send someone a kind note. Change it to sound like you.',
