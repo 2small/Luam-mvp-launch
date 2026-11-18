@@ -9,7 +9,7 @@
 
 #carried {
   /* ====== YOUR BACKGROUND IMAGE ====== */
-  --carried-bg: url("images/pexels-octavian-28593600.jpg ");
+  --carried-bg: url("images/relesh.png");
   
   /* =================================== */
 
@@ -27,7 +27,8 @@
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--carried-bg);
   background-repeat: no-repeat, no-repeat;
   background-size: cover, cover;
-  background-position: 50% 50%, 50% 50%;
+  background-position: 50% 10%, 50% 10%;
+  background-attachment: fixed;
 }
 
 #carried *, #carried *::before, #carried *::after { box-sizing: border-box; }
