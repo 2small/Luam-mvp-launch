@@ -7,7 +7,7 @@
     { t: 'Home', h: 'index.html' },
     { t: 'Mental health care', h: 'ClinicalPractice.html' },
     { t: 'Resources', sub: [
-      { t: 'Blog', h: 'FromLuam.html' },
+      { t: 'Blog', h: 'blog/index.html' },
       { t: 'Library', h: 'library.html' },
       { t: 'Events', h: 'events.html' },
       { t: 'Emergency', h: 'Emergency.html' }
