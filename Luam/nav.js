@@ -4,7 +4,7 @@
 (function () {
   'use strict';
   var LINKS = [
-    { t: 'Home', h: 'index.html' },
+    { t: 'Therapy', h: 'therapy.html' },
     { t: 'Mental health care', h: 'ClinicalPractice.html' },
     { t: 'Resources', sub: [
       { t: 'Blog', h: 'blog/index.html' },
