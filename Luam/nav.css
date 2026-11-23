@@ -1,5 +1,5 @@
 /* Luam navigation. One block for all screen sizes. */
-.lnav { position: sticky; top: 0; z-index: 50; background: #1a1a1a; color: #fff; font-family: Montserrat, "Open Sans", sans-serif; }
+.lnav { position: sticky; top: 0; z-index: 9999; background: #1a1a1a; color: #fff; font-family: Montserrat, "Open Sans", sans-serif; }
 .lnav-bar { position: relative; display: flex; align-items: center; justify-content: space-between; max-width: 1140px; width: 100%; min-height: 76px; margin: 0 auto; padding: 0 20px; box-sizing: border-box; }
 .lnav-logo img { display: block; width: 26px; height: 26px; object-fit: cover; opacity: .75; }
 .lnav ul { list-style: none; margin: 0; padding: 0; }
