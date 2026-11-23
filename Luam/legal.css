@@ -1,0 +1,123 @@
+/* Luam legal pages (Privacy, Terms, Disclaimer). One stylesheet for all three.
+   HOW TO EDIT
+   - Colours and type are the variables in :root. Change them there only.
+   - A section is <section id="x"><h2>Title</h2>...</section>. Numbers ("01 //") and the contents list are generated.
+   - Anything not yet confirmed goes in <mark class="lg-todo">...</mark>. Search the pages for "lg-todo" before publishing. */
+:root {
+  --lg-night: #1a1a1a;      /* brand grey: hero, footer */
+  --lg-aqua: #94eadc;       /* brand aqua: accents on dark */
+  --lg-mist: #e8efe9;       /* page background */
+  --lg-paper: #fffdf9;      /* reading surface */
+  --lg-sky: #e8f3f8;        /* at-a-glance panel */
+  --lg-blue: #478ac9;       /* brand blue: decoration only */
+  --lg-deep: #1c3a56;       /* headings */
+  --lg-link: #2a5c8c;       /* links (AA on paper) */
+  --lg-text: #2f4152;       /* body text */
+  --lg-muted: #566878;
+  --lg-line: #d3ddd6;
+  --lg-sand: #f0e7d6;       /* "to confirm" marker */
+  --lg-sage-ink: #3c5a33;
+  --lg-font-head: Roboto, sans-serif;
+  --lg-font-body: "Open Sans", sans-serif;
+  --lg-font-ui: Montserrat, sans-serif;
+}
+html { scroll-behavior: smooth; }
+body.lg { margin: 0; background: var(--lg-mist); color: var(--lg-text); font: 400 17px/1.7 var(--lg-font-body); }
+.lg *, .lg *::before, .lg *::after { box-sizing: border-box; }
+:where(.lg) h1, :where(.lg) h2, :where(.lg) h3, :where(.lg) p, :where(.lg) ul, :where(.lg) ol { margin: 0; }
+.lg-body a, .lg-urgent a { color: var(--lg-link); text-underline-offset: 3px; }
+.lg-body a:hover { color: var(--lg-deep); text-decoration-thickness: 2px; }
+.lg-body a:focus-visible, .lg-toc a:focus-visible, .lg-toc summary:focus-visible { outline: 3px solid var(--lg-link); outline-offset: 3px; border-radius: 4px; }
+.lg-skip { position: absolute; left: -999px; top: 8px; z-index: 100; padding: 10px 16px; border-radius: 8px; background: #fff; color: #111; }
+.lg-skip:focus { left: 8px; }
+.lg-wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* hero */
+.lg-hero { background: var(--lg-night); color: #fff; padding: 72px 0 56px; }
+.lg-kicker { margin-bottom: 14px; font: 700 13px/1.4 var(--lg-font-ui); letter-spacing: 1px; text-transform: uppercase; color: var(--lg-aqua); }
+.lg h1 { max-width: 760px; font: 700 clamp(34px, 5.4vw, 56px)/1.08 var(--lg-font-ui); text-wrap: balance; color: #fff; }
+.lg-lead { max-width: 640px; margin-top: 18px; font-size: 18px; line-height: 1.65; color: #d6e4ee; }
+.lg-meta { margin-top: 24px; font-size: 14px; color: #c4cfd0; }
+.lg-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.lg-tabs a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border: 2px solid rgba(255,255,255,.4); border-radius: 50px; font: 700 12px/1 var(--lg-font-ui); letter-spacing: 1px; text-transform: uppercase; text-decoration: none; color: #fff; }
+.lg-tabs a:hover { border-color: #fff; color: #fff; }
+.lg-tabs a[aria-current="page"] { background: var(--lg-aqua); border-color: var(--lg-aqua); color: #10222f; }
+.lg-tabs a:focus-visible { outline-color: var(--lg-aqua); }
+
+/* layout: contents list left, reading column right */
+.lg-shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 40px; padding-top: 48px; padding-bottom: 88px; align-items: start; }
+.lg-toc { position: sticky; top: 92px; font-size: 14px; line-height: 1.45; }
+.lg-toc summary { margin-bottom: 12px; font: 700 12px/1 var(--lg-font-ui); letter-spacing: 1px; text-transform: uppercase; color: var(--lg-sage-ink); cursor: pointer; list-style: none; }
+.lg-toc summary::-webkit-details-marker { display: none; }
+.lg-toc ol { padding: 0; list-style: none; counter-reset: t; }
+.lg-toc li { counter-increment: t; }
+.lg-toc a { display: block; padding: 7px 0 7px 14px; border-left: 2px solid var(--lg-line); text-decoration: none; color: var(--lg-muted); }
+.lg-toc a::before { content: counter(t, decimal-leading-zero) "  "; font: 600 12px var(--lg-font-ui); }
+.lg-toc a:hover { color: var(--lg-deep); }
+.lg-toc a[aria-current="true"] { border-left-color: var(--lg-blue); color: var(--lg-deep); font-weight: 600; }
+
+.lg-body { counter-reset: s; padding: 48px 56px; border-radius: 30px; background: var(--lg-paper); }
+.lg-body > section { counter-increment: s; padding-top: 36px; margin-top: 36px; border-top: 1px solid var(--lg-line); scroll-margin-top: 90px; }
+.lg-body > section:first-of-type { padding-top: 0; margin-top: 0; border-top: 0; }
+.lg-body h2 { margin-bottom: 14px; font: 700 26px/1.25 var(--lg-font-head); color: var(--lg-deep); text-wrap: balance; }
+.lg-body h2::before { content: counter(s, decimal-leading-zero) " // "; color: var(--lg-blue); font-family: var(--lg-font-ui); font-size: .72em; letter-spacing: .5px; white-space: nowrap; }
+.lg-body h3 { margin: 22px 0 6px; font: 700 18px/1.3 var(--lg-font-head); color: var(--lg-deep); }
+.lg-body p + p, .lg-body p + ul, .lg-body ul + p, .lg-body ol + p { margin-top: 14px; }
+.lg-body ul, .lg-body ol { padding-left: 22px; }
+.lg-body li { margin-top: 8px; }
+.lg-body li::marker { color: var(--lg-blue); }
+.lg-body strong { color: var(--lg-deep); }
+
+/* "in short" panel at the top of each page */
+.lg-glance { margin-bottom: 40px; padding: 24px 28px; border-radius: 24px; background: var(--lg-sky); border-left: 3px solid var(--lg-blue); }
+.lg-body .lg-glance h2 { margin: 0 0 10px; font: 700 13px/1.4 var(--lg-font-ui); letter-spacing: 1px; text-transform: uppercase; color: var(--lg-sage-ink); }
+.lg-body .lg-glance h2::before { content: none; }
+.lg-glance ul { padding-left: 20px; }
+.lg-glance li { margin-top: 6px; color: var(--lg-deep); }
+.lg-body .lg-note { margin-top: 18px; padding: 16px 20px; border-radius: 18px; background: var(--lg-mist); font-size: 16px; }
+.lg-urgent { margin-bottom: 28px; padding: 18px 22px; border-radius: 18px; background: var(--lg-night); color: #fff; font-size: 16px; }
+.lg-body .lg-urgent a, .lg-body .lg-urgent strong { color: var(--lg-aqua); }
+.lg-body .lg-urgent strong:first-child { color: #fff; }
+
+/* anything still to be confirmed by Luam is marked and easy to find */
+mark.lg-todo { padding: 1px 6px; border-radius: 6px; background: var(--lg-sand); color: #5a3b00; border-bottom: 2px dashed #b5651d; }
+
+/* tables (used for what is collected / where) */
+.lg-table { width: 100%; margin-top: 16px; border-collapse: collapse; font-size: 15px; line-height: 1.5; }
+.lg-table th, .lg-table td { padding: 10px 12px; border-bottom: 1px solid var(--lg-line); text-align: left; vertical-align: top; }
+.lg-table th { font: 700 12px/1.3 var(--lg-font-ui); letter-spacing: .8px; text-transform: uppercase; color: var(--lg-sage-ink); }
+.lg-scroll { overflow-x: auto; }
+
+/* footer (injected by legal.js) */
+.lg-foot { background: var(--lg-night); color: #fff; padding: 56px 0 28px; }
+.lg-foot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 28px; }
+.lg-foot a { display: table; margin-bottom: 14px; color: #fff; text-decoration: none; border-bottom: 1px solid transparent; font-size: 15px; }
+.lg-foot a:hover { color: #fff; border-color: var(--lg-aqua); }
+.lg-foot a:focus-visible { outline-color: var(--lg-aqua); }
+.lg-foot p { margin-bottom: 6px; font-size: 14px; color: #c4cfd0; }
+.lg-fine { margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.25); font-size: 12px; font-weight: 300; color: #c4cfd0; }
+
+@media (max-width: 991px) {
+  .lg-shell { grid-template-columns: 1fr; gap: 20px; padding-top: 28px; }
+  .lg-toc { position: static; padding: 6px 20px; border-radius: 20px; background: var(--lg-paper); }
+  .lg-toc summary { margin: 0; padding: 14px 0; }
+  .lg-toc details[open] summary { margin-bottom: 4px; }
+  .lg-body { padding: 36px 32px; }
+}
+@media (max-width: 575px) {
+  .lg { font-size: 16px; } .lg-wrap { padding: 0 16px; }
+  .lg-hero { padding: 48px 0 40px; } .lg-body { padding: 28px 20px; border-radius: 24px; }
+  .lg-body h2 { font-size: 22px; } .lg-glance { padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media print {
+  body.lg { background: #fff; color: #000; font-size: 11pt; }
+  .lnav, .lg-skip, .lg-tabs, .lg-toc, .lg-foot { display: none !important; }
+  .lg-body .lg-urgent { background: none; color: #000; border: 1px solid #000; } .lg-body .lg-urgent a, .lg-body .lg-urgent strong { color: #000; }
+  .lg-hero { padding: 0 0 12pt; background: none; color: #000; }
+  .lg h1, .lg-lead, .lg-meta, .lg-kicker { color: #000; }
+  .lg-shell { display: block; padding: 0; } .lg-body { padding: 0; background: none; }
+  .lg-body > section { break-inside: avoid-page; }
+  .lg-body a { color: #000; } .lg-body a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; }
+  mark.lg-todo { background: none; border-bottom: 1px dashed #000; color: #000; }
+}

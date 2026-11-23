@@ -1,165 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-KE">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Public Disclaimers // Symmetry</title>
-  <link rel="stylesheet" href="index.css">
-  
-  <!-- PWA Registration Link -->
-  <link rel="manifest" href="manifest.json">
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('Symmetry PWA Registered Safely.', reg))
-          .catch(err => console.log('Registration Error:', err));
-      });
-    }
-  </script>
-
-  <style>
-    /* Localized structural layout parameters to prevent cognitive load */
-    .disclaimer-wrapper {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      background-color: #2B2D2F; /* Deep anchor canvas background */
-      padding: 40px 20px;
-    }
-
-    .disclaimer-card {
-      background-color: #8EC1EE; /* Your Slate Sky Blue DMN background */
-      color: #2B2D2F;            /* High contrast Off-Black text */
-      max-width: 800px;
-      width: 100%;
-      margin: 40px auto;
-      padding: 48px;
-      border-radius: 24px;       /* Safe organic rounded corners */
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-    }
-
-    .disclaimer-header {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
-
-    .disclaimer-meta {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      opacity: 0.7;
-      margin-bottom: 40px;
-      display: block;
-    }
-
-    .disclaimer-clause {
-      margin-bottom: 32px;
-    }
-
-    .disclaimer-clause:last-of-type {
-      margin-bottom: 0;
-    }
-
-    .clause-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: block;
-      letter-spacing: 0.5px;
-    }
-
-    .clause-body {
-      font-size: 14px; /* Controlled size for easy tracking */
-      line-height: 1.6;
-      opacity: 0.9;
-      text-align: left;
-    }
-
-    .disclaimer-footer {
-      text-align: center;
-      padding-top: 20px;
-    }
-
-    .footer-stamp {
-      color: #E8EFE9; /* Morning Mist Sage green color anchor */
-      font-size: 13px;
-      letter-spacing: 0.5px;
-      text-decoration: none;
-    }
-
-    @media (max-width: 768px) {
-      .disclaimer-card {
-        padding: 32px 24px;
-        margin: 20px auto;
-      }
-      .disclaimer-header {
-        font-size: 1.6rem;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Disclaimer | Luam</title>
+<meta name="description" content="Luam disclaimer: information not treatment, not a crisis service, results differ, images and directory limits.">
+<link rel="canonical" href="https://luam.co.ke/disclaimer.html">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#1a1a1a">
+<link rel="icon" type="image/png" href="images/luamline.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Montserrat:wght@500;600;700">
+<link rel="stylesheet" href="nav.css">
+<link rel="stylesheet" href="legal.css">
 </head>
-<body>
+<body class="lg">
+<a class="lg-skip" href="#main">Skip to content</a>
+<script src="nav.js"></script>
 
-  <div class="disclaimer-wrapper">
-    
-    <main class="disclaimer-card">
-      <h1 class="disclaimer-header">Public Disclaimers</h1>
-      <span class="disclaimer-meta">Last Updated: June 2026</span>
-
-      <!-- 01 // Imagery -->
-      <div class="disclaimer-clause">
-        <span class="clause-title">01 // Aesthetic and Illustrative Imagery</span>
-        <p class="clause-body">
-          The visual assets across this platform—including the sunset silhouettes, nature depictions, and representations of calm individuals—are strictly artistic, decorative, and symbolic illustrations. They do not portray active patients, clients, or live case studies of Luam™ or the Symmetry software. This imagery is utilized purely to communicate the conceptual essence of digital calm and does not constitute a literal representation of clinical outcomes, nor is it intended as false or misleading advertising.
-        </p>
-      </div>
-
-      <!-- 02 // Nature -->
-      <div class="disclaimer-clause">
-        <span class="clause-title">02 // Informational and Educational Nature</span>
-        <p class="clause-body">
-          The public marketing copy, conceptual frameworks (such as Brain Gardening and Niksen), and public blog essays found on this website are compiled for informational and educational purposes only. This content should not be used as a substitute for professional medical, psychiatric, or psychological diagnosis, advice, or treatment.
-        </p>
-      </div>
-
-      <!-- 03 // Limits -->
-      <div class="disclaimer-clause">
-        <span class="clause-title">03 // Scheduled Care Limitation</span>
-        <p class="clause-body">
-          While Luam™ retains a staff of licensed psychologists and psychiatrists, our online interfaces, websites, and apps are built exclusively for scheduled mental wellness maintenance and long-term psychological flexibility. Symmetry does not provide real-time, on-demand psychological intervention, immediate psychiatric restraint, or crisis dispatch services.
-        </p>
-      </div>
-
-      <!-- 04 // Directory -->
-      <div class="disclaimer-clause">
-        <span class="clause-title">04 // Third-Party Directory Content</span>
-        <p class="clause-body">
-          The references, contact numbers, and physical operational hours listed within our emergency mental health directory are aggregated from publicly available data for user convenience. Luam™ makes every effort to keep this directory updated, but we do not guarantee the real-time operational status, staffing levels, or admission capacities of these independent external institutions.
-        </p>
-      </div>
-
-      <!-- 05 // Variance -->
-      <div class="disclaimer-clause">
-        <span class="clause-title">05 // Individual Variances in Outcomes</span>
-        <p class="clause-body">
-          Every individual’s cognitive architecture and psychological resilience path is unique. While our software tools and methodologies are grounded in established behavioral science, user outcomes will vary based on individual commitment, personal environment, and clinical history. Historical metrics or research references do not guarantee identical future results.
-        </p>
-      </div>
-
-    </main>
-
-    
-    <footer class="disclaimer-footer">
-      <p class="footer-stamp">©2026 Luam™ Logic For Agency ✦</p>
-    </footer>
-
+<header class="lg-hero">
+  <div class="lg-wrap">
+    <p class="lg-kicker">Legal</p>
+    <h1>What this website is, and is not.</h1>
+    <p class="lg-lead">Our content informs. It does not diagnose or treat, and it is not a crisis service.</p>
+    <p class="lg-meta">Last updated <time datetime="2026-11-23">23 November 2026</time></p>
+    <nav class="lg-tabs" id="lg-tabs" aria-label="Legal pages"></nav>
   </div>
+</header>
 
+<div class="lg-shell lg-wrap">
+  <div id="lg-toc"></div>
+  <main id="main" class="lg-body">
+
+    <div class="lg-urgent" role="note"><strong>In an emergency, call 999 or 112.</strong> Mental health hotlines are on our <a href="Emergency.html">Emergency page</a>.</div>
+
+    <aside class="lg-glance" aria-labelledby="g">
+      <h2 id="g">In short</h2>
+      <ul>
+        <li>Everything on this site is for information and education, not for diagnosis or treatment.</li>
+        <li>Our tools support reflection. They do not replace a clinician.</li>
+        <li>Luam is not a crisis service.</li>
+        <li>Results differ from person to person.</li>
+      </ul>
+    </aside>
+
+    <section id="information">
+      <h2>Information, not treatment</h2>
+      <p>Articles, the library, workshops, events, the check-in and conceptual frameworks such as Brain Gardening and Niksen are written for information and education. They are not a substitute for professional medical, psychiatric or psychological diagnosis, advice or treatment. Do not delay seeking care, or stop or change any medicine, because of something you read here.</p>
+    </section>
+
+    <section id="tools">
+      <h2>Self-reflection tools</h2>
+      <p>The check-in, Symmetry and cognitive exercises help you notice and think about your own patterns. They are not tests or assessments, and what they show is not a diagnosis. If something worries you, speak to a clinician.</p>
+    </section>
+
+    <section id="care">
+      <h2>Scheduled care, not a crisis service</h2>
+      <p>Luam works with licensed psychologists and psychiatrists, but our website, apps and booking are for scheduled care. We do not offer on-demand crisis response, emergency psychiatric admission or dispatch. In an emergency, call 999 or 112 or go to the nearest emergency facility.</p>
+    </section>
+
+    <section id="relationship">
+      <h2>No clinician and patient relationship from the site</h2>
+      <p>Using this website, sending us a message or reading a clinician's profile does not create a clinician and patient relationship. That begins only when you complete intake and have a session. See our <a href="Terms.html">Terms</a>.</p>
+    </section>
+
+    <section id="imagery">
+      <h2>Images and illustrations</h2>
+      <p>The artwork on this site, including trees, skies, silhouettes and images of calm people, is decorative and symbolic. It does not show patients or clients and it is not a literal picture of clinical outcomes. Photographs on our therapy page are of the practitioners they name.</p>
+    </section>
+
+    <section id="outcomes">
+      <h2>Results differ</h2>
+      <p>Each person's circumstances, history and effort are different. Our methods rest on established behavioural science, but outcomes will vary. Research we cite describes groups of people. It does not guarantee a result for you.</p>
+    </section>
+
+    <section id="directory">
+      <h2>Emergency directory and outside links</h2>
+      <p>Contacts and opening hours on the Emergency page come from public sources for convenience. We try to keep them current but cannot guarantee that an organisation is open, staffed or has space. Confirm before you travel. We do not control other websites we link to.</p>
+    </section>
+
+    <section id="accuracy">
+      <h2>Accuracy and currency</h2>
+      <p>Fees, availability, laws and regulations can change. We aim to keep this site current. Where something here conflicts with what a clinician or regulator tells you, follow the clinician or regulator. To report an error, write to <a data-site="email" href="mailto:hello@luam.co.ke">hello@luam.co.ke</a>.</p>
+    </section>
+
+  </main>
+</div>
+
+<footer class="lg-foot" id="lg-foot">
+  <noscript><div class="lg-wrap"><p><a href="Privacy.html">Privacy</a> &middot; <a href="Terms.html">Terms</a> &middot; <a href="disclaimer.html">Disclaimer</a> &middot; <a href="Emergency.html">Emergency</a></p></div></noscript>
+</footer>
+<script src="legal.js"></script>
 </body>
 </html>
-
