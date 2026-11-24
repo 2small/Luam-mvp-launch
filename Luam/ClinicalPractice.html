@@ -56,7 +56,8 @@
         {"@type":"Question","name":"Is everything I say confidential?","acceptedAnswer":{"@type":"Answer","text":"Yes. What you discuss with your clinician stays between you, in line with professional and legal confidentiality standards — with the only exceptions being situations where there's a risk to your safety or someone else's, which your clinician will always explain clearly."}},
         {"@type":"Question","name":"What actually happens in the first session?","acceptedAnswer":{"@type":"Answer","text":"Your clinician will ask about what's brought you in, your history, and what support looks like for you. There's no obligation to have the \"right words\" — it's a conversation, not a test."}},
         {"@type":"Question","name":"Can I have sessions by video instead of in person?","acceptedAnswer":{"@type":"Answer","text":"Yes, most of our clinicians offer video consultations, and many patients continue their entire course of care this way."}},
-        {"@type":"Question","name":"Do I need a referral to book?","acceptedAnswer":{"@type":"Answer","text":"No referral is needed. You can book directly, whether this is your first time seeking care or you're switching providers."}},
+        {"@type":"Question","name":"Do I need a referral to book?","acceptedAnswer":{"@type":"Answer","text":"No referral is needed. You can book directly, whether this is your first time seeking care or you're switching providers. Doctors, schools, employers and family members can also refer someone to us using the referral form on this page."}},
+        {"@type":"Question","name":"How do I refer a patient, student, employee or family member?","acceptedAnswer":{"@type":"Answer","text":"Use the referral form on this page. It takes about two minutes. We contact the person within one working day, with their agreement, and confirm receipt to you."}},
         {"@type":"Question","name":"What if I'm not sure whether I need a psychiatrist or a psychologist?","acceptedAnswer":{"@type":"Answer","text":"That's a normal thing to be unsure about. Tell us what you're experiencing when you book, or call us, and we'll match you with the right clinician."}}
       ]
     }
@@ -76,6 +77,9 @@
     --clay:#BE7A3D;
     --sage:#DCE3DA;
     --white:#FFFFFF;
+    --alert-bg:#FBF1E6;
+    --alert-line:#E3C7A4;
+    --error:#A3331F;
     --radius:14px;
   }
 
@@ -108,7 +112,8 @@
   a{color:inherit;}
   img{max-width:100%; display:block;}
 
-  a:focus-visible, button:focus-visible, summary:focus-visible{
+  a:focus-visible, button:focus-visible, summary:focus-visible,
+  input:focus-visible, select:focus-visible, textarea:focus-visible{
     outline:2.5px solid var(--teal);
     outline-offset:3px;
     border-radius:4px;
@@ -133,9 +138,13 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:clamp(16px, 2.2vw, 32px);
     padding:18px 0;
   }
+  .nav-row > .btn{flex:none; white-space:nowrap; padding:11px 20px;}
   .logo{
+    flex:none;
+    white-space:nowrap;
     display:flex;
     align-items:center;
     gap:10px;
@@ -151,11 +160,15 @@
   nav.primary-nav{
     display:flex;
     align-items:center;
-    gap:28px;
+    justify-content:center;
+    flex:1 1 auto;
+    min-width:0;
+    gap:clamp(14px, 1.8vw, 28px);
   }
   nav.primary-nav a{
     text-decoration:none;
-    font-size:0.95rem;
+    font-size:clamp(0.86rem, 0.3vw + 0.78rem, 0.95rem);
+    white-space:nowrap;
     color:var(--ink-soft);
   }
   nav.primary-nav a:hover{color:var(--ink);}
@@ -175,8 +188,16 @@
     border:none;
     cursor:pointer;
     transition:background 0.15s ease;
+    font-family:inherit;
   }
   .btn:hover{background:var(--teal-deep);}
+  .btn-outline{
+    background:transparent;
+    color:var(--teal-deep);
+    border:1.5px solid var(--teal);
+  }
+  .btn-outline:hover{background:var(--sage); color:var(--teal-deep);}
+  .btn[disabled]{opacity:0.6; cursor:progress;}
   .menu-toggle{display:none; background:none; border:none; cursor:pointer;}
 
   /* ---------- Crisis strip ---------- */
@@ -234,6 +255,7 @@
     font-size:0.85rem;
     color:var(--ink-soft);
   }
+  .hero-note a{color:var(--teal-deep); font-weight:500; text-underline-offset:3px;}
   .rhythm{width:100%; height:auto;}
 
   /* ---------- Sections ---------- */
@@ -369,6 +391,185 @@
     color:var(--ink-soft);
   }
 
+  /* ---------- Referral pathway ---------- */
+  .refer-grid{
+    display:grid;
+    grid-template-columns:0.85fr 1.15fr;
+    gap:48px;
+    align-items:start;
+  }
+  .refer-intro h2{font-size:clamp(1.6rem, 2.6vw, 2.1rem);}
+  .refer-intro > p{color:var(--ink-soft); font-size:1.02rem; max-width:44ch;}
+  .refer-who{
+    list-style:none;
+    padding:0;
+    margin:0 0 28px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .refer-who li{
+    background:var(--stone);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:6px 14px;
+    font-size:0.88rem;
+    color:var(--ink-soft);
+  }
+  .refer-steps{
+    list-style:none;
+    padding:0;
+    margin:0 0 24px;
+    counter-reset:rs;
+  }
+  .refer-steps li{
+    counter-increment:rs;
+    position:relative;
+    padding:0 0 18px 44px;
+    font-size:0.95rem;
+    color:var(--ink-soft);
+  }
+  .refer-steps li strong{display:block; color:var(--ink); font-weight:600;}
+  .refer-steps li::before{
+    content:counter(rs);
+    position:absolute;
+    left:0; top:0;
+    width:30px; height:30px;
+    border-radius:50%;
+    background:var(--sage);
+    color:var(--teal-deep);
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .refer-alt{font-size:0.9rem; color:var(--ink-soft);}
+  .refer-alt a{color:var(--teal-deep); font-weight:500; text-underline-offset:3px;}
+
+  .refer-form{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:30px 32px 28px;
+  }
+  .refer-form fieldset{
+    border:none;
+    padding:0;
+    margin:0 0 22px;
+    min-width:0;
+  }
+  .refer-form legend{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    padding:0;
+    margin-bottom:12px;
+    color:var(--ink);
+  }
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .field{margin-bottom:14px;}
+  .field label, .field .label{
+    display:block;
+    font-size:0.88rem;
+    font-weight:500;
+    margin-bottom:5px;
+  }
+  .field .opt{font-weight:400; color:var(--ink-soft);}
+  .field input[type=text],
+  .field input[type=tel],
+  .field input[type=email],
+  .field select,
+  .field textarea{
+    width:100%;
+    font:inherit;
+    font-size:1rem; /* 16px stops iOS zoom on focus */
+    padding:11px 13px;
+    border:1.5px solid #BFC3B6;
+    border-radius:9px;
+    background:var(--white);
+    color:var(--ink);
+  }
+  .field textarea{min-height:92px; resize:vertical;}
+  .field input[aria-invalid=true],
+  .field select[aria-invalid=true]{border-color:var(--error);}
+  .field-hint{font-size:0.8rem; color:var(--ink-soft); margin:5px 0 0;}
+  .field-error{font-size:0.82rem; color:var(--error); margin:5px 0 0; display:none;}
+  .field-error.show{display:block;}
+
+  .choice-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .choice{position:relative;}
+  .choice input{
+    position:absolute;
+    opacity:0;
+    inset:0;
+    width:100%;
+    height:100%;
+    margin:0;
+    cursor:pointer;
+  }
+  .choice span{
+    display:block;
+    padding:9px 15px;
+    border:1.5px solid #BFC3B6;
+    border-radius:9px;
+    font-size:0.92rem;
+    background:var(--white);
+  }
+  .choice input:checked + span{
+    background:var(--sage);
+    border-color:var(--teal);
+    color:var(--teal-deep);
+    font-weight:500;
+  }
+  .choice input:focus-visible + span{outline:2.5px solid var(--teal); outline-offset:2px;}
+
+  .urgent-note{
+    display:none;
+    background:var(--alert-bg);
+    border:1px solid var(--alert-line);
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:0.9rem;
+    margin:14px 0 0;
+  }
+  .urgent-note.show{display:block;}
+  .urgent-note a{font-weight:600; color:var(--teal-deep);}
+
+  .consent{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:6px;
+    font-size:0.9rem;
+  }
+  .consent input{margin:3px 0 0; width:18px; height:18px; flex:none; accent-color:var(--teal);}
+  .consent a{color:var(--teal-deep);}
+
+  .form-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:20px;
+  }
+  .form-actions .btn{padding:13px 24px;}
+  .form-note{font-size:0.8rem; color:var(--ink-soft); margin:14px 0 0;}
+  .form-status{
+    display:none;
+    margin-top:16px;
+    padding:14px 16px;
+    border-radius:10px;
+    font-size:0.93rem;
+  }
+  .form-status.show{display:block;}
+  .form-status.ok{background:var(--sage); border:1px solid #B9C7B6; color:var(--teal-deep);}
+  .form-status.err{background:#FBEAE6; border:1px solid #E2B5AB; color:var(--error);}
+  .hp{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+
   /* ---------- Symmetry teaser ---------- */
   .symmetry-band{
     background:var(--teal);
@@ -415,6 +616,7 @@
     font-size:0.96rem;
     max-width:62ch;
   }
+  details p a{color:var(--teal-deep); font-weight:500;}
 
   /* ---------- Footer ---------- */
   footer{
@@ -455,7 +657,9 @@
   }
 
   /* ---------- Responsive ---------- */
-  @media (max-width: 880px){
+  /* Collapse to the menu button before the 7 links + CTA can crowd the logo */
+  @media (max-width: 1100px){
+    .nav-row{justify-content:space-between;}
     nav.primary-nav{
       position:fixed;
       top:64px; left:0; right:0;
@@ -463,26 +667,33 @@
       border-bottom:1px solid var(--line);
       flex-direction:column;
       align-items:flex-start;
+      justify-content:flex-start;
       gap:0;
       padding:8px 28px 18px;
       display:none;
     }
     nav.primary-nav.open{display:flex;}
-    nav.primary-nav a{padding:10px 0; width:100%;}
-    .menu-toggle{display:block;}
-    .nav-row .btn{display:none;}
+    nav.primary-nav a{padding:10px 0; width:100%; font-size:1rem;}
+    .menu-toggle{display:block; flex:none;}
+    .nav-row > .btn{display:none;}
+  }
+  @media (max-width: 880px){
     .hero-grid{grid-template-columns:1fr; gap:36px;}
     .hero{padding:48px 0 40px;}
     .condition-grid{grid-template-columns:1fr 1fr;}
     .provider-grid{grid-template-columns:1fr; max-width:400px;}
     .steps{grid-template-columns:1fr 1fr; row-gap:32px;}
     .pricing-panel{grid-template-columns:1fr; padding:28px;}
+    .refer-grid{grid-template-columns:1fr; gap:32px;}
     .footer-grid{grid-template-columns:1fr; gap:28px;}
     .symmetry-band{padding:30px 26px;}
   }
   @media (max-width: 520px){
     .condition-grid{grid-template-columns:1fr;}
     .steps{grid-template-columns:1fr;}
+    .field-row{grid-template-columns:1fr; gap:0;}
+    .refer-form{padding:24px 20px;}
+    .form-actions .btn{width:100%; text-align:center;}
   }
 </style>
 <link rel="stylesheet" href="nav.css"/>
@@ -505,6 +716,7 @@
       <a href="#providers">Our clinicians</a>
       <a href="#how-it-works">How it works</a>
       <a href="#pricing">Pricing &amp; insurance</a>
+      <a href="#refer" data-track="nav_refer">Refer someone</a>
       <a href="#faq">FAQ</a>
       <a href="#emergency" class="nav-emergency">Emergency</a>
     </nav>
@@ -527,7 +739,7 @@
           <a href="ServiceBooking.html" class="btn">Book a consultation</a>
           <a href="#conditions" class="secondary-link">Not sure this is for you? See what we treat</a>
         </div>
-        <p class="hero-note">Sessions available in person in Nairobi and by video. First-time patients are usually seen within a week.</p>
+        <p class="hero-note">Sessions available in person in Nairobi and by video. First-time patients are usually seen within a week. <br>Doctor, school, employer or family member? <a href="#refer" data-track="hero_refer">Refer someone in two minutes</a>.</p>
       </div>
       <div>
         <!-- Signature illustration: calm repeating rhythm, echoing "Symmetry" -->
@@ -578,9 +790,9 @@
             <img src="images/psychiatristPic2rm.jpeg" alt="Portrait of Hyline Keya Morara, psychiatrist" width="640" height="800" loading="lazy">
           </figure>
           <div class="provider-body">
-            <h3>Dr. Hyline Keya Morara</h3>
-            <div class="provider-credential">MBChB, MMed (Psychiatry) — registration no: 11565</div>
-            <p>[One or two sentences on their focus, e.g. "Sees adults for mood disorders, anxiety, and medication management. 8 years in practice."]</p>
+            <h3>Hyline Keya Morara</h3>
+            <div class="provider-credential">registration no: 11565</div>
+            <p>I assess, diagnose and treat mental conditions alongside medical management</p>
             <a href="ServiceBooking.html" data-track="practitioner_book" data-track-label="Hyline Keya Morara">Book a consultation with Hyline Keya Morara</a>
           </div>
         </article>
@@ -591,7 +803,7 @@
           <div class="provider-body">
             <h3>Dr. Mwaniga Mwavua PhD.</h3>
             <div class="provider-credential">Licensed Clinical Psychologist — [registration no.]</div>
-            <p>[Focus area, e.g. "Works with trauma, grief, and relationship therapy using CBT and supportive psychotherapy."]</p>
+            <p></p>
             <a href="ServiceBooking.html" data-track="practitioner_book" data-track-label="Dr. Mwaniga Mwavua">Book a consultation with Dr. Mwaniga Mwavua</a>
           </div>
         </article>
@@ -616,7 +828,7 @@
         <div class="step">
           <div class="num">2</div>
           <h3>First consultation</h3>
-          <p>A 45–60 minute session to understand what's going on and answer your questions.</p>
+          <p>A 45–6minute session to understand what's going on and answer your questions.</p>
         </div>
         <div class="step">
           <div class="num">3</div>
@@ -628,7 +840,7 @@
           <h3>Ongoing care</h3>
           <p>Ongoing sessions, and optional daily check-ins between them with Symmetry.</p>
         </div>
-      </div>
+    </div>
     </div>
   </section>
 
@@ -649,13 +861,130 @@
         </div>
         <div class="pricing-col">
           <h3>Insurance we accept</h3>
-          <!--<div class="insurer-list">
+          <!--<div class="insur-list">
             <span>[Insurer]</span><span>[Insurer]</span><span>[Insurer]</span>
             <span>[Insurer]</span><span>[Insurer]</span><span>[Insurer]</span>
 	  </div>-->
           <p style="margin-top:16px; font-size:0.88rem;">Don't see your provider listed? Message us — we can usually confirm cover before your first session.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ---------- REFERRALS ---------- -->
+  <section class="section" id="refer">
+    <div class="wrap refer-grid">
+     <div class="refer-intro">
+        <h2>Refer someone to a psychiatrist or psychologist.</h2>
+        <p>No letter or paperwork needed. Tell us who to contact and why, and we take it from there.</p>
+
+        <ul class="refer-who" aria-label="Who can refer">
+          <li>Doctors &amp; clinics</li>
+          <li>Schools &amp; universities</li>
+          <li>Employers &amp; HR</li>
+          <li>Family &amp; friends</li>
+        </ul>
+
+        <ol class="refer-steps">
+          <li><strong>You send the form (about 2 minutes)</strong>Just a name, a phone number and a short reason. No clinical history required.</li>
+          <li><strong>We contact the person within one working day</strong>We only reach out with their agreement, and match them with the right clinician.</li>
+          <li><strong>You get confirmation</strong>We confirm we received your referral. Beyond that, we share nothing about their care unless they allow it.</li>
+        </ol>
+
+        <p class="refer-alt">Prefer to talk? Call <a href="tel:+254113111931">+254 113 111 931</a> or email <a href="mailto:hello@luam.co.ke">hello@luam.co.ke</a>. Referring for yourself? <a href="ServiceBooking.html">Book directly</a>.</p>
+      </div>
+
+      <form class="refer-form" id="referralForm" novalidate aria-labelledby="referFormTitle">
+        <h3 id="referFormTitle" class="hp" style="position:static;width:auto;height:auto;overflow:visible;left:auto;font-size:1.25rem;margin-bottom:18px;">Referral form</h3>
+
+        <fieldset>
+          <legend>1. Who needs support?</legend>
+          <div class="field-row">
+            <div class="field">
+              <label for="pName">Their first name</label>
+              <input type="text" id="pName" name="patient_name" autocomplete="off" required>
+              <p class="field-error" id="pName-err">Please enter a first name.</p>
+            </div>
+            <div class="field">
+              <label for="pPhone">Their phone number</label>
+              <input type="tel" id="pPhone" name="patient_phone" inputmode="tel" autocomplete="off" placeholder="0712 345 678" required>
+              <p class="field-error" id="pPhone-err">Please enter a valid phone number.</p>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label" id="lblUrgency">How soon do they need to be seen?</span>
+            <div class="choice-row" role="radiogroup" aria-labelledby="lblUrgency">
+              <label class="choice"><input type="radio" name="urgency" value="Routine" checked><span>Routine</span></label>
+              <label class="choice"><input type="radio" name="urgency" value="Within a week"><span>Within a week</span></label>
+              <label class="choice"><input type="radio" name="urgency" value="Urgent"><span>Urgent</span></label>
+            </div>
+            <div class="urgent-note" id="urgentNote" role="note">
+              <strong>If there is any immediate risk to life, please don't wait for a form.</strong> Call our crisis line <a href="tel:+254113111931">+254 113 111 931</a>, or take them to the nearest hospital emergency room. You can still send this referral so we can follow up.
+            </div>
+          </div>
+          <div class="field">
+            <span class="label" id="lblType">Who would suit them best?</span>
+            <div class="choice-row" role="radiogroup" aria-labelledby="lblType">
+              <label class="choice"><input type="radio" name="clinician_type" value="Not sure" checked><span>Not sure, you decide</span></label>
+              <label class="choice"><input type="radio" name="clinician_type" value="Psychiatrist"><span>Psychiatrist</span></label>
+              <label class="choice"><input type="radio" name="clinician_type" value="Psychologist"><span>Psychologist</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="pReason">Reason for referral <span class="opt">(optional)</span></label>
+            <textarea id="pReason" name="reason" maxlength="400" placeholder="A line or two is enough, e.g. low mood for 3 months, poor sleep, struggling at work."></textarea>
+            <p class="field-hint">Keep this brief. Please don't include full medical records here.</p>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. Who is referring?</legend>
+          <div class="field-row">
+            <div class="field">
+              <label for="rName">Your name</label>
+              <input type="text" id="rName" name="referrer_name" autocomplete="name" required>
+              <p class="field-error" id="rName-err">Please enter your name.</p>
+            </div>
+            <div class="field">
+              <label for="rRole">You are a…</label>
+              <select id="rRole" name="referrer_role">
+                <option>Family member or friend</option>
+                <option>Doctor or clinician</option>
+                <option>School or university</option>
+                <option>Employer or HR</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="rContact">Your phone or email</label>
+              <input type="text" id="rContact" name="referrer_contact" autocomplete="email" required>
+              <p class="field-error" id="rContact-err">So we can confirm receipt, please add a phone number or email.</p>
+            </div>
+            <div class="field">
+              <label for="rOrg">Organisation <span class="opt">(optional)</span></label>
+              <input type="text" id="rOrg" name="referrer_org" autocomplete="organization">
+            </div>
+          </div>
+        </fieldset>
+
+        <label class="consent" for="pConsent">
+          <input type="checkbox" id="pConsent" name="consent" required>
+          <span>The person knows about this referral and agrees to be contacted by Luam. (If they are under 18, a parent or guardian agrees.) <a href="Privacy.html" target="_blank" rel="noopener">How we use this information</a></span>
+        </label>
+        <p class="field-error" id="pConsent-err">Please confirm the person agrees to be contacted.</p>
+
+        <input type="text" class="hp" name="website" id="rWebsite" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="form-actions">
+          <button type="submit" class="btn" id="referSubmit" data-track="referral_submit">Send referral</button>
+          <button type="button" class="btn btn-outline" id="referWhatsApp" data-track="referral_whatsapp">Send by WhatsApp instead</button>
+        </div>
+        <p class="form-note">Goes only to Luam's care team. We don't share it or use it for marketing.</p>
+        <div class="form-status" id="referStatus" role="status" aria-live="polite"></div>
+      </form>
+
     </div>
   </section>
 
@@ -673,27 +1002,31 @@
   </section>-->
 
   <!-- ---------- FAQ ---------- -->
-  <section class="section" id="faq">
+  <section class="section section-tint" id="faq">
     <div class="wrap">
       <div class="section-head">
         <h2>Common questions about seeing a psychiatrist or psychologist.</h2>
       </div>
       <div class="faq-list">
-        <details>
+        <deils>
           <summary>Is everything I say confidential?<span class="plus" aria-hidden="true">+</span></summary>
           <p>Yes. What you discuss with your clinician stays between you, in line with professional and legal confidentiality standards — with the only exceptions being situations where there's a risk to your safety or someone else's, which your clinician will always explain clearly.</p>
         </details>
         <details>
-          <summary>What actually happens in the first session?<span class="plus" aria-hidden="true">+</span></summary>
+          <summary>What actually happens in the first session?<span cls="plus" aria-hidden="true">+</span></summary>
           <p>Your clinician will ask about what's brought you in, your history, and what support looks like for you. There's no obligation to have the "right words" — it's a conversation, not a test.</p>
         </details>
         <details>
           <summary>Can I have sessions by video instead of in person?<span class="plus" aria-hidden="true">+</span></summary>
-          <p>Yes, most of our clinicians offer video consultations, and many patients continue their entire course of care this way.</p>
+          <p>Yes, most of our clinicians offer video consultations, and many patients continue tir entire course of care this way.</p>
         </details>
         <details>
           <summary>Do I need a referral to book?<span class="plus" aria-hidden="true">+</span></summary>
-          <p>No referral is needed. You can book directly, whether this is your first time seeking care or you're switching providers.</p>
+          <p>No referral is needed. You can book directly, whether this is your first time seeking care or you're switching providers. Doctors, schools, employers and family members can also <a href="#refer">refer someone to us</a> using the form on this page.</p>
+        </details>
+        <details>
+          <summary>How do I refer a patient, student, employee or family member?<span class="plus" aria-hidden="true">+</span></summary>
+          <p>Use the <a href="#refer">referral form</a>. It takes about two minutes. We contact the person within one working day, with their agreement, and confirm receipt to you.</p>
         </details>
         <details>
           <summary>What if I'm not sure whether I need a psychiatrist or a psychologist?<span class="plus" aria-hidden="true">+</span></summary>
@@ -727,6 +1060,7 @@
           <li><a href="mailto:hello@luam.co.ke">hello@luam.co.ke</a></li>
           <li><a href="tel:+254113111931">+254 113 111 931</a></li>
           <li>Nairobi, Kenya</li>
+          <li><a href="#refer">Refer someone</a></li>
           <li><a href="#faq">FAQ</a></li>
           <li><a href="Privacy.html">Privacy</a></li>
           <li><a href="Terms.html">Terms</a></li>
@@ -735,7 +1069,7 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Luam. Patterns of mind.</span>
-      <span>This site does not replace emergency medical care.</span>
+      <span>This ste does not replace emergency medical care.</span>
     </div>
   </div>
 </footer>
@@ -753,6 +1087,160 @@
       toggle.setAttribute('aria-expanded', 'false');
     });
   });
+</script>
+
+<!-- ---------- Referral form logic ---------- -->
+<script>
+(function(){
+  /* CONFIG -----------------------------------------------------------
+     REFERRAL_ENDPOINT: paste a form-handler URL (e.g. a Formspree,
+     Google Apps Script or Cloudflare Worker endpoint) to have referrals
+     delivered directly with no email app needed. Leave blank and the
+     form falls back to opening a pre-filled email, so it works today
+     with no backend.
+     WHATSAPP_NUMBER: digits only, country code first, no "+". Confirm
+     this number is on WhatsApp, or change it.
+  ------------------------------------------------------------------ */
+  var REFERRAL_ENDPOINT = "";
+  var REFERRAL_EMAIL   = "hello@luam.co.ke";
+  var WHATSAPP_NUMBER  = "254113111931";
+
+  var form    = document.getElementById('referralForm');
+  if(!form) return;
+  var status  = document.getElementById('referStatus');
+  var submit  = document.getElementById('referSubmit');
+  var wa      = document.getElementById('referWhatsApp');
+  var urgentNote = document.getElementById('urgentNote');
+
+  function val(id){ return (document.getElementById(id).value || '').trim(); }
+  function radio(name){ var r = form.querySelector('input[name="'+name+'"]:checked'); return r ? r.value : ''; }
+
+  // Show crisis guidance the moment "Urgent" is chosen
+  form.querySelectorAll('input[name="urgency"]').forEach(function(r){
+    r.addEventListener('change', function(){
+      urgentNote.classList.toggle('show', radio('urgency') === 'Urgent');
+    });
+  });
+
+  function validPhone(v){
+    var d = v.replace(/[\s\-().]/g,'');
+    return /^(\+?254|0)?[17]\d{8}$/.test(d) || /^\+?\d{9,15}$/.test(d);
+  }
+  function validContact(v){
+    return /^\S+@\S+\.\S+$/.test(v) || validPhone(v);
+  }
+
+  function setError(id, bad){
+    var el = document.getElementById(id);
+    var err = document.getElementById(id + '-err');
+    if(el && el.type !== 'checkbox') el.setAttribute('aria-invalid', bad ? 'true' : 'false');
+    if(err) err.classList.toggle('show', bad);
+    return bad;
+  }
+
+  function validate(){
+    var bad = [];
+    if(setError('pName',    val('pName').length < 1)) bad.push('pName');
+    if(setError('pPhone',   !validPhone(val('pPhone')))) bad.push('pPhone');
+    if(setError('rName',    val('rName').length < 2)) bad.push('rName');
+    if(setError('rContact', !validContact(val('rContact')))) bad.push('rContact');
+    if(setError('pConsent', !document.getElementById('pConsent').checked)) bad.push('pConsent');
+    if(bad.length){ document.getElementById(bad[0]).focus(); }
+    return bad.length === 0;
+  }
+
+  // Clear an error as soon as the person fixes the field
+  ['pName','pPhone','rName','rContact'].forEach(function(id){
+    document.getElementById(id).addEventListener('input', function(){ setError(id, false); });
+  });
+  document.getElementById('pConsent').addEventListener('change', function(){ setError('pConsent', false); });
+
+  function collect(){
+    return {
+      patient_name:     val('pName'),
+      patient_phone:    val('pPhone'),
+      urgency:          radio('urgency'),
+      clinician_type:   radio('clinician_type'),
+      reason:           val('pReason'),
+      referrer_name:    val('rName'),
+      referrer_role:    document.getElementById('rRole').value,
+      referrer_contact: val('rContact'),
+      referrer_org:     val('rOrg'),
+      consent:          'Patient has agreed to be contacted',
+      source:           'luam.co.ke referral form'
+    };
+  }
+
+  function asText(d){
+    return [
+      'NEW REFERRAL (' + d.urgency + ')',
+      '',
+      'Person being referred',
+      '  First name: ' + d.patient_name,
+      '  Phone: ' + d.patient_phone,
+      '  Prefers: ' + d.clinician_type,
+      '  Reason: ' + (d.reason || 'Not given'),
+      '',
+      'Referred by',
+      '  Name: ' + d.referrer_name + (d.referrer_org ? ' (' + d.referrer_org + ')' : ''),
+      '  Role: ' + d.referrer_role,
+      '  Contact: ' + d.referrer_contact,
+      '',
+      'Consent: ' + d.consent
+    ].join('\n');
+  }
+
+  function show(kind, html){
+    status.className = 'form-status show ' + kind;
+    status.innerHTML = html;
+    status.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  function done(){
+    form.reset();
+    urgentNote.classList.remove('show');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(document.getElementById('rWebsite').value) return; // bot trap
+    if(!validate()) return;
+    var d = collect();
+
+    if(REFERRAL_ENDPOINT){
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+    fetch(REFERRAL_ENDPOINT, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify(d)
+      }).then(function(r){
+        if(!r.ok) throw new Error('bad status');
+        show('ok', '<strong>Referral received. Thank you.</strong> We will contact ' + d.patient_name.replace(/</g,'&lt;') + ' within one working day and confirm to you.');
+        done();
+      }).catch(function(){
+        show('err', 'We could not send that just now. Please use <strong>Send by WhatsApp</strong>, or email <a href="mailto:' + REFERRAL_EMAIL + '">' + REFERRAL_EMAIL + '</a>, or call +254 113 111 931.');
+      }).finally(function(){
+        submit.disabled = false;
+        submit.textContent = 'Send referral';
+      });
+    } else {
+      // No backend configured: open a pre-filled email
+      var subject = 'Referral (' + d.urgency + '): ' + d.patient_name;
+      window.location.href = 'mailto:' + REFERRAL_EMAIL +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(asText(d));
+      show('ok', '<strong>Your email app should now be open with the referral filled in.</strong> Just press send. If nothing opened, use <strong>Send by WhatsApp</strong> or call +254 113 111 931.');
+    }
+  });
+
+  wa.addEventListener('click', function(){
+    if(!validate()) return;
+    var d = collect();
+    window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(asText(d)), '_blank', 'noopener');
+    show('ok', '<strong>WhatsApp should now be open with the referral filled in.</strong> Press send to complete it.');
+  });
+})();
 </script>
 
 <script src="track-config.js"></script>
