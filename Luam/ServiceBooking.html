@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Booking a session – Luam Wellness</title>
+  <meta name="theme-color" content="#0f1b16" />
+  <title>Request a session &ndash; Luam Wellness</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500&display=swap" rel="stylesheet" />
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <link rel="stylesheet" href="nav.css"/>
@@ -24,6 +25,13 @@
 
       --shadow-light: rgba(61, 89, 73, 0.2);
       --shadow-dark: rgba(14, 33, 24, 0.55);
+
+      /* Scheduling picker */
+      --pick-ink: #2C3E50;
+      --pick-sage: #6f8f7e;
+      --pick-sage-soft: #e6eee9;
+      --pick-line: #d9dfda;
+      --pick-muted: #6b7a72;
     }
 
     /* Reset and basics */
@@ -46,21 +54,21 @@
       transition: background 0.4s ease, color 0.4s ease;
     }
     body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden; /* keeps canvas fullscreen */
-}
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden; /* keeps canvas fullscreen */
+    }
 
-#fractal-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0; /* stays at the back */
-  display: block;
-}
+    #fractal-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0; /* stays at the back */
+      display: block;
+    }
     .dark-mode {
       background: var(--color-bg-dark);
       color: var(--color-text-dark);
@@ -70,118 +78,468 @@
     .card {
       position: relative;
       z-index: 1; /* above the canvas */
-      background: var(--color-input-bg-light);
       border: 1px solid var(--color-input-border-light);
-     
       box-shadow: 0 8px 24px var(--shadow-light);
+
+      /* From Uiverse.io by satyamchaudharydev */
+      width: min(92vw, 340px);
+      min-height: 400px;
+      max-height: 96vh;
+      overflow-y: auto;
+      padding: 24px 15px;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      background: #fff;
+      border-radius: 20px;
+      display: none; /* Hidden by default, shown by JS */
     }
     .dark-mode .card {
       background: var(--color-input-bg-dark);
       border: 1px solid var(--color-input-border-dark);
       box-shadow: 0 8px 24px var(--shadow-dark);
     }
-    /* From Uiverse.io by satyamchaudharydev */ 
-.card {
-  width: 320px;
-  height: 400px;
-  padding: 0 15px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 12px;
-  background: #fff;
-  border-radius: 20px;
-  display: none; /* Hidden by default, shown by JS */
-}
-.card.active {
-  display: flex; /* Show active step */
-}
-
-.card > * {
-  margin: 0;
-}
-
-.card__title {
-  font-size: 23px;
-  font-weight: 900;
-  color: #333;
-}
-
-.card__content {
-  font-size: 13px;
-  line-height: 18px;
-  color: #333;
-}
-
-.card__form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.card__form input {
-  margin-top: 10px;
-  outline: 0;
-  background: rgb(255, 255, 255);
-  box-shadow: transparent 0px 0px 0px 1px inset;
-  padding: 0.6em;
-  border-radius: 14px;
-  border: 1px solid #333;
-  color: black;
-}
-
-.card__form button {
-  border: 0;
-  background: #2C3E50;
-  color: #fff;
-  padding: 0.68em;
-  border-radius: 14px;
-  font-weight: bold;
-}
-
-.sign-up:hover {
-  opacity: 0.8;
-} 
-
-    /* Styling isolated strictly to the pop-up selectors / dropdown items */
-    .card__form select {
-        padding: 10px;
-        font-size: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #fff;
-        color: #333;
-        cursor: pointer;
-        width: 100%;
-        margin-bottom: 15px;
+    .card.active {
+      display: flex; /* Show active step */
     }
 
-    /* Style rule targeting the expanded dropdown elements */
-    .card__form select option {
-        padding: 10px;
-        background-color: #ffffff;
-        color: #333333;
-        font-family: inherit;
+    .card > * {
+      margin: 0;
     }
 
-    /* Hover/Focus enhancements strictly for the pop-up picker items */
-    .card__form select:focus {
-        outline: none;
-        border-color: #4a90e2;
-        box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+    .card__title {
+      font-size: 23px;
+      font-weight: 900;
+      color: #333;
     }
+
+    .card__content {
+      font-size: 13px;
+      line-height: 18px;
+      color: #333;
+    }
+
+    .card__form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .card__form input {
+      margin-top: 10px;
+      outline: 0;
+      background: rgb(255, 255, 255);
+      box-shadow: transparent 0px 0px 0px 1px inset;
+      padding: 0.6em;
+      border-radius: 14px;
+      border: 1px solid #333;
+      color: black;
+    }
+
+    .card__form button {
+      border: 0;
+      background: #2C3E50;
+      color: #fff;
+      padding: 0.68em;
+      border-radius: 14px;
+      font-weight: bold;
+    }
+
+    .sign-up:hover {
+      opacity: 0.8;
+    }
+
+    /* ---------- Scheduling picker (calendar + time chips) ---------- */
+    .picker {
+      width: 100%;
+      text-align: left;
+    }
+
+    .cal {
+      border: 1px solid var(--pick-line);
+      border-radius: 16px;
+      padding: 10px 8px 8px;
+      background: #fff;
+    }
+
+    .cal__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2px 6px;
+    }
+
+    .cal__month {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #222;
+    }
+
+    .cal__nav {
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--pick-ink);
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .cal__nav:hover:not(:disabled) { background: var(--pick-sage-soft); }
+    .cal__nav:disabled { color: #c4cbc6; cursor: default; }
+
+    .cal__dow,
+    .cal__grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+
+    .cal__dow span {
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--pick-muted);
+      padding: 4px 0;
+    }
+
+    .cal__day {
+      aspect-ratio: 1 / 1;
+      max-height: 40px;
+      width: 100%;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #222;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .cal__day:hover:not(:disabled):not(.is-selected) { background: var(--pick-sage-soft); }
+    .cal__day:disabled { color: #c4cbc6; cursor: default; }
+    .cal__day.is-today { box-shadow: inset 0 0 0 1.5px var(--pick-sage); }
+    .cal__day.is-selected {
+      background: var(--pick-ink);
+      color: #fff;
+      font-weight: 500;
+    }
+    .cal__blank { display: block; }
+
+    .cal__day:focus-visible,
+    .cal__nav:focus-visible,
+    .slot:focus-visible {
+      outline: 2px solid var(--pick-sage);
+      outline-offset: 2px;
+    }
+
+    .slots { margin-top: 12px; }
+
+    .slots__label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    .slots__hint {
+      font-size: 0.8rem;
+      color: var(--pick-muted);
+      padding: 10px 0 2px;
+      text-align: center;
+    }
+
+    .slots__scroll {
+      max-height: 150px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .slots__group { margin-bottom: 8px; }
+
+    .slots__group-title {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--pick-muted);
+      margin: 6px 0 4px;
+    }
+
+    .slots__row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .slot {
+      padding: 9px 4px;
+      border: 1px solid var(--pick-line);
+      border-radius: 10px;
+      background: #fff;
+      color: #222;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .slot:hover:not(:disabled):not(.is-selected) {
+      border-color: var(--pick-sage);
+      background: var(--pick-sage-soft);
+    }
+    .slot:disabled {
+      color: #b9c1bb;
+      background: #f6f7f6;
+      cursor: default;
+      text-decoration: line-through;
+    }
+    .slot.is-selected {
+      background: var(--pick-ink);
+      border-color: var(--pick-ink);
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .picked {
+      min-height: 1.2em;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--pick-ink);
+      text-align: center;
+    }
+
+    /* Flow upgrades */
+    .step-count {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pick-muted);
+    }
+    .facts {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+      padding: 8px 12px;
+      background: #f8f9fa;
+      border-left: 3px solid #8F9E8B;
+      border-radius: 0 6px 6px 0;
+      text-align: left;
+      font-size: 0.8rem;
+      color: #444;
+    }
+    .facts:empty { display: none; }
+
+    /* Trust signals */
+    .trust {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 100%;
+      text-align: left;
+      font-size: 0.78rem;
+      line-height: 1.35;
+      color: #444;
+    }
+    .trust:empty { display: none; }
+    .trust li { padding-left: 20px; position: relative; }
+    .trust li::before {
+      content: "\2713";
+      position: absolute;
+      left: 2px;
+      top: 0;
+      color: var(--pick-sage);
+      font-weight: 700;
+    }
+    .dark-mode .trust { color: #b7c6bb; }
+
+    /* Period tabs for time selection */
+    .slots__tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      padding: 3px;
+      margin-bottom: 8px;
+      background: var(--pick-sage-soft);
+      border-radius: 12px;
+    }
+    .slots__tab {
+      position: relative;
+      border: 0;
+      background: transparent;
+      padding: 6px 2px;
+      border-radius: 9px;
+      font-family: inherit;
+      font-size: 0.74rem;
+      line-height: 1.25;
+      white-space: nowrap;
+      color: #333;
+      cursor: pointer;
+    }
+    .slots__tab small {
+      display: block;
+      font-size: 0.64rem;
+      color: var(--pick-muted);
+    }
+    .slots__tab.is-active { background: #fff; font-weight: 500; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
+    .slots__tab:disabled { color: #b9c1bb; cursor: default; }
+    .slots__tab:disabled small { color: #b9c1bb; }
+    .slots__tab.has-pick small::after {
+      content: " \25CF";
+      color: var(--pick-ink);
+      font-size: 0.6rem;
+    }
+    .slots__tab:focus-visible { outline: 2px solid var(--pick-sage); outline-offset: 1px; }
+    .slots__row { align-content: start; min-height: 130px; }
+    .picker-note {
+      margin-top: 4px;
+      font-size: 0.72rem;
+      line-height: 1.35;
+      color: var(--pick-muted);
+      text-align: center;
+    }
+
+    @media (max-height: 820px) {
+      #step-2 { gap: 8px; padding-top: 16px; padding-bottom: 16px; }
+      .cal__day { max-height: 34px; font-size: 0.85rem; }
+      .cal__nav { width: 30px; height: 30px; }
+      .slot { padding: 7px 4px; }
+      .slots__row { min-height: 108px; }
+      .slots { margin-top: 8px; }
+    }
+
+    /* ---------- Cool dark theme (default) ---------- */
+    .dark-mode {
+      color-scheme: dark;
+      --d-card: rgba(21, 31, 26, 0.88);
+      --d-field: #0c1511;
+      --d-line: #27342d;
+      --d-ink: #e0ece3;
+      --d-muted: #8ea396;
+      --d-accent: #90b39f;
+      --d-accent-hi: #b4d0c0;
+      --pick-ink: #90b39f;
+      --pick-sage: #b4d0c0;
+      --pick-sage-soft: #1b2a23;
+      --pick-line: #27342d;
+      --pick-muted: #8ea396;
+      background: radial-gradient(1100px 700px at 15% 0%, #17261f 0%, #0f1b16 55%, #090f0c 100%) fixed;
+      color: var(--d-ink);
+    }
+
+    .dark-mode .card {
+      background: var(--d-card);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--d-line);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(144, 179, 159, 0.05);
+    }
+
+    .dark-mode .card__title { color: var(--d-ink); }
+    .dark-mode .card__content { color: #b7c6bb; }
+    .dark-mode .step-count { color: var(--d-muted); }
+    .dark-mode .card a { color: var(--d-accent-hi) !important; }
+    .dark-mode [id^="error-step"] { color: #ff8a8a !important; }
+
+    .dark-mode .card__form input {
+      background: var(--d-field);
+      border: 1px solid var(--d-line);
+      color: var(--d-ink);
+    }
+    .dark-mode .card__form input::placeholder { color: #5f7368; }
+    .dark-mode .card__form input:focus {
+      border-color: var(--d-accent-hi);
+      box-shadow: 0 0 0 3px rgba(144, 179, 159, 0.22);
+    }
+
+    .dark-mode .card__form button { background: var(--d-accent); }
+    .dark-mode .card__form .sign-up {
+      background-color: var(--d-accent) !important;
+      color: #fff !important;
+      border-radius: 10px !important;
+    }
+    .dark-mode .btn-back {
+      background-color: #18231d !important;
+      border: 1px solid #34443b !important;
+      color: #c5d3c9 !important;
+      border-radius: 10px !important;
+    }
+    .dark-mode .btn-back:hover { background-color: #1f2d26 !important; }
+
+    .dark-mode .phone-field {
+      background-color: var(--d-field) !important;
+      border: 1px solid var(--d-line) !important;
+      border-radius: 10px !important;
+    }
+    .dark-mode .phone-field:focus-within { border-color: var(--d-accent-hi) !important; }
+    .dark-mode .phone-field span { color: #adbdb2 !important; }
+    .dark-mode .phone-field input { color: var(--d-ink) !important; }
+    .dark-mode .phone-field input:focus { box-shadow: none !important; }
+
+    .dark-mode .facts { background: #121c17; border-left-color: var(--d-accent-hi); color: #b7c6bb; }
+    .fee-box { width: 100%; }
+    .dark-mode .fee-box { background-color: #121c17 !important; border-left-color: var(--d-accent-hi) !important; }
+    .dark-mode .fee-box span { color: var(--d-muted) !important; }
+    .dark-mode .fee-box strong { color: var(--d-ink) !important; }
+
+    .dark-mode .cal { background: var(--d-field); }
+    .dark-mode .cal__month { color: var(--d-ink); }
+    .dark-mode .cal__nav { color: #b4d0c0; }
+    .dark-mode .cal__nav:disabled { color: #34443b; }
+    .dark-mode .cal__day { color: var(--d-ink); }
+    .dark-mode .cal__day:disabled { color: #3a4a41; }
+    .dark-mode .cal__day.is-selected {
+      background: var(--d-accent);
+      color: #fff;
+      box-shadow: 0 0 14px rgba(144, 179, 159, 0.45);
+    }
+    .dark-mode .slots__label { color: #cbd8ce; }
+    .dark-mode .slot { background: var(--d-field); color: var(--d-ink); }
+    .dark-mode .slot:disabled { background: #0a110e; color: #3a4a41; }
+    .dark-mode .slot.is-selected { background: var(--d-accent); border-color: var(--d-accent); color: #fff; }
+    .dark-mode .picked { color: #b4d0c0; }
+    .dark-mode .slots__scroll { scrollbar-width: thin; scrollbar-color: #34443b transparent; }
+
+    .dark-mode .clinical-watermark { opacity: 0.4 !important; }
+    .dark-mode .clinical-watermark span { color: #cbd5ce !important; }
+    .dark-mode .slots__tabs { background: var(--d-field); border: 1px solid var(--d-line); }
+    .dark-mode .slots__tab { color: #b7c6bb; }
+    .dark-mode .slots__tab small { color: var(--d-muted); }
+    .dark-mode .slots__tab.is-active {
+      background: #1f2d26;
+      color: var(--d-ink);
+      box-shadow: inset 0 -2px 0 var(--d-accent);
+    }
+    .dark-mode .slots__tab:disabled,
+    .dark-mode .slots__tab:disabled small { color: #3a4a41; }
+
+    /* Sage accent: dark ink on the light sage fills */
+    .dark-mode .card__form .sign-up { color: #0f1b16 !important; }
+    .dark-mode .cal__day.is-selected,
+    .dark-mode .slot.is-selected { color: #0f1b16; }
+    .dark-mode .clinical-watermark img { filter: grayscale(100%) brightness(0) invert(1) !important; }
   </style>
 </head>
-<body class="light-mode">
-	
+<body class="dark-mode">
+
 	<!-- Background Canvas -->
   <canvas id="fractal-bg"></canvas>
 
   <!-- Step 1 -->
   <div id="step-1" class="card active">
-    <span class="card__title">Consultation Brief</span>
+    <span class="step-count">Step 1 of 4</span>
+    <span class="card__title">Request a Session</span>
     <p class="card__content">Details stay on your device until you send them.<br><br>What name or initials should we use?</p>
+    <div class="facts" id="facts"></div>
+    <ul class="trust" id="trust"></ul>
     <p id="error-step-1" style="color: #ff4d4d; font-size: 0.85rem; margin: 0 0 10px 0; display: none; text-align: left;">Please enter your name.</p>
     <div class="card__form">
         <input id="username" placeholder="Name, initials, or nickname" type="text" required>
@@ -191,49 +549,40 @@ Next</button>
     </div>
   </div>
 
-  <!-- Step 2 -->
-   <!-- Step 2: Session Scheduling -->
+  <!-- Step 2: Session Scheduling -->
   <div id="step-2" class="card">
+    <span class="step-count">Step 2 of 4</span>
     <span class="card__title">Select Session Window</span>
-    <p class="card__content" style="line-height: 1.4; margin-bottom: 15px;">
-        You can easily modify your choice anytime.
+    <p class="card__content" style="line-height: 1.4;">
+        Pick a day, then a time.
     </p>
-    
+
     <!-- Error display message (Hidden by default) -->
-    <p id="error-step-2" style="color: #ff4d4d; font-size: 0.85rem; margin: 0 0 10px 0; display: none; text-align: left;"></p>
-    
+    <p id="error-step-2" style="color: #ff4d4d; font-size: 0.85rem; margin: 0; display: none; text-align: left;"></p>
+
+    <!-- Hidden fields keep the same ids the rest of the flow already uses -->
+    <input id="booking-date" type="hidden" value="">
+    <input id="booking-time" type="hidden" value="">
+
+    <div class="picker">
+      <div class="cal" id="cal">
+        <div class="cal__head">
+          <button class="cal__nav" id="cal-prev" type="button" aria-label="Previous month">&lsaquo;</button>
+          <div class="cal__month" id="cal-month" aria-live="polite"></div>
+          <button class="cal__nav" id="cal-next" type="button" aria-label="Next month">&rsaquo;</button>
+        </div>
+        <div class="cal__dow" aria-hidden="true">
+          <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+        </div>
+        <div class="cal__grid" id="cal-grid"></div>
+      </div>
+
+      <div class="slots" id="slots"></div>
+      <p class="picked" id="picked" aria-live="polite"></p>
+      <p class="picker-note">This is a request. Bookings may be rescheduled if your selected time is unavailable &ndash; we confirm the final time with you on WhatsApp.</p>
+    </div>
+
     <div class="card__form">
-        <!-- Date Input Styled Uniformly with Selectors -->
-        <input id="booking-date" type="date" required 
-               style="width: 100%; padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; color: #333; margin-bottom: 15px; box-sizing: border-box; font-family: inherit;">
-        
-        <!-- Highly Functional Dropdown to eliminate the 24hr wheel friction -->
-        <select id="booking-time" required 
-                style="width: 100%; padding: 10px; font-size: 1rem; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; color: #333; cursor: pointer; margin-bottom: 20px; box-sizing: border-box; font-family: inherit;">
-            <option value="" disabled selected>Choose Time Session</option>
-            <option value="08:00 AM">8:00 AM (Morning Session)</option>
-            <option value="08:30 AM">8:30 AM (Morning Session)</option>
-            <option value="09:00 AM">9:00 AM (Morning Session)</option>
-            <option value="09:30 AM">9:30 AM (Morning Session)</option>
-            <option value="10:00 AM">10:00 AM (Morning Session)</option>
-            <option value="10:30 AM">10:30 AM (Morning Session)</option>
-            <option value="11:00 AM">11:00 AM (Morning Session)</option>
-            <option value="11:30 AM">11:30 AM (Midday Session)</option>
-            <option value="12:00 PM">12:00 PM (Midday Session)</option>
-            <option value="12:30 PM">12:30 PM (Midday Session)</option>
-            <option value="01:00 PM">1:00 PM (Afternoon Session)</option>
-            <option value="01:30 PM">1:30 PM (Afternoon Session)</option>
-            <option value="02:00 PM">2:00 PM (Afternoon Session)</option>
-            <option value="02:30 PM">2:30 PM (Afternoon Session)</option>
-            <option value="03:00 PM">3:00 PM (Afternoon Session)</option>
-            <option value="03:30 PM">3:30 PM (Afternoon Session)</option>
-            <option value="04:00 PM">4:00 PM (Evening Session)</option>
-            <option value="04:30 PM">4:30 PM (Evening Session)</option>
-            <option value="05:00 PM">5:00 PM (Evening Session)</option>
-            <option value="05:30 PM">5:30 PM (Evening Session)</option>
-            <option value="06:00 PM">6:00 PM (Evening Session)</option>
-        </select>
-        
         <!-- Navigation Actions Wrapper -->
         <div class="button-group" style="display: flex; gap: 10px; width: 100%;">
             <button class="btn-back" type="button" onclick="navigateStep(1)"style="flex: 1; padding: 10px; cursor: pointer; border: 1px solid #ccc; background-color: #f8f9fa; border-radius: 4px; font-size: 1rem; color: #555; font-family: inherit;">
@@ -247,36 +596,36 @@ Next</button>
   </div>
 
 
-  <!-- Step 3 -->
-    <!-- Step 3: Contact Allocation -->
+  <!-- Step 3: Contact Allocation -->
   <div id="step-3" class="card">
-    <span class="card__title">Communication Access</span>
+    <span class="step-count">Step 3 of 4</span>
+    <span class="card__title">Phone Number (Optional)</span>
     <p class="card__content" style="line-height: 1.4; margin-bottom: 15px;">
-       Details stay on your device until you send them. Please provide a line where a specialist can reach you directly via call or WhatsApp.
+       Optional. We reply on the WhatsApp number you send from. Add a number here only if you would prefer a call or a different line, or tap Next to skip.
     </p>
-    
+
     <!-- Error display message -->
     <p id="error-step-3" style="color: #ff4d4d; font-size: 0.85rem; margin: 0 0 10px 0; display: none; text-align: left;">Please enter a valid phone number so we can reach you.</p>
-    
+
     <div class="card__form">
-        
+
         <!-- VISUAL ANCHOR CONTAINER -->
-        <div style="display: flex; align-items: center; width: 100%; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; box-sizing: border-box;">
+        <div class="phone-field" style="display: flex; align-items: center; width: 100%; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; background-color: #fff; box-sizing: border-box;">
             <!-- Locked Kenyan Prefix Block -->
             <span style="padding: 10px 0 1px 12px; font-size: 1rem; color: #555; font-family: inherit; font-weight: bold; user-select: none;">
                 +254
             </span>
             <!-- Clean, Unobstructed Input Field -->
-            <input id="booking-contact" type="tel" placeholder="712345678" required 
+            <input id="booking-contact" type="tel" placeholder="712345678" required
                    style="flex: 1; padding: 10px 12px; font-size: 1rem; border: none; background: transparent; color: #333; box-sizing: border-box; font-family: inherit; outline: none;">
         </div>
-        
+
         <div class="button-group" style="display: flex; gap: 10px; width: 100%;">
-            <button class="btn-back" type="button" onclick="navigateStep(2)" 
+            <button class="btn-back" type="button" onclick="navigateStep(2)"
                     style="flex: 1; padding: 10px; cursor: pointer; border: 1px solid #ccc; background-color: #f8f9fa; border-radius: 4px; font-size: 1rem; color: #555; font-family: inherit;">
                 Back
             </button>
-            <button class="sign-up" type="button" onclick="validateAndNavigate(3, 4)" 
+            <button class="sign-up" type="button" onclick="validateAndNavigate(3, 4)"
                     style="flex: 2; padding: 10px; cursor: pointer; border: none; color: #fff; font-size: 1rem; font-weight: bold; font-family: inherit;">
                 Next
             </button>
@@ -284,38 +633,38 @@ Next</button>
     </div>
   </div>
 
-   <!-- Step 4: Final Confirmation -->
-   <!-- Step 4: Final Confirmation -->
+  <!-- Step 4: Final Confirmation -->
   <div id="step-4" class="card">
-    <span class="card__title">Confirm Allocation</span>
-    
+    <span class="step-count">Step 4 of 4</span>
+    <span class="card__title">Review Your Request</span>
+
     <!-- Dynamic breakdown summary text -->
     <p id="welcome-message" class="card__content" style="line-height: 1.5; margin-bottom: 10px; text-align: left;"></p>
-    
+
     <!-- CLINICAL VALUE ANCHOR -->
-    <div style="background-color: #f8f9fa; border-left: 3px solid #8F9E8B; padding: 10px 12px; margin-bottom: 20px; border-radius: 0 4px 4px 0; text-align: left;">
+    <div class="fee-box" style="background-color: #f8f9fa; border-left: 3px solid #8F9E8B; padding: 10px 12px; margin-bottom: 20px; border-radius: 0 4px 4px 0; text-align: left;">
         <span style="font-size: 0.85rem; color: #666; display: block; font-family: inherit;">Standard Consultation Rate:</span>
-        <strong style="font-size: 1.1rem; color: #333; font-family: inherit;">KSh 3,000</strong> 
+        <strong style="font-size: 1.1rem; color: #333; font-family: inherit;">KSh 3,000</strong>
         <span style="font-size: 0.75rem; color: #888; margin-left: 4px; font-family: inherit;">(Payable at the clinic)</span>
     </div>
-    
+
     <div class="card__form">
         <div class="button-group" style="display: flex; gap: 10px; width: 100%;">
-            <button class="btn-back" type="button" onclick="navigateStep(3)" 
+            <button class="btn-back" type="button" onclick="navigateStep(3)"
                     style="flex: 1; padding: 10px; cursor: pointer; border: 1px solid #ccc; background-color: #f8f9fa; border-radius: 4px; font-size: 1rem; color: #555; font-family: inherit;">
                 Change
             </button>
             <!-- REFRAMED ACTION BUTTON TO ELIMINATE SURPRISE COGNITIVE FRICTION -->
-            <button class="sign-up" type="button" onclick="submitBooking()" 
+            <button class="sign-up" type="button" onclick="submitBooking()"
                     style="flex: 2; padding: 10px; cursor: pointer; border: none; background-color: #8F9E8B; color: #fff; font-size: 1rem; font-weight: bold; font-family: inherit;">
-                Open Secure WhatsApp Line
+                Open WhatsApp to Send
             </button>
         </div>
     </div>
   </div>
 
 
-  <div class="clinical-watermark" 
+  <div class="clinical-watermark"
      style="position: fixed; bottom: 20px; left: 20px; display: flex; align-items: center; gap: 8px; opacity: 0.25; user-select: none; pointer-events: none; z-index: 1000; transition: opacity 0.3s ease;">
     <!-- Strict 40x40px Medical/Platform Logo -->
     <a href="index.html" style="display: inline-block; cursor: pointer; position: relative; z-index: 9999;">
@@ -327,25 +676,309 @@ Next</button>
     <span style="font-size: 0.75rem; font-family: sans-serif; color: #333; letter-spacing: 0.5px; font-weight: 500;">Clinical Services</span>
 </div>
  <script>
-    // 1. DYNAMIC SYSTEM INITIALIZATION: Runs automatically on page load
-    window.addEventListener('DOMContentLoaded', () => {
-        const today = new Date().toISOString().split('T');
-        const dateInput = document.getElementById('booking-date');
-        if (dateInput) {
-            dateInput.setAttribute('min', today);
+    // ------------------------------------------------------------------
+    // Scheduling configuration (edit these to match the clinic's rules)
+    // ------------------------------------------------------------------
+    var MAX_DAYS_AHEAD = 90;        // how far ahead a session can be requested
+    var CLOSED_WEEKDAYS = [];       // days the clinic is closed: 0 = Sunday ... 6 = Saturday
+    var LEAD_MINUTES = 0;           // for today, hide times starting within this many minutes
+    var SLOT_GROUPS = [
+        { label: 'Morning', times: ['08:00 AM','08:30 AM','09:00 AM','09:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM'] },
+        { label: 'Afternoon', times: ['12:00 PM','12:30 PM','01:00 PM','01:30 PM','02:00 PM','02:30 PM','03:00 PM','03:30 PM'] },
+        { label: 'Late afternoon', times: ['04:00 PM','04:30 PM','05:00 PM','05:30 PM','06:00 PM'] }
+    ];
+
+    var FACTS = ['Consultation fee: KSh 3,000, payable at the clinic'];
+    var CREDENTIAL_LINE = '';      // e.g. 'Registered clinicians, Kenya Counsellors and Psychologists Board' - shown only when filled in
+    var TRUST_POINTS = [
+        'Initials or a nickname are fine. No account needed.',
+        'Nothing to pay online. You pay at the clinic.',
+        'Your request goes only to the clinic, via end-to-end encrypted WhatsApp.'
+    ];
+    var SESSION_LENGTH = '';       // e.g. '50 minutes' - shown only when filled in
+    var CANCELLATION_NOTE = '';    // e.g. 'Free rescheduling up to 24 hours before' - shown only when filled in
+
+    function renderFacts() {
+        var el = $('facts');
+        if (!el) return;
+        var items = FACTS.slice();
+        if (SESSION_LENGTH) items.push('Session length: ' + SESSION_LENGTH);
+        if (CANCELLATION_NOTE) items.push(CANCELLATION_NOTE);
+        el.innerHTML = items.map(function (t) { return '<span>' + escapeHtml(t) + '</span>'; }).join('');
+
+        var trust = $('trust');
+        if (trust) {
+            var points = (CREDENTIAL_LINE ? [CREDENTIAL_LINE] : []).concat(TRUST_POINTS);
+            trust.innerHTML = points.map(function (t) { return '<li>' + escapeHtml(t) + '</li>'; }).join('');
+        }
+    }
+
+    var STORAGE_KEYS = ['clinic_backup_name','clinic_backup_date','clinic_backup_time','clinic_backup_contact','clinic_backup_step'];
+
+    function $(id) { return document.getElementById(id); }
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function toISO(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+    function fromISO(s) {
+        var p = (s || '').split('-');
+        if (p.length !== 3) return null;
+        var d = new Date(+p[0], +p[1] - 1, +p[2]);
+        return isNaN(d.getTime()) ? null : d;
+    }
+    function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+    function slotMinutes(v) {
+        var m = /^(\d{1,2}):(\d{2}) (AM|PM)$/.exec(v);
+        if (!m) return 0;
+        var h = (+m[1]) % 12;
+        if (m[3] === 'PM') h += 12;
+        return h * 60 + (+m[2]);
+    }
+    function slotLabel(v) { return v.replace(/^0/, ''); }
+    function formatDateNice(iso) {
+        var d = fromISO(iso);
+        if (!d) return iso || 'Selected Date';
+        return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    function formatDateShort(iso) {
+        var d = fromISO(iso);
+        if (!d) return '';
+        return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+    }
+    function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+    }
+
+    var lastSlotMinutes = 0;
+    SLOT_GROUPS.forEach(function (g) {
+        g.times.forEach(function (t) { lastSlotMinutes = Math.max(lastSlotMinutes, slotMinutes(t)); });
+    });
+
+    var view = { y: 0, m: 0 };
+
+    function nowMinutes() {
+        var n = new Date();
+        return n.getHours() * 60 + n.getMinutes();
+    }
+
+    function isDayDisabled(d) {
+        var today = startOfDay(new Date());
+        var max = new Date(today.getFullYear(), today.getMonth(), today.getDate() + MAX_DAYS_AHEAD);
+        if (d < today || d > max) return true;
+        if (CLOSED_WEEKDAYS.indexOf(d.getDay()) > -1) return true;
+        if (toISO(d) === toISO(today) && nowMinutes() + LEAD_MINUTES >= lastSlotMinutes) return true;
+        return false;
+    }
+
+    function isSlotDisabled(iso, value) {
+        if (iso === toISO(new Date())) {
+            return slotMinutes(value) <= nowMinutes() + LEAD_MINUTES;
+        }
+        return false;
+    }
+
+    function renderCalendar() {
+        var grid = $('cal-grid');
+        grid.innerHTML = '';
+        var first = new Date(view.y, view.m, 1);
+        $('cal-month').textContent = first.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+        var offset = (first.getDay() + 6) % 7; // Monday-first
+        var daysInMonth = new Date(view.y, view.m + 1, 0).getDate();
+        var selected = $('booking-date').value;
+        var todayISO = toISO(new Date());
+
+        for (var i = 0; i < offset; i++) {
+            var blank = document.createElement('span');
+            blank.className = 'cal__blank';
+            grid.appendChild(blank);
         }
 
-        // CRISIS RECOVERY ENGINE: Retrieve local backups if they exist
-        const savedName = localStorage.getItem('clinic_backup_name');
-        const savedDate = localStorage.getItem('clinic_backup_date');
-        const savedTime = localStorage.getItem('clinic_backup_time');
-        const savedContact = localStorage.getItem('clinic_backup_contact');
-        const savedStep = localStorage.getItem('clinic_backup_step');
+        for (var day = 1; day <= daysInMonth; day++) {
+            var date = new Date(view.y, view.m, day);
+            var iso = toISO(date);
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'cal__day' + (iso === todayISO ? ' is-today' : '') + (iso === selected ? ' is-selected' : '');
+            btn.textContent = day;
+            btn.disabled = isDayDisabled(date);
+            btn.setAttribute('aria-label', date.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
+            btn.setAttribute('aria-pressed', iso === selected ? 'true' : 'false');
+            (function (isoValue) {
+                btn.addEventListener('click', function () { selectDate(isoValue); });
+            })(iso);
+            grid.appendChild(btn);
+        }
+
+        var today = new Date();
+        var maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + MAX_DAYS_AHEAD);
+        $('cal-prev').disabled = (view.y * 12 + view.m) <= (today.getFullYear() * 12 + today.getMonth());
+        $('cal-next').disabled = (view.y * 12 + view.m) >= (maxDate.getFullYear() * 12 + maxDate.getMonth());
+    }
+
+    var activePeriod = -1;
+
+    function periodRange(g) {
+        var a = slotLabel(g.times[0]).split(' ');
+        var b = slotLabel(g.times[g.times.length - 1]).split(' ');
+        return a[0] + (a[1] === b[1] ? '' : ' ' + a[1]) + '&ndash;' + b[0] + ' ' + b[1];
+    }
+
+    function periodAvailable(iso, g) {
+        return g.times.some(function (t) { return !isSlotDisabled(iso, t); });
+    }
+
+    function resolvePeriod(iso) {
+        if (activePeriod >= 0 && periodAvailable(iso, SLOT_GROUPS[activePeriod])) return activePeriod;
+        var picked = $('booking-time').value;
+        for (var i = 0; i < SLOT_GROUPS.length; i++) {
+            if (picked && SLOT_GROUPS[i].times.indexOf(picked) > -1) return i;
+        }
+        for (var j = 0; j < SLOT_GROUPS.length; j++) {
+            if (periodAvailable(iso, SLOT_GROUPS[j])) return j;
+        }
+        return 0;
+    }
+
+    function renderSlots() {
+        var box = $('slots');
+        var iso = $('booking-date').value;
+        var selectedTime = $('booking-time').value;
+        box.innerHTML = '';
+
+        if (!iso) {
+            box.innerHTML = '<p class="slots__hint">Choose a day to see times.</p>';
+            return;
+        }
+
+        activePeriod = resolvePeriod(iso);
+
+        var label = document.createElement('p');
+        label.className = 'slots__label';
+        label.textContent = 'Times on ' + formatDateShort(iso);
+        box.appendChild(label);
+
+        // All periods stay visible as tabs, so nobody has to scroll to learn there are later times
+        var tabs = document.createElement('div');
+        tabs.className = 'slots__tabs';
+        tabs.setAttribute('role', 'tablist');
+        SLOT_GROUPS.forEach(function (g, i) {
+            var tab = document.createElement('button');
+            tab.type = 'button';
+            tab.className = 'slots__tab' + (i === activePeriod ? ' is-active' : '') +
+                (selectedTime && g.times.indexOf(selectedTime) > -1 ? ' has-pick' : '');
+            tab.innerHTML = g.label + '<small>' + periodRange(g) + '</small>';
+            tab.disabled = !periodAvailable(iso, g);
+            tab.setAttribute('role', 'tab');
+            tab.setAttribute('aria-selected', i === activePeriod ? 'true' : 'false');
+            tab.addEventListener('click', function () { activePeriod = i; renderSlots(); });
+            tabs.appendChild(tab);
+        });
+        box.appendChild(tabs);
+
+        var row = document.createElement('div');
+        row.className = 'slots__row';
+        row.setAttribute('role', 'tabpanel');
+        SLOT_GROUPS[activePeriod].times.forEach(function (t) {
+            var chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'slot' + (t === selectedTime ? ' is-selected' : '');
+            chip.textContent = slotLabel(t);
+            chip.disabled = isSlotDisabled(iso, t);
+            chip.setAttribute('aria-pressed', t === selectedTime ? 'true' : 'false');
+            chip.addEventListener('click', function () { selectTime(t); });
+            row.appendChild(chip);
+        });
+        box.appendChild(row);
+    }
+
+    function updatePicked() {
+        var iso = $('booking-date').value;
+        var time = $('booking-time').value;
+        var el = $('picked');
+        if (iso && time) {
+            el.textContent = formatDateNice(iso) + ' \u00B7 ' + slotLabel(time);
+        } else {
+            el.textContent = '';
+        }
+    }
+
+    function clearStep2Error() {
+        var err = $('error-step-2');
+        if (err) err.style.display = 'none';
+    }
+
+    function selectDate(iso) {
+        $('booking-date').value = iso;
+        var t = $('booking-time').value;
+        if (t && isSlotDisabled(iso, t)) $('booking-time').value = '';
+        clearStep2Error();
+        renderCalendar();
+        renderSlots();
+        updatePicked();
+    }
+
+    function selectTime(t) {
+        $('booking-time').value = t;
+        clearStep2Error();
+        renderSlots();
+        updatePicked();
+    }
+
+    function initSchedulePicker() {
+        var now = new Date();
+        var saved = fromISO($('booking-date').value);
+
+        // Drop a restored date that is no longer bookable (past, closed day, out of range)
+        if (saved && isDayDisabled(saved)) {
+            $('booking-date').value = '';
+            $('booking-time').value = '';
+            saved = null;
+        }
+        var t = $('booking-time').value;
+        if (t && $('booking-date').value && isSlotDisabled($('booking-date').value, t)) {
+            $('booking-time').value = '';
+        }
+
+        var anchor = saved || now;
+        view.y = anchor.getFullYear();
+        view.m = anchor.getMonth();
+
+        $('cal-prev').addEventListener('click', function () {
+            view.m -= 1;
+            if (view.m < 0) { view.m = 11; view.y -= 1; }
+            renderCalendar();
+        });
+        $('cal-next').addEventListener('click', function () {
+            view.m += 1;
+            if (view.m > 11) { view.m = 0; view.y += 1; }
+            renderCalendar();
+        });
+
+        renderCalendar();
+        renderSlots();
+        updatePicked();
+    }
+
+    // 1. DYNAMIC SYSTEM INITIALIZATION: Runs automatically on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        // Clear anything an earlier version of this page left in persistent storage
+        try { STORAGE_KEYS.forEach(function (k) { localStorage.removeItem(k); }); } catch (e) {}
+
+        // CRISIS RECOVERY ENGINE: Retrieve session backups if they exist
+        const savedName = sessionStorage.getItem('clinic_backup_name');
+        const savedDate = sessionStorage.getItem('clinic_backup_date');
+        const savedTime = sessionStorage.getItem('clinic_backup_time');
+        const savedContact = sessionStorage.getItem('clinic_backup_contact');
+        const savedStep = sessionStorage.getItem('clinic_backup_step');
 
         if (savedName) document.getElementById('username').value = savedName;
         if (savedDate) document.getElementById('booking-date').value = savedDate;
         if (savedTime) document.getElementById('booking-time').value = savedTime;
         if (savedContact) document.getElementById('booking-contact').value = savedContact;
+
+        initSchedulePicker();
+        renderFacts();
 
         if (savedStep && savedStep > 1 && savedStep <= 4) {
             navigateStep(parseInt(savedStep, 10));
@@ -357,26 +990,28 @@ Next</button>
         const steps = document.querySelectorAll('.card');
         steps.forEach(step => step.classList.remove('active'));
 
-        // Cache inputs in the browser storage
-        localStorage.setItem('clinic_backup_name', document.getElementById('username').value.trim());
-        localStorage.setItem('clinic_backup_date', document.getElementById('booking-date').value);
-        localStorage.setItem('clinic_backup_time', document.getElementById('booking-time').value);
-        localStorage.setItem('clinic_backup_contact', document.getElementById('booking-contact').value.trim());
-        localStorage.setItem('clinic_backup_step', targetStepNum);
+        // Cache inputs for this browser tab only (cleared when the tab closes or on send)
+        sessionStorage.setItem('clinic_backup_name', document.getElementById('username').value.trim());
+        sessionStorage.setItem('clinic_backup_date', document.getElementById('booking-date').value);
+        sessionStorage.setItem('clinic_backup_time', document.getElementById('booking-time').value);
+        sessionStorage.setItem('clinic_backup_contact', document.getElementById('booking-contact').value.trim());
+        sessionStorage.setItem('clinic_backup_step', targetStepNum);
 
         if (targetStepNum === 4) {
-            const nameInput = document.getElementById('username').value.trim() || "Patient";
-            const dateInput = document.getElementById('booking-date').value || "Selected Date";
-            const timeInput = document.getElementById('booking-time').value || "Selected Time";
-            const contactInput = document.getElementById('booking-contact').value.trim() || "Number";
-            
+            const nameInput = escapeHtml(document.getElementById('username').value.trim() || "Patient");
+            const dateRaw = document.getElementById('booking-date').value;
+            const dateInput = dateRaw ? formatDateNice(dateRaw) : "Selected Date";
+            const timeRaw = document.getElementById('booking-time').value;
+            const timeInput = timeRaw ? slotLabel(timeRaw) : "Selected Time";
+            const contactRaw = document.getElementById('booking-contact').value.trim();
+
             // Build the clean, professional summary on the web layout card
-            document.getElementById('welcome-message').innerHTML = 
+            document.getElementById('welcome-message').innerHTML =
                 `Reviewing brief for <strong>${nameInput}</strong>:<br>` +
-                `• Session Window: <strong>${dateInput}</strong> at <strong>${timeInput}</strong><br>` +
-                `• Contact Line: <strong>+254 ${contactInput}</strong><br><br>` +
-                `Clicking below will securely route this brief directly to our clinical practitioner via encrypted WhatsApp to finalize your space.<br>
-                Details stay on your device until you send them.`;
+                `\u2022 Session Window: <strong>${dateInput}</strong> at <strong>${timeInput}</strong><br>` +
+                (contactRaw ? `\u2022 Call-back number: <strong>+254 ${escapeHtml(contactRaw)}</strong><br>` : '') + `<br>` +
+                `This is a request, not a confirmed booking. The button opens WhatsApp with this message already written &ndash; <strong>tap Send there to submit it</strong>. We then reply to confirm the final time, and it may be rescheduled if your selected time is unavailable. You can change anything until you send.<br><br>
+                Details stay in this browser tab until you send them. We never ask for your full name, ID or any payment details.`;
         }
 
         const targetCard = document.getElementById(`step-${targetStepNum}`);
@@ -395,17 +1030,19 @@ Next</button>
         if (currentStep === 1) {
             const name = document.getElementById('username').value.trim();
             if (!name) { if (errorEl) errorEl.style.display = 'block'; return; }
-        } 
-        
+        }
+
         if (currentStep === 2) {
             const date = document.getElementById('booking-date').value;
             const time = document.getElementById('booking-time').value;
-            if (!date || !time) { 
+            if (!date || !time) {
                 if (errorEl) {
-                    errorEl.innerText = "Please select both a date and a session time.";
+                    errorEl.innerText = !date
+                        ? "Please choose a day from the calendar."
+                        : "Please choose a time for that day.";
                     errorEl.style.display = 'block';
                 }
-                return; 
+                return;
             }
         }
 
@@ -415,7 +1052,7 @@ Next</button>
                 contact = contact.substring(1);
                 document.getElementById('booking-contact').value = contact;
             }
-            if (contact.length !== 9 || isNaN(contact)) {
+            if (contact && (contact.length !== 9 || isNaN(contact))) {
                 if (errorEl) {
                     errorEl.innerText = "Please enter a valid 9-digit phone number (e.g., 712345678).";
                     errorEl.style.display = 'block';
@@ -436,33 +1073,32 @@ Next</button>
     var contactEl = document.getElementById('booking-contact');
 
     var nameInput = usernameEl && usernameEl.value.trim() ? usernameEl.value.trim() : "Patient";
-    var dateInput = dateEl && dateEl.value ? dateEl.value : "Selected Date";
-    var timeInput = timeEl && timeEl.value ? timeEl.value : "Selected Time";
-    
+    var dateInput = dateEl && dateEl.value ? formatDateNice(dateEl.value) : "Selected Date";
+    var timeInput = timeEl && timeEl.value ? slotLabel(timeEl.value) : "Selected Time";
+
     // SECURITY FIX: Strip out absolutely everything that isn't a number first to prevent injection attacks
     var contactInput = contactEl ? contactEl.value.trim().replace(/[^\d]/g, '') : "";
-    contactInput = contactInput.replace(/^(\+254|254|0)/, ''); 
-    
+    contactInput = contactInput.replace(/^(\+254|254|0)/, '');
+
     if (!contactInput) {
-        contactInput = "Number";
+        contactInput = "";
     }
 
     var messageText = "Hello, I would like to check your availability for a private consultation:\n\n" +
-                        "• Name/Brief: " + nameInput + "\n" +
-                        "• Date Choice: " + dateInput + "\n" +
-                        "• Session Time: " + timeInput + "\n" +
-                        "• Callback Line: +254" + contactInput + "\n\n" +
+                        "\u2022 Name/Brief: " + nameInput + "\n" +
+                        "\u2022 Date Choice: " + dateInput + "\n" +
+                        "\u2022 Session Time: " + timeInput + "\n" +
+                        (contactInput ? "\u2022 Callback Line: +254" + contactInput + "\n" : "") + "\n" +
                         "Confidential Intake Request. Please verify availability.";
 
     var encodedMessage = encodeURIComponent(messageText);
-    var clinicPhoneNumber = "254113111931"; 
+    var clinicPhoneNumber = "254113111931";
 
-    // SECURITY FIX: Changed from localStorage to sessionStorage across the app to prevent offline local persistence
-    sessionStorage.removeItem('clinic_backup_name');
-    sessionStorage.removeItem('clinic_backup_date');
-    sessionStorage.removeItem('clinic_backup_time');
-    sessionStorage.removeItem('clinic_backup_contact');
-    sessionStorage.removeItem('clinic_backup_step');
+    // Clear every stored copy of the details (current and legacy storage)
+    STORAGE_KEYS.forEach(function (k) {
+        sessionStorage.removeItem(k);
+        try { localStorage.removeItem(k); } catch (e) {}
+    });
 
     // SECURITY FIX: Using window.location.replace prevents this long, sensitive data URL from being saved in browser history logs
     if (window.luamTrack) luamTrack('booking_whatsapp');
@@ -503,6 +1139,7 @@ function drawSpiral(cx, cy, time, scale = 6) {
   ctx.rotate((time * 0.00005) % (2 * Math.PI));
 
   const total = 800;
+  const dotColor = document.body.classList.contains('dark-mode') ? 'rgba(144, 179, 159, 0.09)' : 'rgba(92, 123, 152, 0.16)';
   const c = scale;
 
   for (let i = 0; i < total; i++) {
@@ -511,7 +1148,7 @@ function drawSpiral(cx, cy, time, scale = 6) {
     const x = radius * Math.cos(angle);
     const y = radius * Math.sin(angle);
 
-    ctx.fillStyle = `rgba(92, 123, 152, 0.16)`; // deeper muted blue
+    ctx.fillStyle = dotColor;
     ctx.beginPath();
     ctx.arc(x, y, 3, 0, Math.PI * 2);
     ctx.fill();
@@ -530,6 +1167,7 @@ function drawSpiralGrid(time) {
 }
 
 function drawBackground() {
+  if (document.body.classList.contains('dark-mode')) return; // flat dark base comes from CSS
   const img = ctx.createImageData(w, h);
   const data = img.data;
   for (let i = 0; i < w * h; i++) {
@@ -556,8 +1194,8 @@ function draw(time = 0) {
 
   // Cursor spotlight: earthy sage center to transparent edge
   const grad = ctx.createRadialGradient(cursor.x, cursor.y, 0, cursor.x, cursor.y, 200);
-  grad.addColorStop(0, 'rgba(38, 63, 97, 0.36)');
-  grad.addColorStop(1, 'rgba(138, 168, 195, 0)'); // fade to soft cool blue
+  grad.addColorStop(0, document.body.classList.contains('dark-mode') ? 'rgba(111, 143, 126, 0.22)' : 'rgba(38, 63, 97, 0.36)');
+  grad.addColorStop(1, document.body.classList.contains('dark-mode') ? 'rgba(111, 143, 126, 0)' : 'rgba(138, 168, 195, 0)'); // fade to soft cool blue
 
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, w, h);
@@ -583,7 +1221,7 @@ draw();
         body.classList.toggle('dark-mode');
         updateToggleText();
     });
-    
+
     // Initialize text ONLY if the toggle element exists
     updateToggleText();
 }
@@ -597,9 +1235,6 @@ if (toggle) {
       }
     });
 }
-
-// This is perfectly safe to run globally
-
 
   </script>
 <script src="track-config.js"></script>
