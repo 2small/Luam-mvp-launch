@@ -525,7 +525,7 @@
     .dark-mode .card__form .sign-up { color: #0f1b16 !important; }
     .dark-mode .cal__day.is-selected,
     .dark-mode .slot.is-selected { color: #0f1b16; }
-    .dark-mode .clinical-watermark img { filter: grayscale(100%) brightness(0) invert(1) !important; }
+    .dark-mode .clinical-watermark img { filter: grayscale(0%) brightness(50) invert(0) !important; }
   </style>
 </head>
 <body class="dark-mode">
@@ -645,7 +645,7 @@ Next</button>
     <div class="fee-box" style="background-color: #f8f9fa; border-left: 3px solid #8F9E8B; padding: 10px 12px; margin-bottom: 20px; border-radius: 0 4px 4px 0; text-align: left;">
         <span style="font-size: 0.85rem; color: #666; display: block; font-family: inherit;">Standard Consultation Rate:</span>
         <strong style="font-size: 1.1rem; color: #333; font-family: inherit;">KSh 3,000</strong>
-        <span style="font-size: 0.75rem; color: #888; margin-left: 4px; font-family: inherit;">(Payable at the clinic)</span>
+        <span style="font-size: 0.75rem; color: #888; margin-left: 4px; font-family: inherit;">(Payable at the session office)</span>
     </div>
 
     <div class="card__form">
@@ -668,7 +668,7 @@ Next</button>
      style="position: fixed; bottom: 20px; left: 20px; display: flex; align-items: center; gap: 8px; opacity: 0.25; user-select: none; pointer-events: none; z-index: 1000; transition: opacity 0.3s ease;">
     <!-- Strict 40x40px Medical/Platform Logo -->
     <a href="index.html" style="display: inline-block; cursor: pointer; position: relative; z-index: 9999;">
-    <img src="images/luamline.png" alt="Seal" style="width: 40px; height: 40px; object-fit: contain; filter: grayscale(100%);">
+    <img src="images/luamline.png" alt="Seal" style="width: 40px; height: 40px; object-fit: contain; filter: grayscale(50%);">
 </a>
 
 
@@ -688,7 +688,7 @@ Next</button>
         { label: 'Late afternoon', times: ['04:00 PM','04:30 PM','05:00 PM','05:30 PM','06:00 PM'] }
     ];
 
-    var FACTS = ['Consultation fee: KSh 3,000, payable at the clinic'];
+    var FACTS = ['Consultation fee: KSh 3,000, payable at the time of session'];
     var CREDENTIAL_LINE = '';      // e.g. 'Registered clinicians, Kenya Counsellors and Psychologists Board' - shown only when filled in
     var TRUST_POINTS = [
         'Initials or a nickname are fine. No account needed.',
@@ -1084,12 +1084,12 @@ Next</button>
         contactInput = "";
     }
 
-    var messageText = "Hello, I would like to check your availability for a private consultation:\n\n" +
+    var messageText = "Hello, I would like to book a session for a private consultation:\n\n" +
                         "\u2022 Name/Brief: " + nameInput + "\n" +
                         "\u2022 Date Choice: " + dateInput + "\n" +
                         "\u2022 Session Time: " + timeInput + "\n" +
                         (contactInput ? "\u2022 Callback Line: +254" + contactInput + "\n" : "") + "\n" +
-                        "Confidential Intake Request. Please verify availability.";
+                        "Please confirm my session.";
 
     var encodedMessage = encodeURIComponent(messageText);
     var clinicPhoneNumber = "254113111931";
